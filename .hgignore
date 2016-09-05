@@ -1,0 +1,4 @@
+.*\.scss-lint.yml
+.sass-cache
+portfolio
+!links
