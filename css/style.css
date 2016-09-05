@@ -56,52 +56,42 @@ body {
   @media screen and (min-width: 993px) {
     .header__mobile-nav-toggle {
       display: none; } }
-
-.header__mobile-nav-toggle span {
-  background: #000;
-  bottom: 0;
-  display: block;
-  height: 2px;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transition: background 0s 0.2s; }
-
-.header__mobile-nav-toggle span::before,
-.header__mobile-nav-toggle span::after {
-  background-color: #000;
-  content: '';
-  display: block;
-  height: 2px;
-  left: 0;
-  position: absolute;
-  transition-delay: 0.2s, 0s;
-  transition-duration: 0.2s, 0.2s;
-  width: 100%; }
-
-.header__mobile-nav-toggle span::before {
-  top: -10px;
-  transition-property: top, transform; }
-
-.header__mobile-nav-toggle span::after {
-  bottom: -10px;
-  transition-property: bottom, transform; }
-
-.header__mobile-nav-toggle.active span {
-  background: none; }
-
-.header__mobile-nav-toggle.active span::before {
-  top: 0;
-  transform: rotate(45deg); }
-
-.header__mobile-nav-toggle.active span::after {
-  bottom: 0;
-  transform: rotate(-45deg); }
-
-.header__mobile-nav-toggle.active span::before,
-.header__mobile-nav-toggle.active span::after {
-  transition-delay: 0s, 0.2s; }
+  .header__mobile-nav-toggle span {
+    background: #000;
+    bottom: 0;
+    display: block;
+    height: 2px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transition: background 0s 0.2s; }
+    .header__mobile-nav-toggle span::before, .header__mobile-nav-toggle span::after {
+      background-color: #000;
+      content: '';
+      display: block;
+      height: 2px;
+      left: 0;
+      position: absolute;
+      transition-delay: 0.2s, 0s;
+      transition-duration: 0.2s, 0.2s;
+      width: 100%; }
+    .header__mobile-nav-toggle span::before {
+      top: -10px;
+      transition-property: top, transform; }
+    .header__mobile-nav-toggle span::after {
+      bottom: -10px;
+      transition-property: bottom, transform; }
+  .header__mobile-nav-toggle.active span {
+    background: none; }
+    .header__mobile-nav-toggle.active span::before, .header__mobile-nav-toggle.active span::after {
+      transition-delay: 0s, 0.2s; }
+    .header__mobile-nav-toggle.active span::before {
+      top: 0;
+      transform: rotate(45deg); }
+    .header__mobile-nav-toggle.active span::after {
+      bottom: 0;
+      transform: rotate(-45deg); }
 
 .header__nav {
   background-color: #fafafa;
@@ -125,48 +115,44 @@ body {
       position: relative;
       right: 5%;
       width: auto; } }
-
-.header__nav > ul {
-  display: block;
-  font-size: 0;
-  list-style: none;
-  margin: 0 auto;
-  margin-top: 10%;
-  padding: 2.35em 0 3em;
-  text-align: center;
-  width: 100%; }
-  @media only screen and (min-width: 993px) {
-    .header__nav > ul {
-      display: inline-block;
-      height: 100%;
-      margin: 0;
-      padding: 0; } }
-
-.header__nav > ul > li {
-  display: block;
-  margin: 0; }
-  @media only screen and (min-width: 993px) {
-    .header__nav > ul > li {
-      display: inline-block;
-      height: 100%; } }
-
-.header__nav > ul > li > a {
-  color: #000 !important;
-  display: block;
-  font-size: 2rem; }
-  @media only screen and (min-width: 993px) {
-    .header__nav > ul > li > a {
+  .header__nav ul {
+    display: block;
+    font-size: 0;
+    list-style: none;
+    margin: 0 auto;
+    margin-top: 10%;
+    padding: 2.35em 0 3em;
+    text-align: center;
+    width: 100%; }
+    @media only screen and (min-width: 993px) {
+      .header__nav ul {
+        display: inline-block;
+        height: 100%;
+        margin: 0;
+        padding: 0; } }
+    .header__nav ul li {
       display: block;
-      height: 100%;
-      line-height: 0;
-      padding: 0 1em;
-      text-align: center;
-      text-decoration: none;
-      transition: all .4s, border-bottom .1s; } }
-
-.header__nav > ul > li > a > span {
-  line-height: 80px;
-  vertical-align: middle; }
+      margin: 0; }
+      @media only screen and (min-width: 993px) {
+        .header__nav ul li {
+          display: inline-block;
+          height: 100%; } }
+      .header__nav ul li a {
+        color: #000 !important;
+        display: block;
+        font-size: 2rem; }
+        @media only screen and (min-width: 993px) {
+          .header__nav ul li a {
+            display: block;
+            height: 100%;
+            line-height: 0;
+            padding: 0 1em;
+            text-align: center;
+            text-decoration: none;
+            transition: all .4s, border-bottom .1s; } }
+        .header__nav ul li a span {
+          line-height: 80px;
+          vertical-align: middle; }
 
 .portfolio-filter {
   margin: 4rem 0; }
