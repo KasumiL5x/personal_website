@@ -17,7 +17,20 @@ body {
 
 .content {
   flex: 1;
-  height: 100%; }
+  margin: 0;
+  width: 100%; }
+  @media only screen and (min-width: 601px) {
+    .content {
+      width: 590px;
+      margin: 2rem auto; } }
+  @media only screen and (min-width: 993px) {
+    .content {
+      width: 970px;
+      margin: 2rem auto; } }
+  @media only screen and (min-width: 1201px) {
+    .content {
+      width: 1170px;
+      margin: 2rem auto; } }
 
 .header {
   box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.1);
@@ -253,5 +266,31 @@ body {
     @media only screen and (min-width: 993px) {
       .portfolio-item__caption__right a {
         font-size: 1.6rem; } }
+
+.about__title {
+  border-bottom: 1px solid #efefef;
+  padding: 3rem 1rem .2rem 4rem; }
+  .about__title h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+    font-weight: bold;
+    text-transform: uppercase; }
+
+.about__content {
+  padding: 1rem 4rem; }
+  .about__content h1 {
+    font-size: 2.8rem;
+    font-weight: bold;
+    margin: 2rem 0 0;
+    padding: 0;
+    text-transform: uppercase; }
+  .about__content h3 {
+    color: #777;
+    font-size: 2.2rem;
+    margin: 0 0 3rem 0;
+    text-transform: uppercase; }
+  .about__content p {
+    color: #999; }
 
 /*# sourceMappingURL=style.css.map */

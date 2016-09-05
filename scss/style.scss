@@ -23,7 +23,24 @@ body {
 
 .content {
 	flex: 1;
-	height: 100%;
+	// margin: 2rem auto;
+	// width: 90%;
+	margin: 0;
+	width: 100%;
+
+
+	@media only screen and (min-width: 601px) {
+		width: 590px;
+		margin: 2rem auto;
+	}
+	@media only screen and (min-width: 993px) {
+		width: 970px;
+		margin: 2rem auto;
+	}
+	@media only screen and (min-width: 1201px) {
+		width: 1170px;
+		margin: 2rem auto;
+	}
 }
 
 // header

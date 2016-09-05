@@ -1,0 +1,38 @@
+.about {
+}
+
+.about__title {
+	border-bottom: 1px solid #efefef;
+	padding: 3rem 1rem .2rem 4rem;
+
+	h1 {
+		font-size: 1.5rem;
+		margin-bottom: 1rem;
+		color: #333;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+}
+
+.about__content {
+	padding: 1rem 4rem;
+
+	h1 {
+		font-size: 2.8rem;
+		font-weight: bold;
+		margin: 2rem 0 0;
+		padding: 0;
+		text-transform: uppercase;
+	}
+
+	h3 {
+		color: #777;
+		font-size: 2.2rem;
+		margin: 0 0 3rem 0;
+		text-transform: uppercase;
+	}
+
+	p {
+		color: #999;
+	}
+}
