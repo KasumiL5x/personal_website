@@ -16,8 +16,12 @@ $mobile-nav-size: 32px;
 // HEADER
 //--------------------------------------------------
 .header {
-	box-shadow: 1px 1px 8px $header-border-color;
-	z-index: 1; // so that the shadow shows
+	// box-shadow: 1px 1px 8px $header-border-color;
+	// z-index: 99999; // so that the shadow shows
+	display: block;
+	-ms-flex: 0 1 auto;
+	flex: 0 1 auto; // only take up size required
+	padding-bottom: 4rem;
 }
 
 // box to define size of header and align contents
@@ -132,6 +136,7 @@ $mobile-nav-size: 32px;
 	position: absolute;
 	transition: all .4s;
 	width: 100%;
+	z-index: 99998; // one less than header__mobile-nav-toggle
 
 	&.opened {
 		max-height: 550px;
