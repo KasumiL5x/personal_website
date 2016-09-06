@@ -1,23 +1,7 @@
-// Variables
-//--------------------------------------------------
-$header-height: 80px;
-$header-logo-size: 3rem;
-$header-nav-size: 2rem;
-$header-border-color: rgba(0, 0, 0, .1);
-$header-text-color: #000;
-$header-bg-color: #fafafa;
-
-$mobile-nav-thickness: 2px;
-$mobile-nav-distance: 10px;
-$mobile-nav-time: .2s;
-$mobile-nav-color: #000;
-$mobile-nav-size: 32px;
-
-// HEADER
-//--------------------------------------------------
 .header {
 	// box-shadow: 1px 1px 8px $header-border-color;
 	// z-index: 99999; // so that the shadow shows
+	background-color: $header-bg-color;
 	display: block;
 	-ms-flex: 0 1 auto;
 	flex: 0 1 auto; // only take up size required
@@ -42,6 +26,10 @@ $mobile-nav-size: 32px;
 	text-transform: uppercase;
 	top: 50%;
 	transform: translateY(-50%);
+
+	a {
+		color: $header-logo-color;
+	}
 }
 
 // mobile nav wrapper
@@ -129,7 +117,7 @@ $mobile-nav-size: 32px;
 
 // actual navbar element
 .header__nav {
-	background-color: $header-bg-color;
+	background-color: $mobile-bg-color;
 	box-shadow: 1px 1px 8px $header-border-color;
 	display: block;
 	overflow: hidden;
@@ -157,6 +145,40 @@ $mobile-nav-size: 32px;
 		width: auto;
 	}
 
+	.header__nav__item {
+		color: $header-text-color !important;
+		display: block;
+		font-size: $header-nav-size;
+
+		@media only screen and (min-width: 993px) {
+			display: block;
+			height: 100%;
+			line-height: 0;
+			padding: 0 1em;
+			text-align: center;
+			text-decoration: none;
+			transition: all 0.4s, border-bottom 0.1s;
+		}
+
+		// when the current item is also active
+		&.active span {
+			border-bottom: 2px solid $header-hilite-color;
+		}
+
+		// hover the item should hilite the inner text
+		&:hover span {
+			border-bottom: 2px solid $header-hilite-color;
+		}
+
+		// text within the item
+		span {
+			border-bottom: 2px solid transparent;
+			line-height: $header-height;
+			transition: border-bottom 0.2s;
+			vertical-align: middle;
+		} // span
+	} // a
+
 	ul {
 		display: block;
 		font-size: 0; // fix spacing bug between elements
@@ -182,27 +204,6 @@ $mobile-nav-size: 32px;
 				display: inline-block;
 				height: 100%;
 			}
-
-			a {
-				color: $header-text-color !important;
-				display: block;
-				font-size: $header-nav-size;
-
-				@media only screen and (min-width: 993px) {
-					display: block;
-					height: 100%;
-					line-height: 0;
-					padding: 0 1em;
-					text-align: center;
-					text-decoration: none;
-					transition: all .4s, border-bottom .1s;
-				}
-
-				span {
-					line-height: $header-height;
-					vertical-align: middle;
-				} // span
-			} // a
 		} // li
 	} // ul
 }
