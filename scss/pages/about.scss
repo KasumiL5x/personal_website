@@ -1,15 +1,22 @@
+$about-title-color: #333;
+$about-title-border-color: #efefef;
+$about-content-h3-color: #777;
+$about-content-p-color: #999;
+$about-skills-title-color: #999;
+$about-skills-subtitle-color: #666;
+
 .about {
 }
 
 .about__title {
-	border-bottom: 1px solid #efefef;
+	border-bottom: 1px solid $about-title-border-color;
 	padding: 3rem 1rem .2rem 4rem;
 
 	h1 {
+		color: $about-title-color;
 		font-size: 1.5rem;
-		margin-bottom: 1rem;
-		color: #333;
 		font-weight: bold;
+		margin-bottom: 1rem;
 		text-transform: uppercase;
 	}
 }
@@ -26,23 +33,20 @@
 	}
 
 	h3 {
-		color: #777;
+		color: $about-content-h3-color;
 		font-size: 2.2rem;
 		margin: 0 0 3rem 0;
 		text-transform: uppercase;
 	}
 
 	p {
-		color: #999;
+		color: $about-content-p-color;
 	}
 }
 
 .skills-list {
-	// border: 1px dashed #d3d3d3;
-	// padding: 0 1rem 1rem 1rem;
-
 	h1 {
-		color: #999;
+		color: $about-skills-title-color;
 		font-size: 1.75rem;
 		font-weight: 400;
 		margin: 0;
@@ -51,7 +55,7 @@
 	}
 
 	h4 {
-		color: #666;
+		color: $about-skills-subtitle-color;
 		display: block;
 		font-size: 1.5rem;
 		margin-bottom: 0.2rem;
