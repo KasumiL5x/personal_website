@@ -1,9 +1,64 @@
 .about {
 }
 
+.social {
+	text-align: center;
+
+	.social__item {
+		border: 1px solid #666;
+		border-radius: 50%;
+		color: #555;
+		cursor: pointer;
+		display: inline-block;
+		font-size: 2.8rem;
+		height: 5rem;
+		line-height: 5rem;
+		margin: 0 1rem;
+		text-align: center;
+		transition: all 0.2s;
+		width: 5rem;
+
+		a {
+			color: inherit;
+		}
+	}
+
+	.social__item:hover {
+		&.social--linkedin { // https://brand.linkedin.com/visual-identity/color-palettes
+			background-color: #0077b5;
+			border-color: #0077b5;
+			color: #fff;
+		}
+
+		&.social--github { // https://github.com/logos
+			background-color: #222;
+			border-color: #222;
+			color: #fff;
+		}
+
+		&.social--bitbucket { // https://www.atlassian.com/company/news/press-kit
+			background-color: #205081;
+			border-color: #205081;
+			color: #fff;
+		}
+
+		&.social--twitter { // https://brand.twitter.com/en.html
+			background-color: #1DA1F3;
+			border-color: #1DA1F3;
+			color: #fff;
+		}
+
+		&.social--mail {
+			background-color: #d2d2d2;
+			border-color: #d2d2d2;
+			color: #fff;
+		}
+	}
+}
+
 .about__title {
 	border-bottom: 1px solid $about-title-border-color;
-	padding: 3rem 1rem .2rem 4rem;
+	padding: 3rem 1rem 0.2rem 4rem;
 
 	h1 {
 		color: $about-title-color;
@@ -52,7 +107,7 @@
 		display: block;
 		font-size: 1.5rem;
 		margin-bottom: 0.2rem;
-		margin-left: .5rem;
+		margin-left: 0.5rem;
 		text-transform: uppercase;
 	}
 }

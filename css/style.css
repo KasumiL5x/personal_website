@@ -202,7 +202,7 @@ body {
     height: 3rem;
     line-height: 3rem;
     padding: .5rem 1.5rem;
-    transition: all .2s; }
+    transition: all 0.2s; }
   .portfolio-filter a.active {
     border-bottom: 1px solid #999;
     color: #000; }
@@ -292,9 +292,47 @@ body {
       .portfolio-item__caption__right a {
         font-size: 1.6rem; } }
 
+.social {
+  text-align: center; }
+  .social .social__item {
+    border: 1px solid #666;
+    border-radius: 50%;
+    color: #555;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 2.8rem;
+    height: 5rem;
+    line-height: 5rem;
+    margin: 0 1rem;
+    text-align: center;
+    transition: all 0.2s;
+    width: 5rem; }
+    .social .social__item a {
+      color: inherit; }
+  .social .social__item:hover.social--linkedin {
+    background-color: #0077b5;
+    border-color: #0077b5;
+    color: #fff; }
+  .social .social__item:hover.social--github {
+    background-color: #222;
+    border-color: #222;
+    color: #fff; }
+  .social .social__item:hover.social--bitbucket {
+    background-color: #205081;
+    border-color: #205081;
+    color: #fff; }
+  .social .social__item:hover.social--twitter {
+    background-color: #1DA1F3;
+    border-color: #1DA1F3;
+    color: #fff; }
+  .social .social__item:hover.social--mail {
+    background-color: #d2d2d2;
+    border-color: #d2d2d2;
+    color: #fff; }
+
 .about__title {
   border-bottom: 1px solid #efefef;
-  padding: 3rem 1rem .2rem 4rem; }
+  padding: 3rem 1rem 0.2rem 4rem; }
   .about__title h1 {
     color: #333;
     font-size: 1.5rem;
@@ -330,7 +368,7 @@ body {
   display: block;
   font-size: 1.5rem;
   margin-bottom: 0.2rem;
-  margin-left: .5rem;
+  margin-left: 0.5rem;
   text-transform: uppercase; }
 
 /*# sourceMappingURL=style.css.map */
