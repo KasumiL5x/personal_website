@@ -44,7 +44,8 @@ body {
 	display: block;
 	-ms-flex: 1 1 auto;
 	flex: 1 1 auto; // take up remaining space
-	flex-shrink: 0;
+	-ms-flex-negative: 0;
+	flex-shrink: 0;	// force no shrink
 	margin: 0;
 	width: 100%;
 }

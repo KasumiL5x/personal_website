@@ -5,6 +5,8 @@
 	display: block;
 	-ms-flex: 0 1 auto;
 	flex: 0 1 auto; // only take up size required
+	-ms-flex-negative: 0;
+	flex-shrink: 0;	// force no shrink
 	padding-bottom: 4rem;
 }
 

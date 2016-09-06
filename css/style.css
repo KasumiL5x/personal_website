@@ -38,6 +38,7 @@ body {
   display: block;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  -ms-flex-negative: 0;
   flex-shrink: 0;
   margin: 0;
   width: 100%; }
@@ -47,6 +48,8 @@ body {
   display: block;
   -ms-flex: 0 1 auto;
   flex: 0 1 auto;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
   padding-bottom: 4rem; }
 
 .header__box {
