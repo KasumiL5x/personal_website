@@ -730,31 +730,32 @@ h6 {
     background-position: 40px 0; }
   to {
     background-position: 0 0; } }
-.ng-progress {
+.ng-progress-container {
   background: #f2f2f2;
   border-radius: 25px;
   height: 20px;
   overflow: hidden; }
-  .ng-progress.ng-shadowed {
+  .ng-progress-container.ng-shadowed {
     -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); }
-  .ng-progress.ng-gradient {
+  .ng-progress-container.ng-gradient {
     background-image: -webkit-linear-gradient(top, #ccc 0%, #ddd 100%);
     background-image: linear-gradient(to bottom, #ccc 0%, #ddd 100%); }
-  .ng-progress span {
+  .ng-progress-container .ng-progress {
     background-color: #79b;
     background-size: 40px 40px;
     border-radius: 25px 0 0 25px;
     box-sizing: border-box;
     float: left;
     height: 100%;
-    width: 0%;
-    -webkit-transition: width 200ms ease;
-    -moz-transition: width 200ms ease;
-    -o-transition: width 200ms ease;
-    transition: width 200ms ease; }
-    .ng-progress span.ng-striped {
+    width: 0%; }
+    .ng-progress-container .ng-progress.ng-transition {
+      -webkit-transition: width 4000ms linear;
+      -moz-transition: width 4000ms linear;
+      -o-transition: width 4000ms linear;
+      transition: width 4000ms linear; }
+    .ng-progress-container .ng-progress.ng-striped {
       -webkit-animation: ng-progress-bar-animate 1s linear infinite;
       animation: ng-progress-bar-animate 1s linear infinite;
       -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
