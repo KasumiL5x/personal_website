@@ -100,6 +100,7 @@
 		margin: 0;
 		padding: 0;
 		padding-top: 1rem;
+		text-align: center;
 	}
 
 	h4 {
@@ -109,5 +110,61 @@
 		margin-bottom: 0.2rem;
 		margin-left: 0.5rem;
 		text-transform: uppercase;
+	}
+}
+
+.additional-skills {
+	text-align: center;
+	width: 100%;
+
+	h1 {
+		color: $about-skills-title-color;
+		font-size: 1.75rem;
+		font-weight: 400;
+		margin: 0;
+		padding: 0;
+		padding-top: 1rem;
+		text-align: center;
+	}
+
+	// remove padding on elements only when on smallest mobile mode
+	@media only screen and (max-width: 600px) {
+		// remove middle columns' ul top and bottom margin
+		.ng-column:not(:first-child):not(:last-child) ul {
+			margin-bottom: 0;
+			margin-top: 0;
+		}
+		// remove first column's ul bottom margin
+		.ng-column:first-child ul {
+			margin-bottom: 0;
+		}
+		// remove last column's ul top margin
+		.ng-column:last-child ul {
+			margin-top: 0;
+		}
+	}
+
+	.ng-column:first-child {
+		text-align: right;
+	}
+	.ng-column:last-child {
+		text-align: left;
+	}
+
+	ul {
+		display: inline-block;
+	}
+
+	ul > li {
+		font-size: 2rem;
+		margin-bottom: 0.5rem;
+		text-align: left;
+	}
+
+	ul > li::before {
+		color: #00d4d4;
+		content: '\f058';
+		font: normal normal normal 2rem FontAwesome;
+		margin-right: 1rem;
 	}
 }
