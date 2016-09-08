@@ -396,6 +396,9 @@ body {
 .resume-button {
   text-align: center;
   padding-top: 3rem; }
+  .resume-button a {
+    background-color: #999;
+    border: 0; }
 
 .skills-list h1 {
   color: #999;
