@@ -112,3 +112,74 @@
 		text-transform: uppercase;
 	}
 }
+
+
+.timeline {
+	position: relative;
+}
+.timeline::before {
+	background: #ededed;
+	bottom: 0;
+	content: '';
+	height: 100%;
+	left: 1.8rem;
+	position: absolute;
+	top: 0;
+	width: 3px;
+}
+.timeline::after {
+	background: #fff;
+	border: 3px solid #efefef;
+	border-radius: 50%;
+	content: '\f0b1';
+	font: normal normal normal 2rem FontAwesome;
+	height: 50px;
+	left: -5px;
+	line-height: 4.5rem;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	width: 50px;
+}
+.timeline__content {
+	padding-top: 6rem;
+	vertical-align: baseline;
+}
+.timeline__item {
+	margin-bottom: 1rem;
+	padding-left: 5rem;
+	padding-top: 2rem;
+	position: relative;
+}
+.timeline__item::after {
+	background: #cd5353;
+	border: 3px solid #fff;
+	border-radius: 50%;
+	content: '';
+	height: 15px;
+	left: 12px;
+	position: absolute;
+	text-align: center;
+	top: 35px;
+	width: 15px;
+}
+.timeline__item__header {
+	margin-bottom: 0.5rem;
+}
+.timeline__item p {
+	font-size: 1.4rem;
+}
+.timeline__item__header h4 {
+	margin-bottom: 0;
+	color: #333;
+	font-weight: bold;
+	font-size: 1.8rem;
+}
+.timeline__item__header h6 {
+	font-size: 1.2rem;
+	color: #666;
+	margin-bottom: 0;
+}
+.timeline__item__header h6 i {
+	color: #ccc;
+}
