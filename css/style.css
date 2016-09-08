@@ -375,7 +375,10 @@ body {
     text-transform: uppercase; }
 
 .about__content {
-  padding: 1rem 4rem; }
+  padding: 3rem 1rem; }
+  @media only screen and (min-width: 601px) {
+    .about__content {
+      padding: 3rem 4rem; } }
   .about__content h1 {
     font-size: 2.8rem;
     font-weight: bold;
@@ -389,6 +392,10 @@ body {
     text-transform: uppercase; }
   .about__content p {
     color: #999; }
+
+.resume-button {
+  text-align: center;
+  padding-top: 3rem; }
 
 .skills-list h1 {
   color: #999;

@@ -294,6 +294,13 @@ pre > code {
   max-height: 340px;
   overflow-y: scroll; }
 
+.ng-external-link::after {
+  content: '\f148';
+  font-family: FontAwesome;
+  vertical-align: super;
+  font-size: 60%;
+  line-height: 0; }
+
 table, th, td {
   border: 0; }
 
