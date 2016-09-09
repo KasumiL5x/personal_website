@@ -264,9 +264,9 @@ body {
   transform: translate3d(0, -1rem, 0) rotateZ(1deg) scale(1.1); }
 
 .portfolio-item__caption {
-  background: #fff;
+  background: #2d2d2d;
   bottom: 0;
-  color: #3c4a50;
+  color: #fff;
   display: flex;
   flex-direction: row;
   height: 25%;
@@ -292,7 +292,7 @@ body {
   justify-content: center;
   width: 85%; }
   .portfolio-item__caption__left h4 {
-    color: #3c4a50;
+    color: #fff;
     font-size: 1.85rem;
     margin: 0;
     padding: 0;
@@ -314,7 +314,7 @@ body {
   width: 15%; }
   .portfolio-item__caption__right a {
     border-radius: 2px;
-    color: #3c4a50;
+    color: #fff;
     display: table-cell;
     font-size: 1.6rem;
     text-align: center;
