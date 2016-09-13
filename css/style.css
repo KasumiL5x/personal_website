@@ -311,9 +311,16 @@ body {
 .portfolio-title {
   border-bottom: 3px solid #222;
   margin: 0 auto;
+  margin-bottom: 3rem;
   text-align: center;
   width: 50%; }
   .portfolio-title h3 {
+    margin-top: 0; }
+
+.portfolio-detail {
+  border-bottom: 1px solid #efefef;
+  margin-top: 3rem; }
+  .portfolio-detail h3 {
     margin-top: 0; }
 
 .social {
