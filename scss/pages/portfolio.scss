@@ -12,7 +12,7 @@
 		display: block;
 		max-width: 100%;
 		position: relative;
-		transition: transform .4s;
+		transition: transform 0.4s;
 	}
 }
 
@@ -39,7 +39,7 @@
 	position: absolute;
 	top: auto;
 	transform: translateY(100%);
-	transition: transform .4s, opacity .1s .3s;
+	transition: transform 0.4s, opacity 0.1s 0.3s;
 	white-space: nowrap;
 	width: 100%;
 }
@@ -47,7 +47,7 @@
 .portfolio-item:hover .portfolio-item__caption {
 	opacity: 1;
 	transform: translateY(0);
-	transition: transform .4s, opacity .1s;
+	transition: transform 0.4s, opacity 0.1s;
 }
 
 .portfolio-item__caption__left {
