@@ -1,3 +1,5 @@
+// grid system
+// --------------------------------------------------
 .portfolio-grid {
 }
 
@@ -95,5 +97,19 @@
 		@media only screen and (min-width : 993px) {
 			font-size: 1.6rem;
 		}
+	}
+}
+
+
+// detail page
+// --------------------------------------------------
+.portfolio-title {
+	border-bottom: 3px solid $portfolio-title-color;
+	margin: 0 auto;
+	text-align: center;
+	width: 50%;
+
+	h3 {
+		margin-top: 0;
 	}
 }

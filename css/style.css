@@ -308,6 +308,14 @@ body {
       .portfolio-item__caption__right a {
         font-size: 1.6rem; } }
 
+.portfolio-title {
+  border-bottom: 3px solid #222;
+  margin: 0 auto;
+  text-align: center;
+  width: 50%; }
+  .portfolio-title h3 {
+    margin-top: 0; }
+
 .social {
   text-align: center; }
   .social .social__item {
