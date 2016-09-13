@@ -226,27 +226,6 @@ body {
           display: inline-block;
           height: 100%; } }
 
-.portfolio-filter {
-  margin: 0 0 4rem 0; }
-  .portfolio-filter a {
-    border-bottom: 1px solid transparent;
-    color: #999;
-    font-size: 1.5rem;
-    font-weight: 300;
-    height: 3rem;
-    line-height: 3rem;
-    padding: .5rem 1.5rem;
-    transition: all 0.2s; }
-    @media only screen and (min-width: 601px) {
-      .portfolio-filter a {
-        font-size: 2rem; } }
-  .portfolio-filter a.active {
-    border-bottom: 2px solid #999;
-    color: #000; }
-  .portfolio-filter a:hover {
-    border-bottom: 2px solid #999;
-    color: #000; }
-
 .portfolio-item {
   margin: 1rem auto;
   max-width: 100vmin;
