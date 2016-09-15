@@ -57,3 +57,13 @@ $(document).ready(function() {
   // try to activate upon load in case elements are already visible
   Page.activateOnScroll();
 });
+
+
+// carousel stuff
+var carousel_args = {
+  arrowRight: '.arrow-right',
+  arrowLeft: '.arrow-left',
+  speed: 1000,
+  slideDuration: 4000
+};
+$('.carousel').NGCarousel(carousel_args);
