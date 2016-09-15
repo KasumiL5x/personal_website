@@ -66,4 +66,4 @@ var carousel_args = {
   speed: 1000,
   slideDuration: 4000
 };
-$('.carousel').NGCarousel(carousel_args);
+$('.ng-carousel').NGCarousel(carousel_args);
