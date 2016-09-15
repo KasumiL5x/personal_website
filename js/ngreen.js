@@ -93,7 +93,7 @@ var ng = {
 		// test for css animations
 		this.cssTransitionsTest();
 		// add class to style carousel
-		this.$el.addClass('zippy-carousel');
+		this.$el.addClass('ngreen-carousel');
 		// build dom elements for carousel
 		this.build();
 		// handle events
