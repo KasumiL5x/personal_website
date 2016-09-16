@@ -60,10 +60,15 @@ $(document).ready(function() {
 
 
 // carousel stuff
-var carousel_args = {
-  arrowRight: '.arrow-right',
-  arrowLeft: '.arrow-left',
+$('#carousel1').NGCarousel({
+  arrowLeft: '#carousel1left',
+  arrowRight: '#carousel1right',
   speed: 1000,
   slideDuration: 4000
-};
-$('.ng-carousel').NGCarousel(carousel_args);
+});
+$('#carousel2').NGCarousel({
+  arrowLeft: '#carousel2left',
+  arrowRight: '#carousel2right',
+  speed: 1000,
+  slideDuration: 2000
+});
