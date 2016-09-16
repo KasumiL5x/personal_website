@@ -101,7 +101,7 @@ var ng = {
 		// bind events
 		this.activate();
 		// start timer for slide progression
-		this.initTimer();
+		// this.initTimer();
 	};
 	// creates dom element to test existence of properties on its style object to see if css transitions are available
 	NGCarousel.prototype.cssTransitionsTest = function() {

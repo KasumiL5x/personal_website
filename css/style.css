@@ -338,6 +338,14 @@ body {
   .portfolio-detail h3 {
     margin-top: 0; }
 
+.portfolio-carousel {
+  height: 300px;
+  padding: 0; }
+  .portfolio-carousel .arrow {
+    border-color: #999; }
+  .portfolio-carousel .slide {
+    padding: 0; }
+
 .social {
   text-align: center; }
   .social .social__item {

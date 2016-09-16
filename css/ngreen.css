@@ -844,7 +844,7 @@ h6 {
     cursor: pointer;
     height: 40px;
     position: absolute;
-    top: 50%;
+    top: 42%;
     -moz-transition: border-color 0.3s ease-out;
     -o-transition: border-color 0.3s ease-out;
     -webkit-transition: border-color 0.3s ease-out;

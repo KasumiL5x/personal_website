@@ -122,3 +122,19 @@
 		margin-top: 0;
 	}
 }
+
+
+// carousel
+// --------------------------------------------------
+.portfolio-carousel {
+  height: 300px;
+  padding: 0;
+
+  .arrow {
+    border-color: #999;
+  }
+
+  .slide {
+    padding: 0;
+  }
+}
