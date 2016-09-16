@@ -1,3 +1,54 @@
+.portfolio-filter {
+	padding: 5px;
+	width: 100%;
+
+	a {
+		color: #999;
+		display: inline-block;
+		font-size: 1.3rem;
+		margin: 0 5px;
+		padding: 0 5px;
+		position: relative;
+		text-decoration: none;
+		text-transform: uppercase;
+		transition: color 0.5s;
+
+		&:before {
+			content: "";
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 0;
+			height: 2px;
+			background: rgb(89,89,89);
+			transition: all 500ms;
+		}
+
+		@media only screen and (min-width : 601px) {
+			font-size: 1.75rem;
+		}
+	}
+
+	a.current {
+		color: rgb(89,89,89);
+		font-weight: bold;
+
+		&:before {
+			width: 100%;
+		}
+	}
+
+	a:hover {
+		color: rgb(89,89,89);
+	}
+
+	a:last-child {
+		border-right: 0;
+		margin-right: 0;
+		padding-right: 0;
+	}
+}
+
 // grid system
 // --------------------------------------------------
 .portfolio-grid {
@@ -121,20 +172,4 @@
 	h3 {
 		margin-top: 0;
 	}
-}
-
-
-// carousel
-// --------------------------------------------------
-.portfolio-carousel {
-  height: 300px;
-  padding: 0;
-
-  .arrow {
-    border-color: #999;
-  }
-
-  .slide {
-    padding: 0;
-  }
 }

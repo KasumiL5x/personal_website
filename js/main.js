@@ -59,16 +59,20 @@ $(document).ready(function() {
 });
 
 
-// carousel stuff
-$('#carousel1').NGCarousel({
-  arrowLeft: '#carousel1left',
-  arrowRight: '#carousel1right',
-  speed: 1000,
-  slideDuration: 4000
-});
-$('#carousel2').NGCarousel({
-  arrowLeft: '#carousel2left',
-  arrowRight: '#carousel2right',
-  speed: 1000,
-  slideDuration: 2000
+// filter gallery
+$(document).ready(function() {
+  $('.portfolio-filter a').click(function() {
+    $('.portfolio-filter .current').removeClass('current');
+    $(this).addClass('current');
+    return false;
+  });
+
+  $(function() {
+    var selectedCategory = "";
+    $('.portfolio-filter a').click(function() {
+      selectedCategory = $(this).attr("data-rel");
+      $('.portfolio-grid .portfolio-item').fadeOut(300);
+      $('.portfolio-grid .portfolio-item.' + selectedCategory).delay(300).fadeIn(300);
+    });
+  });
 });

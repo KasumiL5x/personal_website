@@ -43,55 +43,6 @@ body {
   margin: 0;
   width: 100%; }
 
-.circle-list {
-  background-color: #f0f0f0;
-  height: 250px;
-  text-align: center;
-  width: 100%; }
-
-.circle-chart {
-  display: inline-block;
-  height: 100%;
-  position: relative;
-  text-align: center;
-  width: 100%; }
-
-.circle-chart canvas {
-  max-height: 100%;
-  max-width: 100%; }
-
-.circle-chart .percent {
-  display: inline-block;
-  font-size: 4rem;
-  left: 0;
-  line-height: 200px;
-  position: absolute;
-  text-align: center;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100%;
-  z-index: 2; }
-
-.circle-chart .percent::after {
-  content: '%';
-  font-size: 0.8em;
-  margin-left: 0.1em; }
-
-.slide {
-  text-align: center;
-  padding-top: 25%;
-  background-size: cover; }
-
-.slide h1 {
-  width: 100px;
-  height: 100px;
-  background-color: rgba(146, 45, 141, 0.7);
-  margin: auto;
-  line-height: 100px;
-  color: #fff;
-  font-size: 2.4rem;
-  border-radius: 50%; }
-
 .header {
   background-color: #fff;
   display: block;
@@ -241,6 +192,43 @@ body {
           display: inline-block;
           height: 100%; } }
 
+.portfolio-filter {
+  padding: 5px;
+  width: 100%; }
+  .portfolio-filter a {
+    color: #999;
+    display: inline-block;
+    font-size: 1.3rem;
+    margin: 0 5px;
+    padding: 0 5px;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.5s; }
+    .portfolio-filter a:before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #595959;
+      transition: all 500ms; }
+    @media only screen and (min-width: 601px) {
+      .portfolio-filter a {
+        font-size: 1.75rem; } }
+  .portfolio-filter a.current {
+    color: #595959;
+    font-weight: bold; }
+    .portfolio-filter a.current:before {
+      width: 100%; }
+  .portfolio-filter a:hover {
+    color: #595959; }
+  .portfolio-filter a:last-child {
+    border-right: 0;
+    margin-right: 0;
+    padding-right: 0; }
+
 .portfolio-item {
   margin: 1rem auto;
   max-width: 100vmin;
@@ -337,14 +325,6 @@ body {
   margin-top: 3rem; }
   .portfolio-detail h3 {
     margin-top: 0; }
-
-.portfolio-carousel {
-  height: 300px;
-  padding: 0; }
-  .portfolio-carousel .arrow {
-    border-color: #999; }
-  .portfolio-carousel .slide {
-    padding: 0; }
 
 .social {
   text-align: center; }
