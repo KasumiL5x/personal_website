@@ -70,7 +70,7 @@ $(document).ready(function() {
   $(function() {
     var selectedCategory = "";
     $('.portfolio-filter a').click(function() {
-      selectedCategory = $(this).attr("data-rel");
+      selectedCategory = $(this).attr("data-filter");
 
       // fade everything out
       $('.portfolio-grid .portfolio-item-wrapper').fadeOut(300);
