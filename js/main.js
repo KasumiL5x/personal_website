@@ -71,8 +71,19 @@ $(document).ready(function() {
     var selectedCategory = "";
     $('.portfolio-filter a').click(function() {
       selectedCategory = $(this).attr("data-rel");
-      $('.portfolio-grid .portfolio-item').fadeOut(300);
-      $('.portfolio-grid .portfolio-item.' + selectedCategory).delay(300).fadeIn(300);
+
+      // fade everything out
+      $('.portfolio-grid .portfolio-item-wrapper').fadeOut(300);
+
+      // fade in matching categories
+      $(".portfolio-grid .portfolio-item-wrapper").each(function() {
+        if( $(this).attr('data-categories').indexOf(selectedCategory) > -1 ) {
+          $(this).delay(300).fadeIn(300);
+        }
+      });
+
+      // $('.portfolio-grid .portfolio-item').fadeOut(300);
+      // $('.portfolio-grid .portfolio-item.' + selectedCategory).delay(300).fadeIn(300);
     });
   });
 });

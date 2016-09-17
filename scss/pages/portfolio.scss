@@ -54,6 +54,16 @@
 .portfolio-grid {
 }
 
+.portfolio-item-wrapper {
+	// 33% (or whatever i pick) unless mobile
+	@media only screen and (min-width : 601px) {
+		// ripped from my grid system
+		-ms-flex: 0 0 33.3333%;
+		flex: 0 0 33.3333%;
+		max-width: 33.3333%;
+	}
+}
+
 .portfolio-item {
 	margin: 1rem auto;
 	max-width: 100vmin;
