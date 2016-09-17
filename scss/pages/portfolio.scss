@@ -51,7 +51,7 @@
 
 // accdordian
 // --------------------------------------------------
-$accordion-height: 533px;
+$accordion-height: 267px;
 $accordion-text-offset: $accordion-height - 90;
 .portfolio-accordion {
 	width: 100%;
@@ -71,7 +71,8 @@ $accordion-text-offset: $accordion-height - 90;
 			display: table-cell;
 			vertical-align: bottom;
 			position: relative;
-			width: 16.666%; // 100/6
+			width: 1%; // 100/6
+			// width: 16.666%; // 100/6
 			height: $accordion-height;
 			-webkit-transition: all 500ms ease;
 			transition: all 500ms ease;
@@ -86,7 +87,11 @@ $accordion-text-offset: $accordion-height - 90;
 				background-repeat:no-repeat;
 	      background-position:center center;
 
-				img {
+				.bg-image {
+					background-repeat:no-repeat;
+		      background-position:center center;
+					width: 100%;
+					height: 100%;
 				}
 			}
 
@@ -127,21 +132,31 @@ $accordion-text-offset: $accordion-height - 90;
 					text-transform: uppercase;
 					margin-bottom: 0.2rem;
 					top: $accordion-text-offset;
+					// text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
 				}
 
 				p {
 					top: $accordion-text-offset;
 					font-size: 1.35rem;
+					// text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
 				}
 			} // item-overlay
 		} // item
 
+		// width of non-hovered elements when hovering something
 		&:hover .item {
 			width: 8%;
 		}
 
+		// actively hovered element
 		&:hover .item:hover {
-			width: 60%;
+			width: 23%;
+			// width: 100%;
+
+			.item-content {
+				.bg-image {
+				}
+			}
 
 			.item-overlay {
 				background: rgba(0, 0, 0, 0);

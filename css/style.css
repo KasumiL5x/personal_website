@@ -232,7 +232,7 @@ body {
 .portfolio-accordion {
   width: 100%;
   max-width: 1080px;
-  height: 533px;
+  height: 267px;
   overflow: hidden;
   margin: 5rem auto; }
   .portfolio-accordion .accordion-inner {
@@ -245,8 +245,8 @@ body {
       display: table-cell;
       vertical-align: bottom;
       position: relative;
-      width: 16.666%;
-      height: 533px;
+      width: 1%;
+      height: 267px;
       -webkit-transition: all 500ms ease;
       transition: all 500ms ease;
       box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2); }
@@ -257,9 +257,14 @@ body {
         height: 100%;
         background-repeat: no-repeat;
         background-position: center center; }
+        .portfolio-accordion .accordion-inner .item .item-content .bg-image {
+          background-repeat: no-repeat;
+          background-position: center center;
+          width: 100%;
+          height: 100%; }
       .portfolio-accordion .accordion-inner .item .item-overlay {
         background: rgba(0, 0, 0, 0.4);
-        height: 533px;
+        height: 267px;
         width: 100%;
         position: absolute;
         left: 0;
@@ -289,14 +294,14 @@ body {
           font-size: 2.4rem;
           text-transform: uppercase;
           margin-bottom: 0.2rem;
-          top: 443px; }
+          top: 177px; }
         .portfolio-accordion .accordion-inner .item .item-overlay p {
-          top: 443px;
+          top: 177px;
           font-size: 1.35rem; }
     .portfolio-accordion .accordion-inner:hover .item {
       width: 8%; }
     .portfolio-accordion .accordion-inner:hover .item:hover {
-      width: 60%; }
+      width: 23%; }
       .portfolio-accordion .accordion-inner:hover .item:hover .item-overlay {
         background: transparent; }
         .portfolio-accordion .accordion-inner:hover .item:hover .item-overlay * {
