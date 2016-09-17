@@ -16,7 +16,7 @@
 		&:before {
 			content: "";
 			position: absolute;
-			bottom: 0;
+			bottom: -3px;
 			left: 0;
 			width: 0;
 			height: 2px;
@@ -39,7 +39,7 @@
 	}
 
 	a:hover {
-		color: rgb(89,89,89);
+		color: rgb(0, 0, 0);
 	}
 
 	a:last-child {
