@@ -49,6 +49,66 @@
 	}
 }
 
+// accdordian
+// --------------------------------------------------
+.portfolio-accordian {
+	width: 805px;
+	height: 320px;
+	margin: 100px auto;
+	-webkit-box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.35);
+	-moz-box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.35);
+	box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.35);
+
+	ul {
+		width: 2000px;
+
+		li {
+			position: relative;
+			display: block;
+			width: 160px;
+			float: left;
+			border-left: 1px solid #888;
+
+			-webkit-box-shadow: 0 0 25px 10px rgba(0, 0, 0, 0.5);
+			-moz-box-shadow: 0 0 25px 10px rgba(0, 0, 0, 0.5);
+			box-shadow: 0 0 25px 10px rgba(0, 0, 0, 0.5);
+
+			-webkit-transition: all 0.5s;
+			-moz-transition: all 0.5s;
+			transition: all 0.5s;
+
+			img {
+				display: block;
+			}
+
+			.image-title {
+				background: rgba(0, 0, 0, 0.5);
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				width: 640px;
+
+				a {
+					display: block;
+					color: #fff;
+					text-decoration: none;
+					padding: 20px;
+					font-size: 16px;
+				}
+			}
+		}
+
+		&:hover li {
+			width: 40px;
+
+			&:hover {
+				width: 640px;
+			}
+		}
+	}
+}
+
+
 // grid system
 // --------------------------------------------------
 .portfolio-grid {
