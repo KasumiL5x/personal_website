@@ -248,7 +248,8 @@ body {
       width: 16.666%;
       height: 533px;
       -webkit-transition: all 500ms ease;
-      transition: all 500ms ease; }
+      transition: all 500ms ease;
+      box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2); }
       .portfolio-accordion .accordion-inner .item .item-content {
         display: block;
         overflow: hidden;
@@ -257,6 +258,7 @@ body {
         background-repeat: no-repeat;
         background-position: center center; }
       .portfolio-accordion .accordion-inner .item .item-overlay {
+        background: rgba(0, 0, 0, 0.4);
         height: 533px;
         width: 100%;
         position: absolute;
@@ -296,7 +298,7 @@ body {
     .portfolio-accordion .accordion-inner:hover .item:hover {
       width: 60%; }
       .portfolio-accordion .accordion-inner:hover .item:hover .item-overlay {
-        background: rgba(0, 0, 0, 0.4); }
+        background: transparent; }
         .portfolio-accordion .accordion-inner:hover .item:hover .item-overlay * {
           opacity: 1;
           -webkit-transform: translateX(0);

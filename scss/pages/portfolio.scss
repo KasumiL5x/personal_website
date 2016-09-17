@@ -76,6 +76,8 @@ $accordion-text-offset: $accordion-height - 90;
 			-webkit-transition: all 500ms ease;
 			transition: all 500ms ease;
 
+			box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2);
+
 			.item-content {
 				display: block;
 				overflow: hidden;
@@ -89,6 +91,7 @@ $accordion-text-offset: $accordion-height - 90;
 			}
 
 			.item-overlay {
+				background: rgba(0, 0, 0, 0.4);
 				height: $accordion-height;
 				width: 100%;
 				position: absolute;
@@ -141,7 +144,7 @@ $accordion-text-offset: $accordion-height - 90;
 			width: 60%;
 
 			.item-overlay {
-				background: rgba(0, 0, 0, 0.4);
+				background: rgba(0, 0, 0, 0);
 
 				* {
 					opacity: 1;
