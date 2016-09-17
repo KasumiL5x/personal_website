@@ -51,15 +51,7 @@
 
 // accdordian
 // --------------------------------------------------
-// Time to apply widths for accordion to work
-// Width of image = 640px
-// total images = 5
-// so width of hovered image = 640px
-// width of un-hovered image = 40px - you can set this to anything
-// so total container width = 640 + 40*4 = 800px;
-// default width = 800/5 = 160px;
-
-$accordion-height: 250px;
+$accordion-height: 533px;
 $accordion-text-offset: $accordion-height - 90;
 .portfolio-accordion {
 	width: 100%;
@@ -88,6 +80,12 @@ $accordion-text-offset: $accordion-height - 90;
 				display: block;
 				overflow: hidden;
 				width: 100%;
+				height: 100%;
+				background-repeat:no-repeat;
+	      background-position:center center;
+
+				img {
+				}
 			}
 
 			.item-overlay {
