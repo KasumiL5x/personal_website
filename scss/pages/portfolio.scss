@@ -51,61 +51,110 @@
 
 // accdordian
 // --------------------------------------------------
+// Time to apply widths for accordian to work
+// Width of image = 640px
+// total images = 5
+// so width of hovered image = 640px
+// width of un-hovered image = 40px - you can set this to anything
+// so total container width = 640 + 40*4 = 800px;
+// default width = 800/5 = 160px;
+
+$accordian-height: 250px;
+$accordian-text-offset: $accordian-height - 90;
 .portfolio-accordian {
-	width: 805px;
-	height: 320px;
-	margin: 100px auto;
+	width: 100%;
+	max-width: 1080px;
+	height: $accordian-height;
 	overflow: hidden;
-	-webkit-box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.35);
-	-moz-box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.35);
-	box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.35);
+	margin: 5rem auto;
 
 	ul {
-		padding: 0;
+		width: 100%;
+		display: table;
+		table-layout: fixed;
 		margin: 0;
-		width: 2000px;
+		padding: 0;
 
 		li {
+			display: table-cell;
+			vertical-align: bottom;
 			position: relative;
-			display: block;
-			width: 160px;
-			float: left;
-			border-left: 1px solid #888;
+			width: 16.666%; // 100/6
+			height: $accordian-height;
+			background-repeat: no-repeat;
+			background-position: center center;
+			transition: all 500ms ease;
 
-			-webkit-box-shadow: 0 0 25px 10px rgba(0, 0, 0, 0.5);
-			-moz-box-shadow: 0 0 25px 10px rgba(0, 0, 0, 0.5);
-			box-shadow: 0 0 25px 10px rgba(0, 0, 0, 0.5);
-
-			-webkit-transition: all 0.5s;
-			-moz-transition: all 0.5s;
-			transition: all 0.5s;
-
-			img {
+			div {
 				display: block;
-			}
+				overflow: hidden;
+				width: 100%;
 
-			.image-title {
-				background: rgba(0, 0, 0, 0.5);
-				position: absolute;
-				left: 0;
-				bottom: 0;
-				width: 640px;
+				img {
+					display: block;
+				}
 
 				a {
 					display: block;
+					height: $accordian-height;
+					width: 100%;
+					position: absolute;
+					top: 0;
+					left: 0;
+					// position: relative;
+					z-index: 3;
+					vertical-align: bottom;
+					padding: 1.5rem 2rem;
+					box-sizing: border-box;
 					color: #fff;
 					text-decoration: none;
-					padding: 20px;
-					font-size: 16px;
+					transition: all 200ms ease;
+
+					* {
+						opacity: 0;
+						margin: 0;
+						width: 100%;
+						text-overflow: ellipsis;
+						position: relative;
+						z-index: 5;
+
+						white-space: nowrap;
+						overflow: hidden;
+
+						transform: translateX(-2rem);
+						transition: all 400ms ease;
+					}
+
+					h2 {
+						text-overflow: clip;
+						font-size: 2.4rem;
+						text-transform: uppercase;
+						margin-bottom: 0.2rem;
+						top: $accordian-text-offset;
+					}
+
+					p {
+						top: $accordian-text-offset;
+						font-size: 1.35rem;
+					}
 				}
 			}
 		}
 
 		&:hover li {
-			width: 40px;
+			width: 8%;
+		}
 
-			&:hover {
-				width: 640px;
+		&:hover li:hover {
+			width: 60%;
+
+			a {
+				background: rgba(0, 0, 0, 0.4);
+
+				* {
+					opacity: 1;
+					transform: translateX(0);
+				}
 			}
 		}
 	}

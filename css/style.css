@@ -230,47 +230,75 @@ body {
     padding-right: 0; }
 
 .portfolio-accordian {
-  width: 805px;
-  height: 320px;
-  margin: 100px auto;
+  width: 100%;
+  max-width: 1080px;
+  height: 250px;
   overflow: hidden;
-  -webkit-box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.35);
-  -moz-box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.35);
-  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.35); }
+  margin: 5rem auto; }
   .portfolio-accordian ul {
-    padding: 0;
+    width: 100%;
+    display: table;
+    table-layout: fixed;
     margin: 0;
-    width: 2000px; }
+    padding: 0; }
     .portfolio-accordian ul li {
+      display: table-cell;
+      vertical-align: bottom;
       position: relative;
-      display: block;
-      width: 160px;
-      float: left;
-      border-left: 1px solid #888;
-      -webkit-box-shadow: 0 0 25px 10px rgba(0, 0, 0, 0.5);
-      -moz-box-shadow: 0 0 25px 10px rgba(0, 0, 0, 0.5);
-      box-shadow: 0 0 25px 10px rgba(0, 0, 0, 0.5);
-      -webkit-transition: all 0.5s;
-      -moz-transition: all 0.5s;
-      transition: all 0.5s; }
-      .portfolio-accordian ul li img {
-        display: block; }
-      .portfolio-accordian ul li .image-title {
-        background: rgba(0, 0, 0, 0.5);
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 640px; }
-        .portfolio-accordian ul li .image-title a {
+      width: 16.666%;
+      height: 250px;
+      background-repeat: no-repeat;
+      background-position: center center;
+      transition: all 500ms ease; }
+      .portfolio-accordian ul li div {
+        display: block;
+        overflow: hidden;
+        width: 100%; }
+        .portfolio-accordian ul li div img {
+          display: block; }
+        .portfolio-accordian ul li div a {
           display: block;
+          height: 250px;
+          width: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 3;
+          vertical-align: bottom;
+          padding: 1.5rem 2rem;
+          box-sizing: border-box;
           color: #fff;
           text-decoration: none;
-          padding: 20px;
-          font-size: 16px; }
+          transition: all 200ms ease; }
+          .portfolio-accordian ul li div a * {
+            opacity: 0;
+            margin: 0;
+            width: 100%;
+            text-overflow: ellipsis;
+            position: relative;
+            z-index: 5;
+            white-space: nowrap;
+            overflow: hidden;
+            transform: translateX(-2rem);
+            transition: all 400ms ease; }
+          .portfolio-accordian ul li div a h2 {
+            text-overflow: clip;
+            font-size: 2.4rem;
+            text-transform: uppercase;
+            margin-bottom: 0.2rem;
+            top: 160px; }
+          .portfolio-accordian ul li div a p {
+            top: 160px;
+            font-size: 1.35rem; }
     .portfolio-accordian ul:hover li {
-      width: 40px; }
-      .portfolio-accordian ul:hover li:hover {
-        width: 640px; }
+      width: 8%; }
+    .portfolio-accordian ul:hover li:hover {
+      width: 60%; }
+      .portfolio-accordian ul:hover li:hover a {
+        background: rgba(0, 0, 0, 0.4); }
+        .portfolio-accordian ul:hover li:hover a * {
+          opacity: 1;
+          transform: translateX(0); }
 
 @media only screen and (min-width: 601px) {
   .portfolio-item-wrapper {
