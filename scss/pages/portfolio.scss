@@ -51,7 +51,7 @@
 
 // accdordian
 // --------------------------------------------------
-// Time to apply widths for accordian to work
+// Time to apply widths for accordion to work
 // Width of image = 640px
 // total images = 5
 // so width of hovered image = 640px
@@ -59,14 +59,101 @@
 // so total container width = 640 + 40*4 = 800px;
 // default width = 800/5 = 160px;
 
-$accordian-height: 250px;
-$accordian-text-offset: $accordian-height - 90;
-.portfolio-accordian {
+$accordion-height: 250px;
+$accordion-text-offset: $accordion-height - 90;
+.portfolio-accordion {
 	width: 100%;
 	max-width: 1080px;
-	height: $accordian-height;
+	height: $accordion-height;
 	overflow: hidden;
 	margin: 5rem auto;
+
+	.accordion-inner {
+		width: 100%;
+		display: table;
+		table-layout: fixed;
+		margin: 0;
+		padding: 0;
+
+		.item {
+			display: table-cell;
+			vertical-align: bottom;
+			position: relative;
+			width: 16.666%; // 100/6
+			height: $accordion-height;
+			-webkit-transition: all 500ms ease;
+			transition: all 500ms ease;
+
+			.item-content {
+				display: block;
+				overflow: hidden;
+				width: 100%;
+			}
+
+			.item-overlay {
+				height: $accordion-height;
+				width: 100%;
+				position: absolute;
+				left: 0;
+				top: 0;
+				z-index: 3;
+				vertical-align: bottom;
+				padding: 1.5rem 2rem;
+				box-sizing: border-box;
+				color: #fff;
+				text-decoration: none;
+				-webkit-transition: all 200ms ease;
+				transition: all 200ms ease;
+
+				* {
+					opacity: 0;
+					margin: 0;
+					width: 100%;
+					text-overflow: ellipsis;
+					position: relative;
+					z-index: 5;
+					white-space: nowrap;
+					overflow: hidden;
+
+					-webkit-transform: translateX(-2rem);
+					transform: translateX(-2rem);
+					-webkit-transition: all 400ms ease;
+					transition: all 400ms ease;
+				}
+
+				h2 {
+					font-size: 2.4rem;
+					text-transform: uppercase;
+					margin-bottom: 0.2rem;
+					top: $accordion-text-offset;
+				}
+
+				p {
+					top: $accordion-text-offset;
+					font-size: 1.35rem;
+				}
+			} // item-overlay
+		} // item
+
+		&:hover .item {
+			width: 8%;
+		}
+
+		&:hover .item:hover {
+			width: 60%;
+
+			.item-overlay {
+				background: rgba(0, 0, 0, 0.4);
+
+				* {
+					opacity: 1;
+					-webkit-transform: translateX(0);
+					transform: translateX(0);
+				}
+			}
+		}
+
+	} // accordion-inner
 
 	ul {
 		width: 100%;
@@ -80,10 +167,13 @@ $accordian-text-offset: $accordian-height - 90;
 			vertical-align: bottom;
 			position: relative;
 			width: 16.666%; // 100/6
-			height: $accordian-height;
+			height: $accordion-height;
 			background-repeat: no-repeat;
 			background-position: center center;
 			transition: all 500ms ease;
+
+			.item {
+			}
 
 			div {
 				display: block;
@@ -96,7 +186,7 @@ $accordian-text-offset: $accordian-height - 90;
 
 				a {
 					display: block;
-					height: $accordian-height;
+					height: $accordion-height;
 					width: 100%;
 					position: absolute;
 					top: 0;
@@ -130,11 +220,11 @@ $accordian-text-offset: $accordian-height - 90;
 						font-size: 2.4rem;
 						text-transform: uppercase;
 						margin-bottom: 0.2rem;
-						top: $accordian-text-offset;
+						top: $accordion-text-offset;
 					}
 
 					p {
-						top: $accordian-text-offset;
+						top: $accordion-text-offset;
 						font-size: 1.35rem;
 					}
 				}
