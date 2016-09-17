@@ -152,99 +152,22 @@ $accordion-text-offset: $accordion-height - 90;
 				}
 			}
 		}
-
 	} // accordion-inner
+}
+@media only screen and (max-width : 600px) {
+	.portfolio-accordion {
+		height: auto;
 
-	ul {
-		width: 100%;
-		display: table;
-		table-layout: fixed;
-		margin: 0;
-		padding: 0;
-
-		li {
-			display: table-cell;
-			vertical-align: bottom;
-			position: relative;
-			width: 16.666%; // 100/6
-			height: $accordion-height;
-			background-repeat: no-repeat;
-			background-position: center center;
-			transition: all 500ms ease;
-
-			.item {
-			}
-
-			div {
-				display: block;
-				overflow: hidden;
+		.accordion-inner,
+		.accordion-inner:hover {
+			.item,
+			.item:hover {
+				position: relative;
+				display: table;
+				table-layout: fixed;
 				width: 100%;
-
-				img {
-					display: block;
-				}
-
-				a {
-					display: block;
-					height: $accordion-height;
-					width: 100%;
-					position: absolute;
-					top: 0;
-					left: 0;
-					// position: relative;
-					z-index: 3;
-					vertical-align: bottom;
-					padding: 1.5rem 2rem;
-					box-sizing: border-box;
-					color: #fff;
-					text-decoration: none;
-					transition: all 200ms ease;
-
-					* {
-						opacity: 0;
-						margin: 0;
-						width: 100%;
-						text-overflow: ellipsis;
-						position: relative;
-						z-index: 5;
-
-						white-space: nowrap;
-						overflow: hidden;
-
-						transform: translateX(-2rem);
-						transition: all 400ms ease;
-					}
-
-					h2 {
-						text-overflow: clip;
-						font-size: 2.4rem;
-						text-transform: uppercase;
-						margin-bottom: 0.2rem;
-						top: $accordion-text-offset;
-					}
-
-					p {
-						top: $accordion-text-offset;
-						font-size: 1.35rem;
-					}
-				}
-			}
-		}
-
-		&:hover li {
-			width: 8%;
-		}
-
-		&:hover li:hover {
-			width: 60%;
-
-			a {
-				background: rgba(0, 0, 0, 0.4);
-
-				* {
-					opacity: 1;
-					transform: translateX(0);
-				}
+				-webkit-transition: none;
+				transition: none;
 			}
 		}
 	}
