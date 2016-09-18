@@ -3,6 +3,7 @@
   <head>
     <!-- JS -->
     <script defer src="./js/jquery-3.1.0.min.js" charset="utf-8"></script>
+    <script defer src="./js/isotope.pkgd.min.js" charset="utf-8"></script>
     <script defer src="./js/ngreen.js" charset="utf-8"></script>
     <script defer src="./js/main.js" charset="utf-8"></script>
     <script async src="http://localhost:35729/livereload.js" charset="utf-8"></script>
@@ -51,118 +52,16 @@
       <div class="content">
         <div class="ng-container portfolio">
 
-          <div class="angle-accordion">
-            <div class="slide" data-accordion-slide="1">
-              <div class="content">
-                <h1>Slide 1</h1>
-              </div>
-            </div>
-
-            <div class="slide" data-accordion-slide="2">
-              <div class="content">
-                <h1>Slide 2</h1>
-              </div>
-            </div>
-
-            <div class="slide" data-accordion-slide="3">
-              <div class="content">
-                <h1>Slide 3</h1>
-              </div>
-            </div>
-
-            <div class="slide" data-accordion-slide="4">
-              <div class="content">
-                <h1>Slide 4</h1>
-              </div>
-            </div>
-
-            <div class="slide" data-accordion-slide="5">
-              <div class="content">
-                <h1>Slide 5</h1>
-              </div>
-            </div>
-          </div>
-
-          <div class="portfolio-accordion">
-            <div class="accordion-inner">
-              <!-- item 1 -->
-              <div class="item">
-                <div class="item-content">
-                  <div class="bg-image" style="background-image: url('./img/portfolio/maya-scripts.png');"></div>
-                </div>
-                <a href="#" class="item-overlay">
-                  <h2>Maya Tools</h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-                </a>
-              </div>
-
-              <!-- item 2 -->
-              <div class="item">
-                <div class="item-content">
-                  <div class="bg-image" style="background-image: url('./img/portfolio/graphics-physics-logo.png');"></div>
-                </div>
-                <a href="#" class="item-overlay">
-                  <h2>Graphics &amp; Physics</h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-                </a>
-              </div>
-
-              <!-- item 3 -->
-              <div class="item">
-                <div class="item-content">
-                  <div class="bg-image" style="background-image: url('./img/portfolio/tools-logo.png');"></div>
-                </div>
-                <a href="#" class="item-overlay">
-                  <h2>Tools</h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-                </a>
-              </div>
-
-              <!-- item 4 -->
-              <div class="item">
-                <div class="item-content">
-                  <div class="bg-image" style="background-image: url('./img/portfolio/graphic-design-logo.png');"></div>
-                </div>
-                <a href="#" class="item-overlay">
-                  <h2>Graphics &amp; Logos</h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-                </a>
-              </div>
-
-              <!-- item 5 -->
-              <div class="item">
-                <div class="item-content">
-                  <div class="bg-image" style="background-image: url('./img/portfolio/mobile-logo.png');"></div>
-                </div>
-                <a href="#" class="item-overlay">
-                  <h2>Mobile Development</h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-                </a>
-              </div>
-
-              <!-- item 6 -->
-              <div class="item">
-                <div class="item-content">
-                  <div class="bg-image" style="background-image: url('./img/portfolio/web-logo.png');"></div>
-                </div>
-                <a href="#" class="item-overlay">
-                  <h2>Web Development</h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-                </a>
-              </div>
-            </div>
-          </div>
-
           <div class="portfolio-filter">
-            <a data-filter="all" href="#" class="current">All</a>
-            <a data-filter="design" href="#">Design</a>
-            <a data-filter="programming" href="#">Programming</a>
-            <a data-filter="test" href="#">Test</a>
+            <a data-filter="*" href="#" class="current">All</a>
+            <a data-filter=".design" href="#">Design</a>
+            <a data-filter=".programming" href="#">Programming</a>
+            <a data-filter=".test" href="#">Test</a>
           </div>
 
           <div class="portfolio-grid">
-            <div class="ng-row">
-              <div class="ng-column portfolio-item-wrapper" data-categories="all programming">
+            <div class="ng-row ng-row-wrap portfolio-grid-inner">
+              <div class="ng-column ng-column-33 portfolio-item-wrapper programming">
                 <div class="portfolio-item">
                   <div class="portfolio-item__inner">
                     <img src="./img/portfolio/maya-scripts.png" />
@@ -174,7 +73,7 @@
                 </div>
               </div>
 
-              <div class="ng-column portfolio-item-wrapper" data-categories="all programming test">
+              <div class="ng-column ng-column-33 portfolio-item-wrapper programming test">
                 <div class="portfolio-item">
                   <div class="portfolio-item__inner">
                     <img src="./img/portfolio/graphics-physics-logo.png" />
@@ -186,7 +85,7 @@
                 </div>
               </div>
 
-              <div class="ng-column portfolio-item-wrapper" data-categories="all programming">
+              <div class="ng-column ng-column-33 portfolio-item-wrapper programming">
                 <div class="portfolio-item">
                   <div class="portfolio-item__inner">
                     <img src="./img/portfolio/tools-logo.png" />
@@ -197,10 +96,8 @@
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="ng-row">
-              <div class="ng-column portfolio-item-wrapper" data-categories="all design">
+              <div class="ng-column ng-column-33 portfolio-item-wrapper design">
                 <div class="portfolio-item">
                   <div class="portfolio-item__inner">
                     <img src="./img/portfolio/graphic-design-logo.png" />
@@ -212,7 +109,7 @@
                 </div>
               </div>
 
-              <div class="ng-column portfolio-item-wrapper" data-categories="all design">
+              <div class="ng-column ng-column-33 portfolio-item-wrapper design">
                 <div class="portfolio-item">
                   <div class="portfolio-item__inner">
                     <img src="./img/portfolio/mobile-logo.png" />
@@ -224,7 +121,7 @@
                 </div>
               </div>
 
-              <div class="ng-column portfolio-item-wrapper" data-categories="all design">
+              <div class="ng-column ng-column-33 portfolio-item-wrapper design">
                 <div class="portfolio-item">
                   <div class="portfolio-item__inner">
                     <img src="./img/portfolio/web-logo.png" />

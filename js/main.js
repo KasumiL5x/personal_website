@@ -58,32 +58,62 @@ $(document).ready(function() {
   Page.activateOnScroll();
 });
 
+// isotope gallery filtering
+$(document).ready(function() {
+  var $container = $('.portfolio-grid-inner');
+  $container.isotope({
+    filter: '*',
+    animationOptions: {
+      duration: 750,
+      easing: 'linear',
+      queue: false
+    },
+    itemSelector: '.portfolio-item-wrapper'
+  });
+
+    $('.portfolio-filter a').click(function() {
+      $('.portfolio-filter .current').removeClass('current');
+      $(this).addClass('current');
+      var $selectedCategory = $(this).attr("data-filter");
+      $container.isotope({
+        filter: $selectedCategory,
+        animationOptions: {
+          duration: 750,
+          easing: 'linear',
+          queue: false
+        },
+        itemSelector: '.portfolio-item-wrapper'
+      });
+      return false;
+    });
+});
+
 
 // filter gallery
-$(document).ready(function() {
-  $('.portfolio-filter a').click(function() {
-    $('.portfolio-filter .current').removeClass('current');
-    $(this).addClass('current');
-    return false;
-  });
-
-  $(function() {
-    var selectedCategory = "";
-    $('.portfolio-filter a').click(function() {
-      selectedCategory = $(this).attr("data-filter");
-
-      // fade everything out
-      $('.portfolio-grid .portfolio-item-wrapper').fadeOut(300);
-
-      // fade in matching categories
-      $(".portfolio-grid .portfolio-item-wrapper").each(function() {
-        if( $(this).attr('data-categories').indexOf(selectedCategory) > -1 ) {
-          $(this).delay(300).fadeIn(300);
-        }
-      });
-
-      // $('.portfolio-grid .portfolio-item').fadeOut(300);
-      // $('.portfolio-grid .portfolio-item.' + selectedCategory).delay(300).fadeIn(300);
-    });
-  });
-});
+// $(document).ready(function() {
+//   $('.portfolio-filter a').click(function() {
+//     $('.portfolio-filter .current').removeClass('current');
+//     $(this).addClass('current');
+//     return false;
+//   });
+//
+//   $(function() {
+//     var selectedCategory = "";
+//     $('.portfolio-filter a').click(function() {
+//       selectedCategory = $(this).attr("data-filter");
+//
+//       // fade everything out
+//       $('.portfolio-grid .portfolio-item-wrapper').fadeOut(300);
+//
+//       // fade in matching categories
+//       $(".portfolio-grid .portfolio-item-wrapper").each(function() {
+//         if( $(this).attr('data-categories').indexOf(selectedCategory) > -1 ) {
+//           $(this).delay(300).fadeIn(300);
+//         }
+//       });
+//
+//       // $('.portfolio-grid .portfolio-item').fadeOut(300);
+//       // $('.portfolio-grid .portfolio-item.' + selectedCategory).delay(300).fadeIn(300);
+//     });
+//   });
+// });
