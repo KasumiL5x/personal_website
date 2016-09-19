@@ -60,19 +60,6 @@ $(document).ready(function() {
 
 
 // filterable gallery stuff
-// function scaleDown() {
-//   $('.portfolio-item-wrapper').removeClass('current').addClass('not-current');
-// }
-// function show(category) {
-//   scaleDown();
-//
-//   $('.' + category).removeClass('not-current');
-//   $('.' + category).addClass('current');
-//
-//   if( category === 'all' ) {
-//
-//   }
-// }
 $(document).ready(function() {
     $('.portfolio-filter a').click(function() {
       $('.portfolio-filter .current').removeClass('current');
@@ -80,48 +67,20 @@ $(document).ready(function() {
 
       var selectedCategory = $(this).attr("data-filter");
 
-      $('.portfolio-item-wrapper').removeClass('current').addClass('not-current');
+      // make everything not current
+      $('.portfolio > figure').removeClass('current').addClass('not-current');
 
-      $('.portfolio-item-wrapper').each(function() {
+      $('.portfolio > figure').each(function() {
         if( selectedCategory === '*' ) {
+          // if all, remove non/current from everything
           $(this).removeClass('current, not-current');
         } else if( $(this).attr('data-categories').indexOf(selectedCategory) > -1 ) {
+          // enable current for only matching elements
           $(this).removeClass('not-current');
           $(this).addClass('current');
         }
       });
 
-
       return false;
     });
 });
-
-
-// filter gallery
-// $(document).ready(function() {
-//   $('.portfolio-filter a').click(function() {
-//     $('.portfolio-filter .current').removeClass('current');
-//     $(this).addClass('current');
-//     return false;
-//   });
-//
-//   $(function() {
-//     var selectedCategory = "";
-//     $('.portfolio-filter a').click(function() {
-//       selectedCategory = $(this).attr("data-filter");
-//
-//       // fade everything out
-//       $('.portfolio-grid .portfolio-item-wrapper').fadeOut(300);
-//
-//       // fade in matching categories
-//       $(".portfolio-grid .portfolio-item-wrapper").each(function() {
-//         if( $(this).attr('data-categories').indexOf(selectedCategory) > -1 ) {
-//           $(this).delay(300).fadeIn(300);
-//         }
-//       });
-//
-//       // $('.portfolio-grid .portfolio-item').fadeOut(300);
-//       // $('.portfolio-grid .portfolio-item.' + selectedCategory).delay(300).fadeIn(300);
-//     });
-//   });
-// });
