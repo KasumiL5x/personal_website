@@ -50,12 +50,35 @@
 }
 
 
+.current {
+	-webkit-filter: sepia(0);
+	filter: sepia(0);
+
+	-webkit-transform: scale(1.05);
+	transform: scale(1.05);
+
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.not-current {
+	-webkit-transform: scale(0.75);
+	transform: scale(0.75);
+
+	-webkit-filter: grayscale(1);
+	filter: grayscale(1);
+}
+
+
 // grid system
 // --------------------------------------------------
 .portfolio-grid {
 }
 
 .portfolio-item-wrapper {
+	-webkit-transition: all 0.6s;
+	transition: all 0.6s;
+
 	// 33% (or whatever i pick) unless mobile
 	@media only screen and (min-width : 601px) {
 		// ripped from my grid system

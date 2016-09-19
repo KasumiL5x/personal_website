@@ -3,7 +3,6 @@
   <head>
     <!-- JS -->
     <script defer src="./js/jquery-3.1.0.min.js" charset="utf-8"></script>
-    <script defer src="./js/isotope.pkgd.min.js" charset="utf-8"></script>
     <script defer src="./js/ngreen.js" charset="utf-8"></script>
     <script defer src="./js/main.js" charset="utf-8"></script>
     <script async src="http://localhost:35729/livereload.js" charset="utf-8"></script>
@@ -54,14 +53,14 @@
 
           <div class="portfolio-filter">
             <a data-filter="*" href="#" class="current">All</a>
-            <a data-filter=".design" href="#">Design</a>
-            <a data-filter=".programming" href="#">Programming</a>
-            <a data-filter=".test" href="#">Test</a>
+            <a data-filter="design" href="#">Design</a>
+            <a data-filter="programming" href="#">Programming</a>
+            <a data-filter="test" href="#">Test</a>
           </div>
 
           <div class="portfolio-grid">
             <div class="ng-row ng-row-wrap portfolio-grid-inner">
-              <div class="ng-column ng-column-33 portfolio-item-wrapper programming">
+              <div class="ng-column ng-column-33 portfolio-item-wrapper" data-categories="programming">
                 <div class="portfolio-item">
                   <div class="portfolio-item__inner">
                     <img src="./img/portfolio/maya-scripts.png" />
@@ -73,7 +72,7 @@
                 </div>
               </div>
 
-              <div class="ng-column ng-column-33 portfolio-item-wrapper programming test">
+              <div class="ng-column ng-column-33 portfolio-item-wrapper" data-categories="programming test">
                 <div class="portfolio-item">
                   <div class="portfolio-item__inner">
                     <img src="./img/portfolio/graphics-physics-logo.png" />
@@ -85,7 +84,7 @@
                 </div>
               </div>
 
-              <div class="ng-column ng-column-33 portfolio-item-wrapper programming">
+              <div class="ng-column ng-column-33 portfolio-item-wrapper" data-categories="programming">
                 <div class="portfolio-item">
                   <div class="portfolio-item__inner">
                     <img src="./img/portfolio/tools-logo.png" />
@@ -97,7 +96,7 @@
                 </div>
               </div>
 
-              <div class="ng-column ng-column-33 portfolio-item-wrapper design">
+              <div class="ng-column ng-column-33 portfolio-item-wrapper" data-categories="design">
                 <div class="portfolio-item">
                   <div class="portfolio-item__inner">
                     <img src="./img/portfolio/graphic-design-logo.png" />
@@ -109,7 +108,7 @@
                 </div>
               </div>
 
-              <div class="ng-column ng-column-33 portfolio-item-wrapper design">
+              <div class="ng-column ng-column-33 portfolio-item-wrapper" data-categories="design">
                 <div class="portfolio-item">
                   <div class="portfolio-item__inner">
                     <img src="./img/portfolio/mobile-logo.png" />
@@ -121,7 +120,7 @@
                 </div>
               </div>
 
-              <div class="ng-column ng-column-33 portfolio-item-wrapper design">
+              <div class="ng-column ng-column-33 portfolio-item-wrapper" data-categories="design">
                 <div class="portfolio-item">
                   <div class="portfolio-item__inner">
                     <img src="./img/portfolio/web-logo.png" />
