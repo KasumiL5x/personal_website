@@ -96,6 +96,12 @@ $portfolio-width-large: 240px;
 			}
 		}
 
+		// remove sepia on hover
+		&:hover {
+			-webkit-filter: sepia(0);
+			filter: sepia(0);
+		}
+
 		// expand overlay on hover
 		&:hover .overlay {
 			opacity: 1;
