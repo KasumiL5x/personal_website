@@ -268,13 +268,11 @@ body {
       height: 100%;
       text-align: center;
       width: 100%; }
-  .portfolio figure:hover {
+  .portfolio figure:hover:not(.not-current) {
     -webkit-filter: sepia(0);
     filter: sepia(0); }
-    .portfolio figure:hover .overlay {
+    .portfolio figure:hover:not(.not-current) .overlay {
       opacity: 1; }
-    .portfolio figure:hover.not-current .overlay {
-      opacity: 0; }
 
 .portfolio-filter {
   padding: 5px;
