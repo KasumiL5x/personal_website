@@ -4,7 +4,7 @@ mixin MakePortfolio(filters, items)
 	section.ng-container.portfolio
 		div.portfolio-filter
 			for value, i in filters
-				a(href="#", data-filter=value.filter, class="#{i === 0 ? 'current' : ''}") #{value.text}
+				a(href="#", data-filter=value.filter, class=(i === 0 ? "current" : "")) #{value.text}
 				if (filters.length-1 != i )
 					| /
 		for value in items
@@ -36,31 +36,31 @@ block PageContent
 		{
 			categories: "programming",
 			image: "./img/portfolio/maya-scripts.png",
-			link: "www.google.com"
+			link: "http://www.google.com/"
 		},
 		{
 			categories: "design",
 			image: "./img/portfolio/graphic-design-logo.png",
-			link: "www.google.com"
+			link: "http://www.google.com/"
 		},
 		{
 			categories: "programming test",
 			image: "./img/portfolio/graphics-physics-logo.png",
-			link: "www.google.com"
+			link: "http://www.google.com/"
 		},
 		{
 			categories: "programming design",
 			image: "./img/portfolio/mobile-logo.png",
-			link: "www.google.com"
+			link: "http://www.google.com/"
 		},
 		{
 			categories: "programming test",
 			image: "./img/portfolio/tools-logo.png",
-			link: "www.google.com"
+			link: "http://www.google.com/"
 		},
 		{
 			categories: "programming design",
 			image: "./img/portfolio/web-logo.png",
-			link: "www.google.com"
+			link: "http://www.google.com/"
 		}
 	])

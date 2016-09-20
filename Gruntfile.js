@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 			},
 			build: {
 				cwd: 'source',
-				src: ['**', '!jade/**', '!scss/**', '!js/**'],
+				src: ['**', '!pug/**', '!scss/**', '!js/**'],
 				dest: 'build',
 				expand: true
 			}
@@ -40,7 +40,7 @@ module.exports = function(grunt) {
 			css_compiled: {
 				src: ['build/css/compiled']
 			},
-			jade: {
+			pug: {
 				src: ['build/**/*.html']
 			},
 			build: {
@@ -100,7 +100,7 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-		jade: {
+		pug: {
 			dev: {
 				options: {
 					data: {},
@@ -108,8 +108,8 @@ module.exports = function(grunt) {
 				},
 				files: [{
 					expand: true,
-					cwd: 'source/jade',
-					src: ['**/*.jade', '!templates/**'],
+					cwd: 'source/pug',
+					src: ['**/*.pug', '!templates/**'],
 					dest: 'build',
 					ext: '.html'
 				}]
@@ -121,8 +121,8 @@ module.exports = function(grunt) {
 				},
 				files: [{
 					expand: true,
-					cwd: 'source/jade',
-					src: ['**/*.jade', '!templates/**'],
+					cwd: 'source/pug',
+					src: ['**/*.pug', '!templates/**'],
 					dest: 'build',
 					ext: '.html'
 				}]
@@ -133,16 +133,16 @@ module.exports = function(grunt) {
 				files: 'source/js/**/*.*',
 				tasks: ['scripts-dev']
 			},
-			jade: {
-				files: 'source/jade/**/*.*',
-				tasks: ['jade-dev']
+			pug: {
+				files: 'source/pug/**/*.*',
+				tasks: ['pug-dev']
 			},
 			styles: {
 				files: 'source/scss/**/*.*',
 				tasks: ['style-dev']
 			},
 			build: {
-				files: ['source/**', '!source/jade/**', '!source/scss/**', '!source/js/**'],
+				files: ['source/**', '!source/pug/**', '!source/scss/**', '!source/js/**'],
 				tasks: ['copy:build']
 			}
 		}
@@ -154,7 +154,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-postcss');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-jade');
+	grunt.loadNpmTasks('grunt-contrib-pug');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 
@@ -180,26 +180,26 @@ module.exports = function(grunt) {
 		['clean:css', 'sass', 'postcss', 'cssmin', 'clean:css_compiled', 'copy:css', 'copy:ngreen_css']
 	);
 
-	// builds all jade into a prettified readable format
+	// builds all pug into a prettified readable format
 	grunt.registerTask(
-		'jade-dev',
-		['clean:jade', 'jade:dev']
+		'pug-dev',
+		['clean:pug', 'pug:dev']
 	);
-	// builds all jade into a compressed format
+	// builds all pug into a compressed format
 	grunt.registerTask(
-		'jade-rel',
-		['clean:jade', 'jade:rel']
+		'pug-rel',
+		['clean:pug', 'pug:rel']
 	);
 
 	// builds everything in dev mode
 	grunt.registerTask(
 		'build-dev',
-		['clean:build', 'scripts-dev', 'style-dev', 'jade-dev', 'copy:build']
+		['clean:build', 'scripts-dev', 'style-dev', 'pug-dev', 'copy:build']
 	);
 	// builds everything in rel mode
 	grunt.registerTask(
 		'build-rel',
-		['clean:build', 'scripts-rel', 'style-rel', 'jade-rel', 'copy:build']
+		['clean:build', 'scripts-rel', 'style-rel', 'pug-rel', 'copy:build']
 	);
 
 	// default to dev mode with watching

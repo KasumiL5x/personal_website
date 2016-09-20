@@ -1,7 +1,7 @@
 extends templates/layout
 
 mixin Timeline(type, items)
-	div(class="timeline #{type}")
+	div(class='timeline ' + type)
 		div.timeline__content
 			for value in items
 				div.timeline__item
