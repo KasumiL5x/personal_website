@@ -1,0 +1,39 @@
+block Variables
+	- var Title = "Default";
+	- var Menu = { 'About': './about.html', 'Portfolio': './portfolio.html' };
+	- var ActiveMenu = "About";
+
+doctype html
+html
+	head
+		block Meta
+			meta(charset='utf-8')
+			meta(name='viewport', content='width=device-width, initial-scale=1')
+
+		//- page scripts
+		block Scripts
+		script(defer src="./js/jquery-3.1.0.min.js")
+		script(defer src="./js/ngreen.js")
+		script(defer src="./js/main.js")
+
+		//- page css
+		block Styles
+			link(href="https://fonts.googleapis.com/css?family=Raleway:300,400,700", rel="stylesheet")
+			link(href="./css/font-awesome.min.css", rel="stylesheet")
+			link(href="./css/ngreen.css", rel="stylesheet")
+			link(href="./css/application.css", rel="stylesheet")
+
+		title #{Title}
+	body
+		div.main
+			div.header
+				div.header__box
+					div.header__logo
+						a(href="#"): | Daniel Green
+					button.ng-button-clear.header__mobile-nav-toggle: span
+					nav.header__nav.closed
+						ul
+							for value, key in Menu
+								li: a(href=value, class="header__nav__item #{ActiveMenu === key ? 'active' : ''}"): span #{key}
+			div.page-content
+				block PageContent

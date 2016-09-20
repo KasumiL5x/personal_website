@@ -15,22 +15,18 @@ $portfolio-width-large: 240px;
 		height: $portfolio-width-mobile;
 		background: #9d2e2c;
 		line-height: $portfolio-width-mobile;
-		-webkit-filter: sepia(0.4);
 		filter: sepia(0.4);
 		position: relative;
 		padding: 0;
 		box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
-		-webkit-transition: all 0.6s;
-		-moz-transition: all 0.6s;
-		-ms-transition: all 0.6s;
 		transition: all 0.6s;
 
 		@media only screen and (min-width: 601px) {
 			display: inline-block;
-			margin: $portfolio-padding-small;
-			width: $portfolio-width-small;
 			height: $portfolio-width-small;
 			line-height: $portfolio-width-small;
+			margin: $portfolio-padding-small;
+			width: $portfolio-width-small;
 		}
 
 		@media only screen and (min-width: 993px) {
@@ -50,26 +46,13 @@ $portfolio-width-large: 240px;
 		}
 
 		&.current {
-			-webkit-backface-visibility: hidden;
-			-moz-backface-visibility: hidden;
 			backface-visibility: hidden;
-
-			-webkit-filter: sepia(0);
 			filter: sepia(0);
-
-			-webkit-transform: scale(1.05);
-			-moz-transform: scale(1.05);
-			-ms-transform: scale(1.05);
 			transform: scale(1.05);
 		}
 
 		&.not-current {
-			-webkit-filter: grayscale(1);
 			filter: grayscale(1);
-
-			-webkit-transform: scale(0.75);
-			-moz-transform: scale(0.75);
-			-ms-transform: scale(0.75);
 			transform: scale(0.75);
 		}
 
@@ -85,9 +68,6 @@ $portfolio-width-large: 240px;
 			opacity: 0;
 			position: absolute;
 			top: 0;
-			-webkit-transition: 0.3s all;
-			-moz-transition: 0.3s all;
-			-ms-transition: 0.3s all;
 			transition: 0.3s all;
 			width: 100%;
 
@@ -103,7 +83,6 @@ $portfolio-width-large: 240px;
 
 		// remove sepia and expand overlay on hover (if not current)
 		&:hover:not(.not-current) {
-			-webkit-filter: sepia(0);
 			filter: sepia(0);
 
 			.overlay {

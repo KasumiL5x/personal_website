@@ -1,0 +1,141 @@
+extends templates/layout
+
+mixin Timeline(type, items)
+	div(class="timeline #{type}")
+		div.timeline__content
+			for value in items
+				div.timeline__item
+					div.timeline__item__header
+						h4!= value.title
+						h6
+							span
+								i(class="fa fa-globe")
+								|  #{value.country}
+							span
+								i(class="fa fa-calendar-o")
+								|  #{value.date}
+					p!= value.desc
+
+block append Variables
+	- var Title = "About | Daniel Green";
+	- var ActiveMenu = "About";
+
+block append Meta
+
+block append Scripts
+	//- todo: scripts here
+
+block append Styles
+	//- todo: styles here
+
+block PageContent
+	-
+		var TechSkills = [
+			{title: "C++", percent: "90", delay: "100"},
+			{title: "C#", percent: "85", delay: "200"},
+			{title: "Python", percent: "80", delay: "300"},
+			{title: "HTML/CSS/JS", percent: "75", delay: "400"},
+		];
+	-
+		var CreativeSkills = [
+			{title: "Maya", percent: "90", delay: "100"},
+			{title: "Illustrator", percent: "85", delay: "200"},
+			{title: "Photoshop", percent: "80", delay: "300"},
+			{title: "NUKE", percent: "75", delay: "400"},
+		];
+
+	div.ng-container.about
+		div.about__title: h1 Who Am I
+
+		div.about__content
+			h1 Daniel Green
+			h3 Programmer and Designer
+			p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			div.social
+				div.social__item.social--linkedin: a(href="https://uk.linkedin.com/in/kasumil5x", target="_blank"): i(class="fa fa-linkedin")
+				div.social__item.social--github: a(href="https://github.com/kasumil5x", target="_blank"): i(class="fa fa-github")
+				div.social__item.social--bitbucket: a(href="https://bitbucket.org/kasumil5x/", target="_blank"): i(class="fa fa-bitbucket")
+				div.social__item.social--twitter: a(href="https://twitter.com/KasumiL5x", target="_blank"): i(class="fa fa-twitter")
+				div.social__item.social--mail: a(href="mailto:d@ngreen.org", target="_self"): i(class="fa fa-envelope-o")
+			div.resume-button
+				a(href="http://ngreen.org/resume_dl/resume.pdf" class="ng-button") Download Resume
+
+		//- BEGIN Professional Skills
+		div.about__title: h1 Professional Skills
+		div.about__content
+			div.skills-list
+				for value in TechSkills
+					h4 #{value.title}
+					div.ng-progress-container.ng-shadowed
+						div.ng-progress.ng-animated(style="background-color: #d9d9d9;", ng-percent=value.percent, ng-delay=value.delay, ng-duration="1000")
+				h1 Technical
+			div.skills-list
+				for value in CreativeSkills
+					h4 #{value.title}
+					div.ng-progress-container.ng-shadowed
+						div.ng-progress.ng-animated(style="background-color: #CC457D;", ng-percent=value.percent, ng-delay=value.delay, ng-duration="1000")
+				h1 Creative
+		//- END Professional Skills
+
+		//- BEGIN Experience
+		div.about__title: h1 Experience
+		div.about__content
+			+Timeline("experience", [
+				{
+					title: "Part-Time Lecturer &#8210; Teesside University",
+					country: "England, UK",
+					date: "Feb 2015 - Now",
+					desc: "Alongside studying a full-time Master's degree, I taught various modules, in both the artistic and technical fields.  I also solely created and led a MEL and Python scripting workshop for final-year art students.  Modules included 3D graphics programming, physics programming, Unity, games history, among others."
+				},
+				{
+					title: "Technical Artist &#8210; Vitei",
+					country: "Kyoto, Japan",
+					date: "Apr 2014 - Dec 2014",
+					desc: "I made tools for artists and ensure they can operate smoothly, looking for new technologies which can ease their job. I made tools to smooth the pipeline, too. I also sometimes created art. I sometimes programed gameplay, sometimes graphics."
+				},
+				{
+					title: "Researcher &#8210; ISCAS",
+					country: "Beijing, China",
+					date: "Jul 2013 - Sep 2013",
+					desc: "A short-term research project at the Institute of Software Chinese Academy of Sciences.  Developed a real-time solution for simulation, interaction, and separation of layers within multi-layered materials."
+				}
+			])
+		//- END Experience
+
+		//- BEGIN Education
+		div.about__title: h1 Education
+		div.about__content
+			+Timeline("education", [
+				{
+					title: "MA Computer Animation and Visual Effects &#8210; Distinction",
+					country: "Teesside University",
+					date: "Feb 2016 - Sep 2016",
+					desc: "Studied various aspects of visual effects.  I chiefly focused on pipeline development, tools, rigging, modeling, and motion capture.  There was also significant work in traditional compositing (camera operation, green screen, tracking, and so on) requiring the rapid familiarization of a number of industry-standard software packages and hardware.  My thesis is available <a href=\"#\">here</a>."
+				},
+				{
+					title: "MSc Computing &#8210; PGC",
+					country: "Teesside University",
+					date: "2015 - 2016",
+					desc: "Covered research methods, pattern-driven development, software engineering processes.  This was a half-course resulting in a PGC."
+				},
+				{
+					title: "BSc Computer Games Programming &#8210; First",
+					country: "Teesside University",
+					date: "2010 - 2013",
+					desc: "Covered essential and advanced aspects of games development, such as real-time graphics, physics programming, animation and simulation programming, low-level device programming, and engine design."
+				},
+				{
+					title: "BTEC ND Games Design Level 3 - DDM",
+					country: "Middlesbrough College",
+					date: "2008 - 2010",
+					desc: "Introduction to the essentials of games development and design."
+				}
+			])
+		//- END Education
+
+		//- BEGIN Publications
+		div.about__title: h1 Publications
+		div.about__content
+			p Cross-Platform Cloth Simulation API for Games (<a href="http://ngreen.org/publications_dl/24-Cross-platform Cloth Simulation API-for Games.pdf">PDF</a>) - Edutainment 2016 (<a href="http://link.springer.com/chapter/10.1007%2F978-3-319-40259-8_20" target="_blank" class="ng-external-link">Springer</a>)
+			p Interactive Thin Elastic Materials for Virtual Reality Applications (<a href="http://ngreen.org/publications_dl/interactive-thin-elastic-materials-dgreen-wtang-2013.pdf">PDF</a>)
+		//- END Publications

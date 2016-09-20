@@ -1,0 +1,19 @@
+{
+	"name": "portfolio",
+	"description": "My portfolio.",
+	"author": "Daniel Green",
+	"dependencies": {
+		"grunt": "1.0.1",
+		"grunt-postcss": "latest",
+		"autoprefixer": "latest",
+		"grunt-contrib-clean": "latest",
+		"grunt-contrib-copy": "latest",
+		"grunt-contrib-cssmin": "latest",
+		"grunt-contrib-jade": "latest",
+		"grunt-contrib-jshint": "latest",
+		"grunt-contrib-sass": "latest",
+		"grunt-contrib-uglify": "latest",
+		"grunt-contrib-watch": "latest"
+	},
+	"engine": "node => 0.10"
+}

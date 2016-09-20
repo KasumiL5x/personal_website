@@ -1,0 +1,66 @@
+extends templates/layout
+
+mixin MakePortfolio(filters, items)
+	section.ng-container.portfolio
+		div.portfolio-filter
+			for value, i in filters
+				a(href="#", data-filter=value.filter, class="#{i === 0 ? 'current' : ''}") #{value.text}
+				if (filters.length-1 != i )
+					| /
+		for value in items
+			figure(data-categories=value.categories)
+				div.content
+					img(class="ng-responsive-img", src=value.image)
+				div.overlay
+					a(href=value.link): i(class="fa fa-search")
+
+block append Variables
+	- var Title = "Portfolio | Daniel Green";
+	- var ActiveMenu = "Portfolio";
+
+block append Meta
+
+block append Scripts
+	//- todo: scripts here
+
+block append Styles
+	//- todo: styles here
+
+block PageContent
+	+MakePortfolio([
+		{text: "All", filter: "*"},
+		{text: "Design", filter: "design"},
+		{text: "Programming", filter: "programming"},
+		{text: "test", filter: "test"}
+	], [
+		{
+			categories: "programming",
+			image: "./img/portfolio/maya-scripts.png",
+			link: "www.google.com"
+		},
+		{
+			categories: "design",
+			image: "./img/portfolio/graphic-design-logo.png",
+			link: "www.google.com"
+		},
+		{
+			categories: "programming test",
+			image: "./img/portfolio/graphics-physics-logo.png",
+			link: "www.google.com"
+		},
+		{
+			categories: "programming design",
+			image: "./img/portfolio/mobile-logo.png",
+			link: "www.google.com"
+		},
+		{
+			categories: "programming test",
+			image: "./img/portfolio/tools-logo.png",
+			link: "www.google.com"
+		},
+		{
+			categories: "programming design",
+			image: "./img/portfolio/web-logo.png",
+			link: "www.google.com"
+		}
+	])
