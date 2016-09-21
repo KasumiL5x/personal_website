@@ -13,6 +13,11 @@ module.exports = function(grunt) {
 				dest: 'build',
 				expand: true
 			},
+			jquery: {
+				cwd: '.',
+				src: ['source/js/jquery-3.1.0.min.js'],
+				dest: 'build/js/jquery-3.1.0.min.js'
+			},
 			ngreen_css: {
 				cwd: '.',
 				src: ['D:/prg/proj/web/ngreen_css/dist/ngreen.css'],
@@ -91,12 +96,12 @@ module.exports = function(grunt) {
 					preserveComments: 'all'
 				},
 				files: {
-					'build/js/application.js': ['build/**/*.js', '!build/js/jquery-3.1.0.min.js', '!build/js/ngreen.js']
+					'build/js/application.js': ['source/**/*.js', '!source/js/jquery-3.1.0.min.js']
 				}
 			},
 			rel: {
 				files: {
-					'build/js/application.js': ['build/**/*.js', '!build/js/jquery-3.1.0.min.js', '!build/js/ngreen.js']
+					'build/js/application.js': ['source/**/*.js', '!source/js/jquery-3.1.0.min.js']
 				}
 			}
 		},
@@ -157,16 +162,15 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-pug');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
-
-	// copies all scripts and minifies them together in a readable form
+	// cleans js folder; copies ngreen js to source; uglifies all source in a readable format; copies jquery to build directory
 	grunt.registerTask(
 		'scripts-dev',
-		['clean:js', 'copy:js', 'uglify:dev', 'copy:ngreen_js']
+		['clean:js', 'copy:ngreen_js', 'uglify:dev', 'copy:jquery']
 	);
-	// copies all scripts and minifies them together
+	// cleans js folder; copies ngreen js to source; uglifies all source; copies jquery to build directory
 	grunt.registerTask(
 		'scripts-rel',
-		['clean:js', 'copy:js', 'uglify:rel', 'copy:ngreen_js']
+		['clean:js', 'copy:ngreen_js', 'uglify:rel', 'copy:jquery']
 	);
 
 	// builds scss, post-processes css, minifies into one, but keeps compiled css folder
