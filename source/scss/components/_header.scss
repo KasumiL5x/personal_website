@@ -1,6 +1,4 @@
 .header {
-	// box-shadow: 1px 1px 8px $header-border-color;
-	// z-index: 99999; // so that the shadow shows
 	background-color: $header-bg-color;
 	display: block;
 	-ms-flex: 0 1 auto;
@@ -162,23 +160,26 @@
 			transition: all 0.4s, border-bottom 0.1s;
 		}
 
-		// when the current item is also active
-		&.active span {
-			border-bottom: 2px solid $header-hilite-color;
-		}
-
-		// hover the item should hilite the inner text
-		&:hover span {
-			border-bottom: 2px solid $header-hilite-color;
-		}
-
 		// text within the item
 		span {
-			border-bottom: 2px solid transparent;
 			line-height: $header-height;
-			transition: border-bottom 0.2s;
+			position: relative;
 			vertical-align: middle;
-		} // span
+		}
+		span::before {
+			background: $header-hilite-color;
+			bottom: -3px;
+			content: '';
+			height: 2px;
+			left: 0;
+			position: absolute;
+			transition: all 500ms;
+			width: 0;
+		}
+		&.active span::before,
+		&:hover span::before {
+			width: 100%;
+		}
 	} // a
 
 	ul {
