@@ -68,9 +68,9 @@ $(document).ready(function() {
       var selectedCategory = $(this).attr("data-filter");
 
       // make everything not current
-      $('.portfolio > figure').removeClass('current').addClass('not-current');
+      $('.portfolio > .items-wrapper > figure ').removeClass('current').addClass('not-current');
 
-      $('.portfolio > figure').each(function() {
+      $('.portfolio > .items-wrapper > figure ').each(function() {
         if( selectedCategory === '*' ) {
           // if all, remove non/current from everything
           $(this).removeClass('current, not-current');

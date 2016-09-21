@@ -9,21 +9,19 @@ $portfolio-width-large: 240px;
 
 .portfolio {
 	figure {
-		flex-grow: 0;
-		display: block;
-		margin: $portfolio-padding-mobile auto;
-		width: $portfolio-width-mobile;
-		height: $portfolio-width-mobile;
 		background: #9d2e2c;
-		line-height: $portfolio-width-mobile;
-		filter: sepia(0.4);
-		position: relative;
-		padding: 0;
 		box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+		filter: sepia(0.4);
+		flex-grow: 0;
+		height: $portfolio-width-mobile;
+		line-height: $portfolio-width-mobile;
+		margin: $portfolio-padding-mobile auto;
+		padding: 0;
+		position: relative;
 		transition: all 0.6s;
+		width: $portfolio-width-mobile;
 
 		@media only screen and (min-width: 601px) {
-			display: inline-block;
 			height: $portfolio-width-small;
 			line-height: $portfolio-width-small;
 			margin: $portfolio-padding-small;
@@ -31,19 +29,17 @@ $portfolio-width-large: 240px;
 		}
 
 		@media only screen and (min-width: 993px) {
-			display: inline-block;
-			margin: $portfolio-padding-med;
-			width: $portfolio-width-med;
 			height: $portfolio-width-med;
 			line-height: $portfolio-width-med;
+			margin: $portfolio-padding-med;
+			width: $portfolio-width-med;
 		}
 
 		@media only screen and (min-width: 1201px) {
-			display: inline-block;
-			margin: $portfolio-padding-large;
-			width: $portfolio-width-large;
 			height: $portfolio-width-large;
 			line-height: $portfolio-width-large;
+			margin: $portfolio-padding-large;
+			width: $portfolio-width-large;
 		}
 
 		&.current {

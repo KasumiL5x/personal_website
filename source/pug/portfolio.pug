@@ -7,7 +7,7 @@ mixin MakePortfolio(filters, items)
 				a(href="#", data-filter=value.filter, class=(i === 0 ? "current" : "")) #{value.text}
 				if (filters.length-1 != i )
 					| /
-		div.ng-row.ng-row-wrap
+		div.items-wrapper.ng-row.ng-row-wrap
 			for value in items
 				figure(data-categories=value.categories).ng-column
 					div.content
@@ -41,27 +41,27 @@ block PageContent
 		},
 		{
 			categories: "design",
-			image: "./img/portfolio/graphic-design-logo.png",
+			image: "./img/portfolio/kanaswap.png",
 			link: "http://www.google.com/"
 		},
 		{
 			categories: "programming test",
-			image: "./img/portfolio/graphics-physics-logo.png",
+			image: "./img/portfolio/hadan.jpg",
 			link: "http://www.google.com/"
 		},
 		{
 			categories: "programming design",
-			image: "./img/portfolio/mobile-logo.png",
+			image: "./img/portfolio/ciri.jpg",
 			link: "http://www.google.com/"
 		},
 		{
 			categories: "programming test",
-			image: "./img/portfolio/tools-logo.png",
+			image: "./img/portfolio/showreel.jpg",
 			link: "http://www.google.com/"
 		},
 		{
 			categories: "programming design",
-			image: "./img/portfolio/web-logo.png",
+			image: "./img/portfolio/flash-water-sim.jpg",
 			link: "http://www.google.com/"
 		}
 	])
