@@ -7,12 +7,13 @@ mixin MakePortfolio(filters, items)
 				a(href="#", data-filter=value.filter, class=(i === 0 ? "current" : "")) #{value.text}
 				if (filters.length-1 != i )
 					| /
-		for value in items
-			figure(data-categories=value.categories)
-				div.content
-					img(class="ng-responsive-img", src=value.image)
-				div.overlay
-					a(href=value.link): i(class="fa fa-search")
+		div.ng-row.ng-row-wrap
+			for value in items
+				figure(data-categories=value.categories).ng-column
+					div.content
+						img(class="ng-responsive-img", src=value.image)
+					div.overlay
+						a(href=value.link): i(class="fa fa-search")
 
 block append Variables
 	- var Title = "Portfolio | Daniel Green";
@@ -35,7 +36,7 @@ block PageContent
 	], [
 		{
 			categories: "programming",
-			image: "./img/portfolio/maya-scripts.png",
+			image: "./img/portfolio/atom.png",
 			link: "http://www.google.com/"
 		},
 		{

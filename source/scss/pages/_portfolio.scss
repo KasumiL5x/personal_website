@@ -9,6 +9,7 @@ $portfolio-width-large: 240px;
 
 .portfolio {
 	figure {
+		flex-grow: 0;
 		display: block;
 		margin: $portfolio-padding-mobile auto;
 		width: $portfolio-width-mobile;
