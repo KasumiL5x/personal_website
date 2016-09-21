@@ -16,12 +16,12 @@ module.exports = function(grunt) {
 			ngreen_css: {
 				cwd: '.',
 				src: ['D:/prg/proj/web/ngreen_css/dist/ngreen.css'],
-				dest: 'build/css/ngreen.css'
+				dest: 'source/css/ngreen.css'
 			},
 			ngreen_js: {
 				cwd: '.',
 				src: ['D:/prg/proj/web/ngreen_css/js/ngreen.js'],
-				dest: 'build/js/ngreen.js'
+				dest: 'source/js/ngreen.js'
 			},
 			build: {
 				cwd: 'source',
@@ -161,12 +161,12 @@ module.exports = function(grunt) {
 	// copies all scripts and minifies them together in a readable form
 	grunt.registerTask(
 		'scripts-dev',
-		['clean:js', 'copy:js', 'copy:ngreen_js', 'uglify:dev']
+		['clean:js', 'copy:js', 'uglify:dev', 'copy:ngreen_js']
 	);
 	// copies all scripts and minifies them together
 	grunt.registerTask(
 		'scripts-rel',
-		['clean:js', 'copy:js', 'copy:ngreen_js', 'uglify:rel']
+		['clean:js', 'copy:js', 'uglify:rel', 'copy:ngreen_js']
 	);
 
 	// builds scss, post-processes css, minifies into one, but keeps compiled css folder
