@@ -14,22 +14,23 @@ module.exports = function(grunt) {
 				expand: true
 			},
 			js: {
-				cwd: 'source',
-				src: ['js/**/*.js'],
-				dest: 'build',
+				cwd: 'source/js',
+				src: ['**/*.js', '!nomin/**'],
+				dest: 'build/js/compiled',
 				expand: true
 			},
-			jquery: {
-				cwd: '.',
-				src: ['source/js/jquery-3.1.0.min.js'],
-				dest: 'build/js/jquery-3.1.0.min.js'
+			js_nomin: {
+				cwd: 'source/js/nomin',
+				src: ['**/*.js'],
+				dest: 'build/js',
+				expand: true
 			},
 			update_ngreen_css: {
 				cwd: '.',
 				src: ['D:/prg/proj/web/ngreen_css/dist/ngreen.css'],
 				dest: 'source/css/ngreen.css'
 			},
-			ngreen_js: {
+			update_ngreen_js: {
 				cwd: '.',
 				src: ['D:/prg/proj/web/ngreen_css/js/ngreen.js'],
 				dest: 'source/js/ngreen.js'
@@ -44,6 +45,9 @@ module.exports = function(grunt) {
 		clean: {
 			js: {
 				src: ['build/js']
+			},
+			js_compiled: {
+				src: ['build/js/compiled']
 			},
 			css: {
 				src: ['build/css']
@@ -102,12 +106,12 @@ module.exports = function(grunt) {
 					preserveComments: 'all'
 				},
 				files: {
-					'build/js/application.js': ['source/**/*.js', '!source/js/jquery-3.1.0.min.js']
+					'build/js/application.js': ['build/js/compiled/**/*.js']
 				}
 			},
 			rel: {
 				files: {
-					'build/js/application.js': ['source/**/*.js', '!source/js/jquery-3.1.0.min.js']
+					'build/js/application.js': ['build/js/compiled/**/*.js']
 				}
 			}
 		},
@@ -171,25 +175,23 @@ module.exports = function(grunt) {
 	// cleans js folder; copies ngreen js to source; uglifies all source in a readable format; copies jquery to build directory
 	grunt.registerTask(
 		'scripts-dev',
-		['clean:js', 'copy:ngreen_js', 'uglify:dev', 'copy:jquery']
+		['clean:js', 'copy:update_ngreen_js', 'copy:js', 'uglify:dev', 'copy:js_nomin']
 	);
 	// cleans js folder; copies ngreen js to source; uglifies all source; copies jquery to build directory
 	grunt.registerTask(
 		'scripts-rel',
-		['clean:js', 'copy:ngreen_js', 'uglify:rel', 'copy:jquery']
+		['clean:js', 'copy:update_ngreen_js', 'copy:js', 'uglify:rel', 'copy:js_nomin', 'clean:js_compiled']
 	);
 
 	// builds scss, post-processes css, minifies into one, but keeps compiled css folder
 	grunt.registerTask(
 		'style-dev',
 		['clean:css', 'copy:update_ngreen_css', 'sass', 'copy:css', 'postcss', 'cssmin', 'copy:css_nomin']
-		// ['clean:css', 'sass', 'postcss', 'cssmin', 'copy:css', 'copy:ngreen_css']
 	);
 	// builds scss, post-processes css, minifies into one, and removes compiles css folder
 	grunt.registerTask(
 		'style-rel',
 		['clean:css', 'copy:update_ngreen_css', 'sass', 'copy:css', 'postcss', 'cssmin', 'copy:css_nomin', 'clean:css_compiled']
-		// ['clean:css', 'sass', 'postcss', 'cssmin', 'clean:css_compiled', 'copy:css', 'copy:ngreen_css']
 	);
 
 	// builds all pug into a prettified readable format
