@@ -2,9 +2,15 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		copy: {
 			css: {
-				cwd: 'source',
-				src: ['css/**/*.css'],
-				dest: 'build',
+				cwd: 'source/css',
+				src: ['**/*.css', '!nomin/**'],
+				dest: 'build/css/compiled',
+				expand: true
+			},
+			css_nomin: {
+				cwd: 'source/css/nomin',
+				src: ['**/*.css'],
+				dest: 'build/css',
 				expand: true
 			},
 			js: {
@@ -18,7 +24,7 @@ module.exports = function(grunt) {
 				src: ['source/js/jquery-3.1.0.min.js'],
 				dest: 'build/js/jquery-3.1.0.min.js'
 			},
-			ngreen_css: {
+			update_ngreen_css: {
 				cwd: '.',
 				src: ['D:/prg/proj/web/ngreen_css/dist/ngreen.css'],
 				dest: 'source/css/ngreen.css'
@@ -176,12 +182,14 @@ module.exports = function(grunt) {
 	// builds scss, post-processes css, minifies into one, but keeps compiled css folder
 	grunt.registerTask(
 		'style-dev',
-		['clean:css', 'sass', 'postcss', 'cssmin', 'copy:css', 'copy:ngreen_css']
+		['clean:css', 'copy:update_ngreen_css', 'sass', 'copy:css', 'postcss', 'cssmin', 'copy:css_nomin']
+		// ['clean:css', 'sass', 'postcss', 'cssmin', 'copy:css', 'copy:ngreen_css']
 	);
 	// builds scss, post-processes css, minifies into one, and removes compiles css folder
 	grunt.registerTask(
 		'style-rel',
-		['clean:css', 'sass', 'postcss', 'cssmin', 'clean:css_compiled', 'copy:css', 'copy:ngreen_css']
+		['clean:css', 'copy:update_ngreen_css', 'sass', 'copy:css', 'postcss', 'cssmin', 'copy:css_nomin', 'clean:css_compiled']
+		// ['clean:css', 'sass', 'postcss', 'cssmin', 'clean:css_compiled', 'copy:css', 'copy:ngreen_css']
 	);
 
 	// builds all pug into a prettified readable format
