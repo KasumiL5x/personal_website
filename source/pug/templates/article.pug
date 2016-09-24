@@ -1,0 +1,13 @@
+extends layout
+
+block append PathVariable
+	- var Path = "../";
+
+block append Variables
+		- var ActiveMenu = "";
+		- var PageTitle = "Title";
+
+block PageContent
+	div.ArticleWrapper
+		h1.title #{PageTitle}
+		block ArticleContent

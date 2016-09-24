@@ -1,6 +1,9 @@
+block PathVariable
+	- var Path = "./";
+
 block Variables
 	- var Title = "Default";
-	- var Menu = { 'About': './about.html', 'Portfolio': './portfolio.html' };
+	- var Menu = { "About": Path+"about.html", "Portfolio": Path+"portfolio.html", "Articles": Path+"articles.html" };
 	- var ActiveMenu = "About";
 
 doctype html
@@ -12,26 +15,26 @@ html
 
 		//- page scripts
 		block Scripts
-		script(defer src="./js/jquery-3.1.0.min.js")
-		script(defer src="./js/application.js")
+		script(defer src=Path + "js/jquery-3.1.0.min.js")
+		script(defer src=Path + "js/application.js")
 
 		//- page css
 		block Styles
-			link(href="./css/font-awesome.min.css", rel="stylesheet")
-			link(href="./css/application.css", rel="stylesheet")
+			link(href=Path + "css/font-awesome.min.css", rel="stylesheet")
+			link(href=Path + "css/application.css", rel="stylesheet")
 
 		title #{Title}
 	body
+		div.header
+			div.header__box
+				div.header__logo
+					a(href="#"): | Daniel Green
+				button.ng-button-clear.header__mobile-nav-toggle: span
+				nav.header__nav.closed
+					ul
+						for value, key in Menu
+							//- li: a(href=value, class="header__nav__item "): span #{key}
+							li: a(href=value, class="header__nav__item " + (ActiveMenu === key ? "active" : "")): span #{key}
 		div.main
-			div.header
-				div.header__box
-					div.header__logo
-						a(href="#"): | Daniel Green
-					button.ng-button-clear.header__mobile-nav-toggle: span
-					nav.header__nav.closed
-						ul
-							for value, key in Menu
-								//- li: a(href=value, class="header__nav__item "): span #{key}
-								li: a(href=value, class="header__nav__item " + (ActiveMenu === key ? "active" : "")): span #{key}
 			div.page-content
 				block PageContent

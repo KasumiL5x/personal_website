@@ -1,11 +1,12 @@
 .header {
 	background-color: $header-bg-color;
+	box-shadow: 0 0 5px rgba(0,0,0,0.1);
 	display: block;
 	-ms-flex: 0 1 auto;
 	flex: 0 1 auto; // only take up size required
 	-ms-flex-negative: 0;
 	flex-shrink: 0;	// force no shrink
-	padding-bottom: 4rem;
+	margin-bottom: 4rem;
 }
 
 // box to define size of header and align contents

@@ -172,51 +172,42 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-pug');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
-	// cleans js folder; copies ngreen js to source; uglifies all source in a readable format; copies jquery to build directory
 	grunt.registerTask(
 		'scripts-dev',
 		['clean:js', 'copy:update_ngreen_js', 'copy:js', 'uglify:dev', 'copy:js_nomin']
 	);
-	// cleans js folder; copies ngreen js to source; uglifies all source; copies jquery to build directory
 	grunt.registerTask(
 		'scripts-rel',
 		['clean:js', 'copy:update_ngreen_js', 'copy:js', 'uglify:rel', 'copy:js_nomin', 'clean:js_compiled']
 	);
 
-	// builds scss, post-processes css, minifies into one, but keeps compiled css folder
 	grunt.registerTask(
 		'style-dev',
 		['clean:css', 'copy:update_ngreen_css', 'sass', 'copy:css', 'postcss', 'cssmin', 'copy:css_nomin']
 	);
-	// builds scss, post-processes css, minifies into one, and removes compiles css folder
 	grunt.registerTask(
 		'style-rel',
 		['clean:css', 'copy:update_ngreen_css', 'sass', 'copy:css', 'postcss', 'cssmin', 'copy:css_nomin', 'clean:css_compiled']
 	);
 
-	// builds all pug into a prettified readable format
 	grunt.registerTask(
 		'pug-dev',
 		['clean:pug', 'pug:dev']
 	);
-	// builds all pug into a compressed format
 	grunt.registerTask(
 		'pug-rel',
 		['clean:pug', 'pug:rel']
 	);
 
-	// builds everything in dev mode
 	grunt.registerTask(
 		'build-dev',
 		['clean:build', 'scripts-dev', 'style-dev', 'pug-dev', 'copy:build']
 	);
-	// builds everything in rel mode
 	grunt.registerTask(
 		'build-rel',
 		['clean:build', 'scripts-rel', 'style-rel', 'pug-rel', 'copy:build']
 	);
 
-	// default to dev mode with watching
 	grunt.registerTask(
 		'default',
 		['build-dev', 'watch']
