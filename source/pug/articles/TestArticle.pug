@@ -2,7 +2,7 @@ extends ../templates/article
 
 block append Variables
 	- var Title = "Test Article | Daniel Green";
-	- var PageTitle = "Exporting a Maya Light's Radius/Range";
 
 block ArticleContent
+	h1.title Exporting a Maya Light's Radius/Range
 	p It can sometimes be useful to know the radius or range of a light source within Maya. For example, an exporter for a video game could require the radius of a point light and the height of a spotlight to be exported for use in the rendering portion of the game engine, or the same information could even be required for a viewport renderer override in order to compute the lighting. Whatever the case, here's an easy way to export a radius and range within Maya.

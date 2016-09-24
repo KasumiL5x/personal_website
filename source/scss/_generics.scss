@@ -42,10 +42,11 @@ body {
 	flex-shrink: 0;	// force no shrink
 	margin: 0;
 	margin-bottom: 4rem;
-	padding: 2rem 2.5rem;
+	padding: 0;
+	// padding: 2rem 2.5rem;
 	width: 100%;
 
 	@media only screen and(min-width: 601px) {
-		padding: 4rem 4.5rem;
+		// padding: 4rem 4.5rem;
 	}
 }

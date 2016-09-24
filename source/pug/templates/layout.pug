@@ -33,7 +33,6 @@ html
 				nav.header__nav.closed
 					ul
 						for value, key in Menu
-							//- li: a(href=value, class="header__nav__item "): span #{key}
 							li: a(href=value, class="header__nav__item " + (ActiveMenu === key ? "active" : "")): span #{key}
 		div.main
 			div.page-content

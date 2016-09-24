@@ -4,10 +4,8 @@ block append PathVariable
 	- var Path = "../";
 
 block append Variables
-		- var ActiveMenu = "";
-		- var PageTitle = "Title";
+	- var ActiveMenu = "";
 
 block PageContent
-	div.ArticleWrapper
-		h1.title #{PageTitle}
+	div.ng-container.article
 		block ArticleContent

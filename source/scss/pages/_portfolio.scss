@@ -8,6 +8,12 @@ $portfolio-padding-large: 2rem;
 $portfolio-width-large: 220px;
 
 .portfolio {
+	padding: 2rem 0;
+
+	@media only screen and(min-width: 601px) {
+		padding: 4rem 4.5rem;
+	}
+
 	figure {
 		background: #9d2e2c;
 		box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
