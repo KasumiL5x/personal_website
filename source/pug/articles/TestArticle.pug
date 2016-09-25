@@ -12,3 +12,57 @@ block ArticleContent
 	p Proin quis mauris ullamcorper, porttitor justo sit amet, sodales nisl. In viverra tincidunt lectus, eu efficitur odio tristique non. Mauris at mi condimentum, ultricies arcu at, fermentum lorem. Pellentesque blandit mattis risus sed fermentum. Phasellus iaculis arcu at velit dignissim maximus. Duis et interdum purus. Donec eu gravida sem. Etiam eu neque rutrum, congue purus et, sollicitudin leo. Ut efficitur porttitor placerat. Donec aliquam dolor eu condimentum egestas. Aliquam vel lectus quis erat viverra pharetra. Ut laoreet lectus ac est egestas tincidunt eu at arcu. Fusce dignissim felis ut libero aliquet tincidunt. Suspendisse potenti. Aenean sit amet purus in massa elementum tempus vitae at nisi. Quisque quis iaculis massa.
 	p Praesent tincidunt ultricies viverra. Nam consequat tempus velit a maximus. Sed fringilla sollicitudin est, id aliquet tellus malesuada sit amet. Phasellus in iaculis neque. Aenean varius libero vel tortor pharetra interdum. Integer a diam lorem. Nullam mattis felis sed lectus tempor, in pulvinar lacus vehicula. Mauris sed arcu dignissim, pretium magna eget, facilisis sem. Cras vitae nulla a arcu scelerisque interdum. Morbi varius sed odio vitae mattis. Etiam auctor, nulla vitae cursus lobortis, neque eros ornare purus, in elementum eros nisi id nisi.
 	p Suspendisse lobortis sapien sit amet sapien accumsan placerat. Duis ut magna et tellus pulvinar tristique ut at tortor. Etiam at sapien nisl. Fusce ut fermentum elit. Nunc faucibus sed purus sed dignissim. Curabitur purus ante, dignissim vel auctor nec, bibendum sit amet arcu. In sed lorem sit amet arcu molestie tristique ut quis libero. Ut laoreet felis id convallis molestie. Etiam at enim velit. Sed sit amet euismod erat, quis pulvinar erat. Aenean porta, felis vitae bibendum vehicula, augue quam molestie mauris, eget convallis lacus ante vitae ante. Fusce eget risus dignissim, pharetra purus sit amet, interdum elit.
+
+	h3.heading Syntax Highlighting
+	p Supports CSS, C, C#, C++, GLSL, JSON, and Python.  Line numbers and line hilighting is supported, too.  Note that due to a bug in Prism.js, custom classes must to at the <strong>END</strong> of the CSS class list on code elements.
+
+	h5 CSS &amp; Line Numbers
+	pre: code.language-css.line-numbers.ng-no-border
+		|.some-class {
+		|	property: value;
+		|}
+
+	h5 C w/o Line Numbers
+	pre: code.language-c.ng-no-border
+		|void main() {
+		|	return;
+		|}
+
+	h5 C++ & Line Highlighting (cannot combine with line numbers)
+	pre(data-line="2-4"): code.language-cpp.ng-no-border
+		|int main() {
+		|	callSomeFunction();
+		|	moreFunctions();
+		|	return 0;
+		|}
+
+	h5 GLSL
+	pre: code.language-glsl.line-numbers.ng-no-border
+		|vec4 fs()
+		|	return float4(1.0, 0.0, 1.0, 1.0);
+		|}
+
+	h5 JSON
+	pre: code.language-json.line-numbers.ng-no-border
+		|{
+		|	"genius0": {
+		|		"age": "73",
+		|		"forename": "Charles",
+		|		"surname": "Darwin"
+		|	},
+		|	"genius1": {
+		|		"age": "84",
+		|		"forename": "Isaac",
+		|		"surname": "Newton"
+		|	}
+		|}
+
+	h5 Python
+	pre: code.language-python.line-numbers.ng-no-border
+		|def fib(n):
+		|	if n <= 1:
+		|		return 1
+		|	return fib(n-1) + fib(n-2)
+		| 
+		|if __name__ == '__main__':
+		|	print (fib(9))
