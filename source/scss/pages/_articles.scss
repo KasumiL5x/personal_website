@@ -1,13 +1,29 @@
 .article {
-	padding: 2rem 2rem;
+	max-width: 75rem;
+	padding-top: 2rem;
 
 	@media only screen and(min-width: 601px) {
-		padding: 4rem 4.5rem;
+		padding-top: 5rem;
 	}
 
-	.title {
+	.title { // basically just h3
+		font-size: 3rem;
+		font-weight: 300;
+		line-height: 110%;
+		margin: 1.5rem 0 3rem;
+	}
+
+	.heading {
+		color: #ed4e6e;
 		font-size: 2.8rem;
-		font-weight: bold;
-		color: #444;
+		font-weight: 700;
+		line-height: 1.1;
+		margin: 0;
+		margin-bottom: 1rem;
+		margin-top: 2rem;
+	}
+
+	p {
+		word-wrap: break-word;
 	}
 }
