@@ -1,3 +1,9 @@
+// preloader
+$(window).on('load', function() {
+  $('.preloader .orbit').fadeOut(250);
+  $('.preloader').delay(250).fadeOut(500);
+});
+
 // toggle mobile nav
 $('.header__mobile-nav-toggle').on('click', function() {
   this.classList.toggle('active');
