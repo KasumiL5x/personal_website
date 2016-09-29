@@ -1,0 +1,22 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Atom | Daniel Green";
+
+block ArticleContent
+	h3.title atom
+	p Long has the inefficient pipeline of previewing assets during development been a burden for game artists all over the world. If artists could save time mitigating tedious exporting steps to preview their work mid-development with in-game visuals, their time gained could be better spent elsewhere. Many solutions have been attempted in the past, but are limited in some way, or are proprietary. atom aims to fix this.
+
+	h3.heading What is atom?
+	p atom is a plugin and API for streaming scene data over networked connections in realtime from Autodesk Maya. The plugin itself handles all of the complex work, providing a command-based networked API for programmers to interact with. With this, programmers can create clients that interact with atom, providing a side-by-side preview of what is currently in Maya. This is useful, for instance, in video games, where it is vital for artists to see their work in-game during development. A client could be created using a game engine's rendering system to provide instant real-time feedback for modifications made within Maya, without ever having to leave Maya.
+	p There has been confusion that atom is a previewing tool. This is not the case. atom allows the creation of such tools through its API.
+
+	h3.heading Remarks
+	p atom was created as the project for my MA degree, and thus has only had a couple of months development on it. With the tight time constraints, I am overwhelmingly proud of what I accomplished. atom is, by all means, not without its bugs; I would not call it production-ready yet.
+
+	h3.heading Downloads
+	p I have a #[a(href="http://ngreen.org/projects_dl/masters_thesis/thesis.pdf") detailed thesis] on the inner-workings of atom available, and a #[a(href="https://www.youtube.com/watch?v=RJbK1wPqgwU", target="_blank", class="ng-external-link") YouTube video] showing an example client in action. There is also (pre-feedback) #[a(href="http://ngreen.org/projects_dl/masters_thesis/docs/index.html") API documentation] available online.
+
+	h3.heading Preview
+	p In the image below, on the left is an example client with a game-like renderer (HDR, eye adaptation, material system, shadows, and so on). On the right is an instance of Maya running the atom plugin completely transparent to the artist. The client is interacting with the API to stream changes made in Maya for previewing through its own renderer.
+	img(src="../img/portfolio/atom/SideBySide.jpg", class="ng-responsive-img")
