@@ -11,7 +11,8 @@ mixin MakePortfolio(filters, items)
 			for value in items
 				figure(data-categories=value.categories).ng-column
 					div.content
-						img(class="ng-responsive-img", src=value.image)
+						//- img(class="ng-responsive-img", src=value.image)
+						img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="ng-responsive-img" data-sizes="auto" data-src=value.image)
 					div.overlay
 						a(href=value.link): i(class="fa fa-search")
 
