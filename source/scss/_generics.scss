@@ -30,8 +30,8 @@ body {
 	-ms-flex-negative: 0;
 	flex-shrink: 0;	// force no shrink
 	margin: 0;
-	padding-bottom: 4rem;
 	padding: 0;
+	padding-bottom: 4rem;
 	width: 100%;
 }
 
@@ -94,29 +94,12 @@ body {
 // lazyload stuff
 .lazyload,
 .lazyloading {
-	opacity: 1;
-	// filter: blur(4px);
-	background: #f7f7f7 url("../img/lazyload/loader.gif") no-repeat center;
+	opacity: 0;
+	transform: scale(0.8);
+	transition: all 300ms;
 }
 .lazyloaded {
 	opacity: 1;
-	// filter: blur(0);
+	transform: scale(1);
 	transition: all 300ms;
 }
-
-// .lazyload,
-// .lazyloading {
-// 	opacity: 0;
-// }
-// .lazyloaded {
-// 	opacity: 1;
-// 	transition: opacity 1000ms;
-// }
-
-// .lazyloading {
-// 	opacity: 1;
-// 	transition: opacity 300ms;
-// 	background: #f7f7f7 url("../img/lazyload/loader.gif") no-repeat center;
-// 	// background: #f7f7f7 url("http://afarkas.github.io/lazysizes/assets/imgs/loader.gif") no-repeat center;
-// 	// min-height: 60px;
-// }
