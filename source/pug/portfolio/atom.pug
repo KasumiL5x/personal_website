@@ -11,8 +11,6 @@ block ArticleContent
 	p atom is a plugin and API for streaming scene data over networked connections in realtime from Autodesk Maya. The plugin itself handles all of the complex work, providing a command-based networked API for programmers to interact with. With this, programmers can create clients that interact with atom, providing a side-by-side preview of what is currently in Maya. This is useful, for instance, in video games, where it is vital for artists to see their work in-game during development. A client could be created using a game engine's rendering system to provide instant real-time feedback for modifications made within Maya, without ever having to leave Maya.
 	p There has been confusion that atom is a previewing tool. This is not the case. atom allows the creation of such tools through its API.
 
-	img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/portfolio/atom/SideBySide.jpg" class="ng-responsive-img" data-sizes="auto")
-
 	h3.heading Remarks
 	p atom was created as the project for my MA degree, and thus has only had a couple of months development on it. With the tight time constraints, I am overwhelmingly proud of what I accomplished. atom is, by all means, not without its bugs; I would not call it production-ready yet.
 
@@ -21,5 +19,5 @@ block ArticleContent
 
 	h3.heading Preview
 	p In the image below, on the left is an example client with a game-like renderer (HDR, eye adaptation, material system, shadows, and so on). On the right is an instance of Maya running the atom plugin completely transparent to the artist. The client is interacting with the API to stream changes made in Maya for previewing through its own renderer.
-	//- img.lazyload(data-src="../img/portfolio/atom/SideBySide.jpg" class="ng-responsive-img" data-sizes="auto")
-	img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="http://lorempixel.com/1920/1080/" class="ng-responsive-img" data-sizes="auto")
+
+	a(rel="lightbox" href="../img/portfolio/atom/SideBySide.jpg"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/portfolio/atom/SideBySide.jpg" class="ng-responsive-img" data-sizes="auto")
