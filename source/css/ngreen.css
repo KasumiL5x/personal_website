@@ -333,57 +333,57 @@ td, th {
   text-align: left;
   vertical-align: middle; }
 
-@media only screen and (max-width: 992px) {
-  table.responsive-table {
+@media only screen and (max-width: 600px) {
+  table.ng-responsive-table {
     border-collapse: collapse;
     border-spacing: 0;
     display: block;
     position: relative;
     width: 100%; }
-    table.responsive-table td:empty::before {
+    table.ng-responsive-table td:empty::before {
       content: '\00a0'; }
-    table.responsive-table th,
-    table.responsive-table td {
+    table.ng-responsive-table th,
+    table.ng-responsive-table td {
       margin: 0;
       vertical-align: top; }
-    table.responsive-table th {
+    table.ng-responsive-table th {
       display: block;
       text-align: right; }
-    table.responsive-table thead {
+    table.ng-responsive-table thead {
       border: 0;
       border-right: 1px solid #d0d0d0;
       display: block;
       float: left; }
-      table.responsive-table thead tr {
+      table.ng-responsive-table thead tr {
         display: block;
         padding: 0 10px 0 0; }
-        table.responsive-table thead tr th::before {
+        table.ng-responsive-table thead tr th::before {
           content: "\00a0"; }
-    table.responsive-table tbody {
+    table.ng-responsive-table tbody {
       display: block;
       overflow-x: auto;
       position: relative;
       white-space: nowrap;
       width: auto; }
-      table.responsive-table tbody tr {
+      table.ng-responsive-table tbody tr {
         display: inline-block;
         vertical-align: top; }
-    table.responsive-table td {
+    table.ng-responsive-table td {
       display: block;
       min-height: 1.25em;
       text-align: left; }
-    table.responsive-table tr {
+    table.ng-responsive-table tr {
       padding: 0 10px; }
-    table.responsive-table.ng-bordered th {
+    table.ng-responsive-table.ng-bordered th {
       border-bottom: 0;
       border-left: 0; }
-    table.responsive-table.ng-bordered td {
+    table.ng-responsive-table.ng-bordered td {
       border-bottom: 0;
       border-left: 0;
       border-right: 0; }
-    table.responsive-table.ng-bordered tr {
+    table.ng-responsive-table.ng-bordered tr {
       border: 0; }
-    table.responsive-table.ng-bordered tbody tr {
+    table.ng-responsive-table.ng-bordered tbody tr {
       border-right: 1px solid #d0d0d0; } }
 /* latin-ext */
 @font-face {
