@@ -1,0 +1,36 @@
+extends templates/layout
+
+block append Variables
+	- var Title = "Articles | Daniel Green";
+	- var ActiveMenu = "Articles";
+
+block PageContent
+	div.ng-container.article
+		h1 Articles
+
+		h3.heading Maya Specific
+		ul
+			li Exporting a Maya Light Radius/Range
+			li Notes on Implementing a Maya Viewport 2.0 Renderer Override
+			li Modifying Maya's Undo Queue
+			li Center UVs with Maya Python
+			li Implementing A Simple Maya Python Deformer
+			li Python And JSON With Maya
+			li Exporting Bézier Curves From Maya
+			li Converting QT UI Files To Maya-Compatible Python
+
+		h3.heading Graphics
+		ul
+			li Quick 'n' Easy Dual-Cone Spotlight in GLSL
+			li Baking Details With Normal Maps
+
+		h3.heading Programming
+		ul
+			li C# Null Extensions
+			li Global Hotkeys In C#
+			li Illustrator Scripts
+			li Unity Scripts
+
+		h3.heading General
+		ul
+			li Modern Art With Osu!
