@@ -1,0 +1,53 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Hadan | Daniel Green";
+
+block ArticleContent
+	h3.title Hadan
+
+	p Hadan is a fracturing tool for Autodesk Maya. Many major 3D packages, such as Luxology Modo, have either native or well-known plug-ins for fracturing geometry. Unfortunately, Maya does not have such tools by default. Hadan aims to solve this by introducing multiple fracture types with customizable options. For more details on the inner workings of Hadan, please refer to my WIP #[a(href="http://www.ngreen.org/portfolio_dl/hadan/hadan-report-VIS4062-dgreen.pdf") accompanying report].
+
+	h3.heading Where can I get Hadan?
+	p Hadan's source can be downloaded from #[+ExternalLink("https://bitbucket.org/kasumil5x/hadan", "BitBucket")] or #[+ExternalLink("https://github.com/KasumiL5x/hadan", "GitHub")]. Binaries are not available. Please also note that this is but a prototype, and is <strong>NOT</strong> production ready.
+
+	h3.heading What can Hadan do?
+	p Development on Hadan has now ceased, as it was created for a University module that has long since finished.  The YouTube video below shows features of the tool.
+	div.ng-video-container
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/PwdDBsPTBco?rel=0" frameborder="0" allowfullscreen></iframe>
+
+	h3.heading How to use it?
+	p Hadan is implemented as a Maya command with flags to configure its behavior. A GUI is provided for ease of use.
+	table.ng-bordered.ng-hilite
+		thead
+			th Flag
+			th Type
+			th Description
+		tbody
+			tr: td meshName/mn #[td string] #[td Name of the mesh to fracture]
+			tr: td fractureType/ft #[td string] #[td Fracture operation: #[em uniform], #[em cluster], or #[em bezier]]
+			tr: td slicerType/st #[td string] #[td Slicer algorithm: #[em gte] or #[em csgjs]]
+			tr: td uniformCount/uc #[td integer] #[td Number of random points to generate]
+			tr: td primaryCount/pc #[td integer] #[td Number of random primary points to generate; used in cluster mode]
+			tr: td secondaryCount/sc #[td integer] #[td Number of random secondary points to generate around primary points; used in cluster mode]
+			tr: td separationDistance/sd #[td double] #[td Distance to shrink chunks' vertices along their normals]
+			tr: td sampleCount/sam #[td integer] #[td Number of samples for bezier curves]
+			tr: td fluxPercent/flp #[td double] #[td Fluctuation percentage based on the size of the object's bounding box]
+			tr: td randomSeed/rs #[td integer] #[td Random seed for reproducible fractures]
+			tr: td point/pnt #[td double] #[td Custom fracture location; three doubles (x, y, z)]
+			tr: td smoothingAngle/sa #[td double] #[td Angle used for smoothing of chunks' normals]
+			tr: td minBezierDist/mbd #[td double] #[td Minimum distance between randomly generated bezier endpoints as a percentage of the object's bounding box]
+			tr: td multithreaded/mt #[td boolean] #[td Whether to enable multi-threading or not]
+	p When [fractureType/ft] is set to #[strong uniform], [uniformCount/uc] randomly generated points are created within the object's bounding box.
+	p When [fractureType/ft] is set to #[strong cluster], [primaryCount/pc] randomly generated points are spawned within the object's bounding box, and then [secondaryCount/sc] randomly generated points are added within a distance of [fluxPercent/flp] of each primary point. [uniformCount/uc] randomly generated points are also added for variation.
+	p When [fractureType/ft] is set to #[strong bezier], one of three cases can occur. Each case is chosen based on the number of user-provided [point/pnt]. If none are provided, all four points of the bezier are randomly generated; the first and last are on the surface, and will attempt to space themselves at least [minBezierDist/mbd] apart (unless a maximum iteration count is hit, of which the last attempt is accepted regardless of the distance), and the two intermediate points are randomly generated within the bounding box. If two points are provided, they are assumed to be the beginning and end points respectively, and the two intermediate points are generated as before. If all four points are provided, the curve is assumed to be complete and in order, and no random generation will take place. The bezier curve is sampled [sampleCount/sam] times along the curve at uniform intervals. The sampled points are moved [-fluxPercent/flp, fluxPercent/flp] away from the curve for variation. [uniformCount/uc] uniform points are also added for variation.
+	p The slicing algorithm used can be chosen using the [slicerType/st] flag. Choosing #[strong gte] will use a cutting algorithm derived from #[+ExternalLink("http://geometrictools.com/", "Geometric Tools'")] ClipMesh. This algorithm is very efficient, but will not work for more complex geometry, especially concave. Electing to use csgjs will instead perform boolean intersections of each cell with the source geometry using a C++ port of the #[+ExternalLink("https://github.com/evanw/csg.js/", "csg.js")] library. This option works better with complex geometry, but comes with its own drawbacks, especially in performance. Having a selection of slicing algorithms is important, as the source geometry may not always be suited for a specific algorithm.
+	p Multi-threading is supported and can be toggled with the [multithreaded/mt] flag. It is enabled by default.
+	p Each chunk has its normals generated and smoothed based on a smoothing angle. If an edge has only one face (which should seldom occur), then its edge will be hardened. If the angle between the shared faces of the edge in question is less than [smoothingAngle/sa], it will be smoothed, or otherwise hardened.
+	a(rel="lightbox" href="../img/portfolio/hadan/hadan_gui.png"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/portfolio/hadan/hadan_gui.png" class="ng-responsive-img" data-sizes="auto")
+	p Hadan's GUI is separated into three parts: #[strong Settings], #[strong Positions], and #[strong Advanced]. The #[strong Settings] tab allows for configuration of most of the flags above. The #[strong Positions] tab is for managing custom user points. The #[strong Advanced] tab is for extra configuration options. The GUI simply maps its elements to a flag in the command, and generates a command upon execution. The generated command can be seen in the Advanced tab after fracturing takes place.
+
+	h3.heading How does it work?
+	p Hadan is implemented as a Maya command. This can be run from both MEL and Python. Upon execution, Hadan goes through three major phases. The first stage, #[strong Generate Points], stage is responsible for generating source points used to feed stage 2. The second stage, #[strong Generate Cells], has to create slicing cells that will later be used to cut the geometry. The third stage, #[strong Cut Geometry], is where the source geometry is actually decimated based on the generated cells.
+	p For more information, please see my #[a(href="http://www.ngreen.org/portfolio_dl/hadan/hadan-report-VIS4062-dgreen.pdf") accompanying report].
+
