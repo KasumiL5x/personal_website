@@ -1,0 +1,35 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Center Maya UVs with Python | Daniel Green";
+
+block ArticleContent
+	h3.title Center Maya UVs with Python
+
+	p Maya provides many tools to modify UVs. Due to various limitations of the native UV editor, a multitude of customized editors do exist. The ones I have used have extended significantly upon Maya's default toolset. One operation I commonly see missing, though, is to center all selected UVs. It's quite a simple operation, but can be useful. To remedy this, here's a simple script that centers the average position of all selected UVs to [0.5, 0.5]. Simply call the #[strong center_selected_uvs()] method with desired UVs selected.
+
+	pre: code.language-python.line-numbers.ng-no-border
+		| import maya.cmds as cmds
+		| 
+		| def center_selected_uvs():
+		| 	# get all selected uv positions
+		| 	uv_pos_raw = cmds.polyEditUV(query=True)
+		| 	if not len(uv_pos_raw):
+		| 		return
+		| 	# extract X and Y positions
+		| 	x_pos = uv_pos_raw[::2]
+		| 	y_pos = uv_pos_raw[1::2]
+		| 	# combine respective elements of each list to form (X,Y)
+		| 	uv_pos = zip(x_pos, y_pos)
+		| 	# average the position of all UVs
+		| 	average = [0.0, 0.0]
+		| 	for curr in uv_pos:
+		| 		average[0] += curr[0]
+		| 		average[1] += curr[1]
+		| 	average[0] /= len(uv_pos)
+		| 	average[1] /= len(uv_pos)
+		| 	# distance from perfect center
+		| 	dist_to_center = [0.5 - average[0], 0.5 - average[1]]
+		| 	# move all UVs by distance to center to center the selection
+		| 	cmds.polyEditUV(relative=True, uValue=dist_to_center[0], vValue=dist_to_center[1])
+		| center_selected_uvs()
