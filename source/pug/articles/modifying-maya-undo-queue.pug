@@ -1,0 +1,35 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Modifying Maya's Undo Queue | Daniel Green";
+
+block ArticleContent
+	h3.title Modifying Maya's Undo Queue
+
+	p When scripting in Maya, whether it be MEL or Python, commands such as move, rotate, and the like, all cause Maya's undo queue to be populated. If you are scripting something that is intensive, or includes many commands which will populate the undo queue, you may wish to disable the undo queue for a performance increase, and to save memory. On the contrary, you may wish to group a set of commands into a single undo, to make a script's actions appear as a single undo step to the user. The #[+ExternalLink("http://help.autodesk.com/cloudhelp/2016/ENU/Maya-Tech-Docs/Commands/undoInfo.html", "undoInfo")] command within Maya, which is accessible in both MEL and Python, allows you to query and modify the undo queue.
+
+	h3.heading Disabling Undo
+	p Let's say you're writing a tool that is intended to loop through all vertices of a mesh and run some complex calculation on them, resulting in a move command for each vertex. This command would be added to the undo queue. If you have a high poly model, disabling the undo queue before running the heart of your script could potentially save you a lot of computation time, as the undo queue would not be populated and would be ignored. However, it is important to re-enable the undo queue after you have finished your commands, or exit due to an error, otherwise the undo queue will remain off. The state of the undo queue can be queried, enabled, or disabled, by using the -state(-st) flag of the undoInfo command.
+	pre: code.language-python.line-numbers.ng-no-border
+		| # Disable undo queue
+		| maya.cmds.undoInfo(st=False)
+		| 
+		| # Enable undo queue
+		| maya.cmds.undoInfo(st=True)
+		| 
+		| # Query undo queue state
+		| undo_state = maya.cmds.undoInfo(q=True, st=True)
+
+	h3.heading Grouping Undos
+	p Sometimes it's a good idea to group undo commands together, so that Maya treats them as a single undo step. For example, a script that aligns an object to a surface may contain both movement and rotation commands. As far as the user is concerned, they only snapped an object – one step – rather than moved and rotated an object – two steps. The undo queue is grouped by calling #[strong undoInfo] two times with differing arguments; one at the beginning of your commands you wish to group, and one at the end. To begin, #[strong undoInfo] should be called with the flag #[strong -openChunk(-ock)], and to end, with #[strong -closeChunk(-cck)]. Note that, and I cannot stress this enough, you #[strong MUST] close an open chunk with the #[strong -closeChunk(-cck)] flag, or your undo queue can completely break, and there's nothing more frustrating than the undo queue stopping. If your script exits early due to some condition, and you've opened a chunk, please, please, please, close it before stopping script execution. Note that, as of now, you cannot query if a chunk is open, so use this with caution. That said, if used safely, it is exceptionally helpful. Optionally, you can name the chunk, using the #[strong -chunkName(-cn)] flag.
+	pre: code.language-python.line-numbers.ng-no-border
+		| # Begin undo chunk
+		| maya.cmds.undoInfo(openChunk=True)
+		| 
+		| # Commands here that add to the undo queue...
+		| 
+		| # End undo chunk
+		| maya.cmds.undoInfo(closeChunk=True)
+
+	h3.heading References
+	p I stumbled upon this command whilst browsing the #[+ExternalLink("http://tech-artists.org/forum/showthread.php?2522-Undo-in-Maya-%28Mel-Python-Execution%29", "Tech-Artists")] forum when searching for a way to group commands into a single undo. Since that thread helped me, I figured I'd pass along the information in a more presentable way.
