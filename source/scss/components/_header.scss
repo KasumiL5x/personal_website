@@ -177,8 +177,7 @@
 			transition: all 500ms;
 			width: 0;
 		}
-		&.active span::before,
-		&:hover span::before {
+		&.active span::before {
 			width: 100%;
 		}
 	} // a
