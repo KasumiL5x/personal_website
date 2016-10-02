@@ -1,0 +1,31 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Exporting a Maya Light's Radius/Range | Daniel Green";
+
+block ArticleContent
+	h3.title Exporting a Maya Light's Radius/Range
+
+	p It can sometimes be useful to know the radius or range of a light source within Maya. For example, an exporter for a video game could require the radius of a point light and the height of a spotlight to be exported for use in the rendering portion of the game engine, or the same information could even be required for a viewport renderer override in order to compute the lighting. Whatever the case, here's an easy way to export a radius and range within Maya.
+
+	p Every light source within Maya has multiple modes of editing that can be accessed through the #[+ExternalLink("http://help.autodesk.com/view/MAYAUL/2016/ENU/?guid=GUID-E368AEA1-6B14-46BF-B329-8C966565C989", "Show Manipulator Tool")] (default hotkey #[strong T]). This tool, like many others within Maya, can have its modes toggled between using the State Manipulator. Some light sources, such as spot lights, have a large variety of options to toggle through, and I recommend researching and playing with them to unlock the full potential of light sources in Maya. The state we are interested in manipulating is the one that contains an extra position for us to translate, or more formally, the state that contains an #[+ExternalLink("http://help.autodesk.com/view/MAYAUL/2016/ENU/?guid=__cpp_ref_class_m_fn_direction_manip_html", "MFnDirectionManip")]. This state, as visible in Fig. 1, adds an extra position we can translate in addition to the light source. The light source will always rotate to face this extra position, so it can also be used to align light sources. The distance between our light source and the extra position is stored in every #[+ExternalLink("http://help.autodesk.com/view/MAYAUL/2016/ENU/?guid=__cpp_ref_class_m_fn_light_html", "MFnLight")] object as an attribute named centerOfIllumination. This attribute is key, as it can be used to represent a radius for point lights, and a range for spot lights.
+
+	a(rel="lightbox" href="../img/articles/exporting-a-maya-light-radius/maya-light-manip-state.jpg"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/articles/exporting-a-maya-light-radius/maya-light-manip-state.jpg" class="ng-responsive-img" data-sizes="auto")
+
+	p Since the aforementioned attribute is simply an attribute of a DAG object, we can obtain it very easily in many ways. For example, it can be obtained in Python or MEL through the following scripts.
+
+	pre: code.language-python.line-numbers.ng-no-border
+		| import maya.cmds as cmds
+		| centerOfIllumination = cmds.getAttr("lightName.centerOfIllumination")
+		| 
+		| ----
+		| 
+		| float $centerOfIllumination = `getAttr "lightName.centerOfIllumination"`;
+
+	p The attribute can also be obtained using the C++ API with any object that is, or inherits from, MFnLight, as the following example shows.
+
+	pre: code.language-cpp.line-numbers.ng-no-border
+		| const MFnLight light(mayaObjectOrDagPath);
+		| const double centerOfIllumination = light.centerOfIllumination();
+
+	p This attribute is easy to edit within Maya and easy to acquire for exporting. It is not ideal for work strictly within Maya, as it does not directly affect the resulting lighting, and is not visible in the default viewports. It is, however, a good option for exporting, and a fantastic option for viewport overrides within Maya that could use this attribute for their light sources’ radius and range.
