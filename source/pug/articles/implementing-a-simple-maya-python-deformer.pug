@@ -1,0 +1,270 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Implementing A Simple Maya Python Deformer | Daniel Green";
+
+block ArticleContent
+	h3.title Implementing A Simple Maya Python Deformer
+
+	p Deformers within Maya can provide users with easy-to-use and intuitive interfaces for modifying, or even animating, low-level components, such as vertices, of geometry. They can be used in many situations, such as providing a starting point for more complex models, keyed for animation, or even to help sculpt and shape geometry, to name a few. Deformers are useful because they are a node in the DAG. This means they affect the geometry at that specific point in time, and can be edited at a later date. They can also be removed like any other node, and the order that the node appears in the graph can have dramatic changes on the resulting geometry. In other programs, such as 3ds Max, they are commonly referred to as Modifiers.
+
+	p Note that this is not an introduction to Deformers, and I will not be covering how they work in detail. This article will be an overview of a simple deformer written in Python to get you started.
+
+	h3.heading Our Deformer
+	p The deformer we will be writing is going to emulate something similar to the Push modifier in 3ds Max. This simply takes all vertices, and moves them along their pre-deformed normals. The result of this simple deformer can also be performed using the move tool along the normal direction. However, deformers pose many advantages over doing this process manually, such as being able to be set to a value in the attribute editor, being able to be animated, and being part of the DAG hierarchy. Our deformer will have a single attribute that lets the user control the amount the geometry inflates by.
+
+	h3.heading A Word About Versions
+	p Maya has a penchant for changing the API. From Maya 2015 onwards, a couple of major changes of which classes Python deformers use were made. These changes will not be reflected in this article. In 2016, the classes for accessing inputs and geometry within deformers changed once more, as well as the envelope attribute. A simple solution can be found below, but will not be included in our script, as it is targeting Maya 2015. The changes are trivial to implement.
+	pre: code.language-python.line-numbers.ng-no-border
+		| # get maya's api version
+		| maya_api_version = OpenMaya.MGlobal.apiVersion()
+		| 
+		| # get the input and geometry based on the maya version
+		| if maya_api_version &lt; 201600:
+		| 	input_attr = OpenMayaMPx.cvar.MPxDeformerNode_input
+		| 	input_geom_attr = OpenMayaMPx.cvar.MPxDeformerNode_inputGeom
+		| else:
+		| 	input_attr = OpenMayaMPx.cvar.MPxGeometryFilter_input
+		| 	input_geom_attr = OpenMayaMPx.cvar.MPxGeometryFilter_inputGeom
+		| 
+		| # get the envelope based on the maya version
+		| if maya_api_version &lt; 201600:
+		| 	envelope_attr = OpenMayaMPx.cvar.MPxDeformerNode_envelope
+		| else:
+		| 	envelope_attr = OpenMayaMPx.cvar.MPxGeometryFilter_envelope
+
+	h3.heading Implementation
+	p We will need to import both #[strong maya.OpenMaya] and #[strong maya.OpenMayaMPx] for this deformer. The class we create must inherit from #[strong OpenMayaMPx.MPxDeformerNode], allowing us access to input and output geometry, and the envelope. An envelope simply defines how much of an effect the deformer has on the underlying geometry. We must also define a name and unique ID for out plugin. This name will be how Maya knows how to create our deformer.
+	pre: code.language-python.line-numbers.ng-no-border
+		| import maya.OpenMayaMPx as OpenMayaMPx
+		| import maya.OpenMaya as OpenMaya
+		| 
+		| # -*- Plugin information -*-
+		| plugin_node_name = 'pushDeformer'
+		| plugin_node_id = OpenMaya.MTypeId(0x1C3B0475)
+		| 
+		| class PushDeformerNode(OpenMayaMPx.MPxDeformerNode):
+		| 	...
+	p Since we inherited from #[strong OpenMayaMPx.MPxDeformerNode], we need to call its #[strong __init__] within ours.
+	pre: code.language-python.line-numbers.ng-no-border
+		| def __init__(self):
+		| 	OpenMayaMPx.MPxDeformerNode.__init__(self)
+		| #END
+	p As previously mentioned, we will have a single attribute to let the user specify how far to push the vertices. A deformer's attributes within Python are initially defined as an #[strong MObject] type, and are later properly created.
+	pre: code.language-python.line-numbers.ng-no-border
+		| inflation_attr = OpenMaya.MObject()
+	p We should now write a helper function now to retrieve the input mesh so we can cast it to an #[strong MFnMesh] to access its pre-deformed normals. The following function is partially from an official example in the Maya documentation. The arguments #[strong data] and #[strong geom_idx] are provided by the #[strong deform] method, which we will see next.
+	pre: code.language-python.line-numbers.ng-no-border
+		| def get_input_geom(self, data, geom_idx):
+		| 	input_attr = OpenMayaMPx.cvar.MPxDeformerNode_input
+		| 	input_geom_attr = OpenMayaMPx.cvar.MPxDeformerNode_inputGeom
+		| 	input_handle = data.outputArrayValue(input_attr)
+		| 	input_handle.jumpToElement(geom_idx)
+		| 	input_geom_obj = input_handle.outputValue().child(input_geom_attr).asMesh()
+		| 	return input_geom_obj
+		| #END
+	p The actual deformation is performed in a function called #[strong deform]. As the documentation states, this function takes the arguments #[strong dataBlock], #[strong geometryIterator], #[strong localToWorldMatrix], and #[strong geometryIndex]. We will retrieve input data using #[strong dataBlock] and #[strong geometryIndex], and modify the output geometry using #[strong geometryIterator]. Initially, we retrieve both the envelope and our custom attribute value by passing the appropriate variables into the #[strong inputValue] function of the #[strong dataBlock]. Next, we obtain the input mesh and store its normals after casting it to its correct type, an #[strong MFnMesh]. Finally, we iterate through all vertices using the #[strong geometryIterator], and push each vertex along its corresponding normal by our inflation attribute value. We also multiply by the envelope here, so it acts as expected.
+	pre: code.language-python.line-numbers.ng-no-border
+		| def deform(self, data, geom_it, local_to_world_mat, geom_idx):
+		| 	envelope_attr = OpenMayaMPx.cvar.MPxDeformerNode_envelope
+		| 	envelope = data.inputValue(envelope_attr).asFloat()
+		| 
+		| 	inflation_handle = data.inputValue(PushDeformerNode.inflation_attr)
+		| 	inflation = inflation_handle.asDouble()
+		| 
+		| 	input_geom_obj = self.get_input_geom(data, geom_idx)
+		| 	normals = OpenMaya.MFloatVectorArray()
+		| 	mesh = OpenMaya.MFnMesh(input_geom_obj)
+		| 	mesh.getVertexNormals(True, normals, OpenMaya.MSpace.kTransform)
+		| 
+		| 	while not geom_it.isDone():
+		| 		idx = geom_it.index()
+		| 		nrm = OpenMaya.MVector(normals[idx])
+		| 		pos = geom_it.position()
+		| 		new_pos = pos + (nrm * inflation * envelope)
+		| 		geom_it.setPosition(new_pos)
+		| 		geom_it.next()
+		| #END
+	p Next, we must define four functions: creation, initialization, plugin initialization, and plugin uninitialization. Starting with creation, we simply return a casted instance of our class.
+	pre: code.language-python.line-numbers.ng-no-border
+		| def node_creator():
+		| 	return OpenMayaMPx.asMPxPtr(PushDeformerNode())
+		| #END
+	p The initializer is very important. This is where you actually create the attributes you stored earlier as #[strong MObjects], and where you let the plugin know when to recompute. Setting up the attribute is done by using an object of type #[strong OpenMaya.MFnNumericAttribute]. With this, we are able to create variables and customize how they are able to be used within Maya, such as whether they can be animated, if they display in the channel box, minimum and maximum values, and so on. After creating each attribute using this method, we call the #[strong addAttribute] function on our class, passing in our #[strong MObject] that represents the attribute. Afterwards, we specify which attributes modify which parts of the deformer by using the #[strong attributeAffects] function on our class. In this example, our inflation attribute will modify the output geometry. Adding this line will make Maya recompute the output geometry whenever this attribute is modified.
+	pre: code.language-python.line-numbers.ng-no-border
+		| def node_initializer():
+		| 	num_attr = OpenMaya.MFnNumericAttribute()
+		| 
+		| 	# Setup attributes
+		| 	PushDeformerNode.inflation_attr = num_attr.create('inflation', 'in', OpenMaya.MFnNumericData.kDouble, 0.0)
+		| 	num_attr.setMin(0.0)
+		| 	num_attr.setMax(10.0)
+		| 	num_attr.setChannelBox(True)
+		| 	PushDeformerNode.addAttribute(PushDeformerNode.inflation_attr)
+		| 
+		| 	# Link inputs that change the output of the mesh
+		| 	PushDeformerNode.attributeAffects(PushDeformerNode.inflation_attr, OpenMayaMPx.cvar.MPxDeformerNode_outputGeom)
+		| #END
+	p Finally, the plugin's initialize and uninitialize functions are required to complete our deformer. They are very unexceptional and simply register or deregister the node itself, passing in the name and unique id we configured at the beginning of this script.
+	pre: code.language-python.line-numbers.ng-no-border
+		| def initializePlugin(mobject):
+		| 	mplugin = OpenMayaMPx.MFnPlugin(mobject)
+		| 	try:
+		| 		mplugin.registerNode(plugin_node_name, plugin_node_id, node_creator, node_initializer, OpenMayaMPx.MPxNode.kDeformerNode)
+		| 	except:
+		| 		sys.stderr.write('Failed to register node: ' + plugin_node_name)
+		| 		raise
+		| #END
+		| 
+		| def uninitializePlugin(mobject):
+		| 	mplugin = OpenMayaMPx.MFnPlugin(mobject)
+		| 	try:
+		| 		mplugin.deregisterNode(plugin_node_id)
+		| 	except:
+		| 		sys.stderr.write('Failed to deregister node: ' + plugin_node_name)
+		| 		raise
+		| #END
+
+	h3.heading Applying The Deformer
+	p The deformer must be loaded for Maya to find the deformer. Place your script in a folder that matches your #[strong MAYA_PLUG_IN_PATH] variable, such as the default scripts folder. Loading the plugin is done via the #[strong loadPlugin] command. Applying the deformer can be done using the #[strong deformer] command, with the #[strong type] argument set to what you named your plugin (#[strong plugin_node_name], in the script above). Calling this function will apply the deformer to all selected objects that can receive it.
+	pre: code.language-python.line-numbers.ng-no-border
+		| # Load the plugin
+		| maya.cmds.loadPlugin('push_deformer.py')
+		| 
+		| # Apply the deformer
+		| cmds.deformer(name=&quot;some_node_name&quot;, type='pushDeformer')
+
+	h3.heading Complete Example
+	p Below, you can find the complete deformer code, as well as a script for loading and applying the deformer.
+	pre: code.language-python.line-numbers.ng-no-border
+		| import sys
+		| import maya.OpenMayaMPx as OpenMayaMPx
+		| import maya.OpenMaya as OpenMaya
+		| 
+		| # -*- Plugin information -*-
+		| plugin_node_name = 'pushDeformer'
+		| plugin_node_id = OpenMaya.MTypeId(0x1C3B0475)
+		| 
+		| class PushDeformerNode(OpenMayaMPx.MPxDeformerNode):
+		| 	# Amount to push the vertices by
+		| 	inflation_attr = OpenMaya.MObject()
+		| 
+		| 	def __init__(self):
+		| 		OpenMayaMPx.MPxDeformerNode.__init__(self)
+		| 	#END
+		| 
+		| 	def deform(self, data, geom_it, local_to_world_mat, geom_idx):
+		| 		envelope_attr = OpenMayaMPx.cvar.MPxDeformerNode_envelope
+		| 		envelope = data.inputValue(envelope_attr).asFloat()
+		| 
+		| 		inflation_handle = data.inputValue(PushDeformerNode.inflation_attr)
+		| 		inflation = inflation_handle.asDouble()
+		| 
+		| 		input_geom_obj = self.get_input_geom(data, geom_idx)
+		| 		normals = OpenMaya.MFloatVectorArray()
+		| 		mesh = OpenMaya.MFnMesh(input_geom_obj)
+		| 		mesh.getVertexNormals(True, normals, OpenMaya.MSpace.kTransform)
+		| 
+		| 		while not geom_it.isDone():
+		| 			idx = geom_it.index()
+		| 			nrm = OpenMaya.MVector(normals[idx])
+		| 			pos = geom_it.position()
+		| 			new_pos = pos + (nrm * inflation * envelope)
+		| 			geom_it.setPosition(new_pos)
+		| 			geom_it.next()
+		| 	#END
+		| 
+		| 	def get_input_geom(self, data, geom_idx):
+		| 		input_attr = OpenMayaMPx.cvar.MPxDeformerNode_input
+		| 		input_geom_attr = OpenMayaMPx.cvar.MPxDeformerNode_inputGeom
+		| 		input_handle = data.outputArrayValue(input_attr)
+		| 		input_handle.jumpToElement(geom_idx)
+		| 		input_geom_obj = input_handle.outputValue().child(input_geom_attr).asMesh()
+		| 		return input_geom_obj
+		| 	#END
+		| #END
+		| 
+		| def node_creator():
+		| 	return OpenMayaMPx.asMPxPtr(PushDeformerNode())
+		| #END
+		| 
+		| def node_initializer():
+		| 	num_attr = OpenMaya.MFnNumericAttribute()
+		| 
+		| 	# Setup attributes
+		| 	PushDeformerNode.inflation_attr = num_attr.create('inflation', 'in', OpenMaya.MFnNumericData.kDouble, 0.0)
+		| 	num_attr.setMin(0.0)
+		| 	num_attr.setMax(10.0)
+		| 	num_attr.setChannelBox(True)
+		| 	PushDeformerNode.addAttribute(PushDeformerNode.inflation_attr)
+		| 
+		| 	# Link inputs that change the output of the mesh
+		| 	PushDeformerNode.attributeAffects(PushDeformerNode.inflation_attr, OpenMayaMPx.cvar.MPxDeformerNode_outputGeom)
+		| #END
+		| 
+		| def initializePlugin(mobject):
+		| 	mplugin = OpenMayaMPx.MFnPlugin(mobject)
+		| 	try:
+		| 		mplugin.registerNode(plugin_node_name, plugin_node_id, node_creator, node_initializer, OpenMayaMPx.MPxNode.kDeformerNode)
+		| 	except:
+		| 		sys.stderr.write('Failed to register node: ' + plugin_node_name)
+		| 		raise
+		| #END
+		| 
+		| def uninitializePlugin(mobject):
+		| 	mplugin = OpenMayaMPx.MFnPlugin(mobject)
+		| 	try:
+		| 		mplugin.deregisterNode(plugin_node_id)
+		| 	except:
+		| 		sys.stderr.write('Failed to deregister node: ' + plugin_node_name)
+		| 		raise
+		| #END
+	pre: code.language-python.line-numbers.ng-no-border
+		| import maya.mel as mel
+		| import maya.cmds as cmds
+		| 
+		| class ApplyPushDeformer(object):
+		| 	def __init__(self):
+		| 		pass
+		| 
+		| 	def __load_plugin(self):
+		| 		if not cmds.pluginInfo('push_deformer.py', l=True, q=True):
+		| 			if cmds.loadPlugin('push_deformer.py') == None:
+		| 				cmds.warning('Failed to load plugin.')
+		| 				return False
+		| 		return True
+		| 	#END
+		| 
+		| 	def __apply(self, mesh):
+		| 		print 'selecting ' + str(mesh)
+		| 		cmds.select(mesh)
+		| 		name = str(mesh) + '_pushDeformer'
+		| 		name = mel.eval('formValidObjectName(\&quot;{0}\&quot;);'.format(name))
+		| 		cmds.deformer(name=name, type='pushDeformer')
+		| 	#END
+		| 
+		| 	def apply_push_deformer(self, meshlist):
+		| 		if not self.__load_plugin():
+		| 			return
+		| 
+		| 		for x in meshlist:
+		| 			self.__apply(x)
+		| 	#END
+		| 
+		| 	# Unused; keeping anyway		
+		| 	def apply_push_deformer_selection():
+		| 		if not self.__load_plugin():
+		| 			return
+		| 
+		| 		objs = cmds.ls(sl=True, type='transform')
+		| 		if not len(objs):
+		| 			cmds.warning('No objects selected.')
+		| 			return
+		| 
+		| 		for x in objs:
+		| 			cmds.select(x)
+		| 			name = str(x) + '_pushDeformer'
+		| 			name = mel.eval('formValidObjectName(\&quot;{0}\&quot;);'.format(name))
+		| 			cmds.deformer(name=name, type='pushDeformer')
+		| 	#END
+		| #END
