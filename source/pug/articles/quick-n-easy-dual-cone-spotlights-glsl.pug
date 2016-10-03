@@ -1,0 +1,118 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Quick 'n' Easy Dual-Cone Spotlight in GLSL | Daniel Green";
+
+block ArticleContent
+	h3.title Quick 'n' Easy Dual-Cone Spotlight in GLSL
+
+	p In this article, I will be covering the implementation of a basic dual-cone spotlight in GLSL. Theory and GLSL are the primary focus here, and thus other code, such as C++, won't be covered in detail. This tutorial is being written to hopefully aid students who are just starting, as well as others who are curious. Not everything will be covered in detail, though. It is assumed you understand OpenGL and GLSL to a competent enough level to implement simple point lights. For example, you should be able to set a uniform in a GLSL shader from OpenGL with confidence. Also note that lighting theory is not covered here; code is given but not explained.
+
+	h3.heading Introduction
+	p Well, what is a dual-cone spotlight? Firstly, let's look at a standard spotlight. A standard spotlight contains a position, direction, range, and cone angle. A standard spotlight can be thought of as a hand-held flashlight. With a flashlight, you have a light bulb (the position of our spotlight), the direction you are holding the flashlight (the direction of our spotlight), a distance at which the light is no longer effective (the range of our spotlight), and a maximum angle at which light can leave the flashlight (the cone angle of our spotlight). If it helps, try to imagine a 3D cone with the parameters we have just discussed: a position, direction, range, and angle. Okay, so what's the difference between a dual-cone spotlight and a standard spotlight? A dual-cone spotlight has two angles rather than a single angle. These angles are commonly referred to as the #[em inner angle] and #[em outer angle] respectively. The outer angle, just like the standard spotlight's angle, defines the maximum angle light can exit out the spotlight at. So, what's this inner angle used for? The inner angle defines the #[em core] of the spotlight - the region of which will be fully intensified. Since the dual-cone has an inner and outer angle, this allows us to slowly fade out the light's intensity as the angle overcomes the inner angle and approaches the outer angle. In other words, the dual-cone spotlight has two angles that allow us to smoothly fade out the lighting with very precise control over the effect.
+
+	h3.heading Theory
+	p Now we're going to have a quick visual analysis of the components we discussed in the introduction, and cover them in a little more detail. Hopefully, this will prepare you with a solid foundation of what a dual-cone spotlight entails for implementation.
+	a(rel="lightbox" href="../img/articles/dual-cone-spotlight-glsl/dual-cone-spotlight-diagram.png"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/articles/dual-cone-spotlight-glsl/dual-cone-spotlight-diagram.png" class="ng-responsive-img" data-sizes="auto")
+	p Firstly, we will look at the position of the spotlight. The position, denoted as #[strong L] in the image above, refers to the 3D position in the scene of the origin of the spotlight. If you have a 3D cone, #[strong L] would be the converging apex. Relating this to the flashlight, #[strong L] would be the location of the bulb - the root source of the outgoing light. The direction of our light source is the normalized vector from the position, #[strong L], to the endpoint, denoted as #[strong E] in the image above. Both of these 3D positions can be moved independently, which in turn, can alter the direction of our spotlight. The distance between #[strong L] and #[strong E] can be thought of as the range of the spotlight. The inner cone angle is named #[strong &theta;#[sub i]] in the above image. This angle has many names, such as #[em inner cone angle], #[em core angle], and #[em cone angle], among others. As can be seen in the image above, this angle defines the center cone where the light is most bright, and is the inner of the two angles the dual-cone spotlight uses. The outer cone angle is named #[strong &theta;#[sub o]] in the above image. This angle has many names, also, such as #[em outer cone angle], #[em penumbra angle], and #[em cut-off angle], among others. This angle is the outer of the two angles, and defines a smooth falloff radius from the inner cone angle onwards. The smaller the distance between the inner and outer cone angle, the tighter the falloff. The larger the distance between the inner and outer cone angle, the smoother and larger the falloff. In both the inner and outer cone angles, #[strong &theta;] is the cosine of an angle in radians.
+	p So, to summarize: We have a 3D position, #[strong L]. We have a direction, #[strong E] - #[strong L] normalized. We have a range, #[strong E] - #[strong L] magnitude. We have an inner cone angle, #[strong &theta;#[sub i]]. And we have an outer cone angle, #[strong &theta;#[sub o]].
+
+	h3.heading Implementation
+	p As was mentioned above, it is assumed you are comfortable with basic computer graphics using OpenGL. To keep the focus on implementation of a dual-cone spotlight, only the fragment (pixel) shader will be covered. The vertex shader simply passes through, at minimum, the world-space position of the input vertex.
+	p Before we get on to shader code, let's have a look at what variables we require to simulate the dual-cone spotlight effect. Again, to keep focus on the spotlight, shading equations and material information are assumed to be understood and will not be covered in detail.
+	p Firstly, we need a position. A position is a 3D vector, so we can send it through to the shader as a #[strong vec3]. A normalized direction is also required. Technically, the direction, as discussed above, is the endpoint subtract the light source position, normalized. We can, however, represent this as a precomputed direction vector instead, which is also of type #[strong vec3]. Next, we need the range of the light source. Again, this would usually be the length of the endpoint subtract the light source position, but since we simplified the direction, we can not do that. Instead, we can pass the range as a #[strong float]. Think of it as a distance along the direction vector. Finally, we need both the #[em cosines] of the inner and outer cone angles in #[em radians]. It is generally good practice to precompute the cosine of both of these angles and send the precomputed values into the shader as a #[strong float]. If you want to make your light look pretty, it's also possible to send through diffuse color and intensity of the light source as a #[strong vec3] and #[strong float] respectively. This can also be done with specular, if you wish to include specularity in your shading equation. So, now we understand what variables we require to simulate the dual-cone spotlight. For easy reference, there's a table of these variables we have just discussed below.
+	table.ng-bordered.ng-hilite.ng-responsive-table
+		thead
+			th Variable Name
+			th Origin
+			th Example Value
+		tbody
+			tr: td vs_world #[td Vertex Shader] #[td -]
+			tr: td lightPosition #[td Application] #[td (0, 10, 0)]
+			tr: td lightDirection #[td Application] #[td (-0.26, -0.96, 0.128)]
+			tr: td lightRange #[td Application] #[td 100.0]
+			tr: td lightCosInnerAngle #[td Application] #[td 0.985 (cos 10.0)]
+			tr: td lightCosOuterAngle #[td Application] #[td 	0.978 (cos 12.0)]
+	P With that in mind, let's have a look at a chunk of shader code and then step through it.
+	pre: code.language-glsl.line-numbers.ng-no-border
+		| vec3 L = lightPosition - vs_world;
+		| float distToLight = length(L);
+		| L = normalize(L);
+		| 
+		| float cosDir = dot(L, -lightDirection);
+		| float spotEffect = smoothstep(lightCosOuterAngle, lightCosInnerAngle, cosDir);
+		| 
+		| float heightAttenuation = smoothstep(lightRange, 0.0f, distToLight);
+	P If you are familiar with pretty much any shading algorithm, you'll recognize #[strong L] in the first line instantly. This is what's known as the #[strong light vector]. In the case of our spotlight, it's the vector from the light's position, #[strong lightPosition], to the current vertex's world-space position, #[strong vs_world]. Notice that we do not yet normalize the light vector. This is so that, in the following line, we can compute the length of the vector and store the distance between the vertex and the light's position. Once we have this data, the following line normalizes the light vector. Now is where the real magic happens. The following line computes the angle between the light vector and the light's direction. So now we have the angle between the light's position and the vertex, which is relative to the direction of the light source. Remember the cosines of the inner and outer angles we sent through to the shader? Some clever thinking leads us to the conclusion that we can interpolate between those two values using the angle we have just computed. The next line does just that. #[+ExternalLink("https://en.wikipedia.org/wiki/Smoothstep", "Smoothstep interpolation")] is used to create a falloff effect ranging from fully bright to fully dark. This value, named #[strong spotEffect] in the above code sample, is the core of the dual-cone spotlight effect, and is the value that creates the effect. Finally, the distance we stored earlier is put to use, as a simple smoothstep is used to fade off the light as the distance tends towards the range of the light source. So, we have these values, but how are they used in the shader itself? The resulting color from a shading algorithm of your choice should be modulated by the #[strong spotEffect] and #[strong heightAttenuation] variables. This will apply the effect and attenuation to the result of your shading. For a complete example of the fragment shader, including basic diffuse and specular shading, check the appendix below.
+
+	h3.heading Conclusion
+	p Hopefully by now, you are armed with enough understanding to successfully implement a dual-cone spotlight. We've covered a high-level description, basic theory, and implementation of the dual-cone spotlight.
+	a(rel="lightbox" href="../img/articles/dual-cone-spotlight-glsl/spotlight-demo.png"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/articles/dual-cone-spotlight-glsl/spotlight-demo.png" class="ng-responsive-img" data-sizes="auto")
+
+	h3.heading Appendix
+	p A complete pixel shader implementing a dual-cone spotlight with color and specular properties, as well as basic diffuse and specular shading and surface material parameters.
+	pre: code.language-glsl.line-numbers.ng-no-border
+		| #version 330
+		| 
+		| // Inputs to frag shader.
+		| in vec3 vs_world;
+		| in vec3 vs_normal;
+		| 
+		| // Outputs.
+		| out vec4 out_color;
+		| 
+		| // Light information.
+		| uniform vec3  lightPosition;
+		| uniform vec3  lightDirection;
+		| uniform float lightRange;
+		| uniform float lightCosInnerAngle;
+		| uniform float lightCosOuterAngle;
+		| uniform vec3  lightDiffuseColor;
+		| uniform float lightDiffuseIntensity;
+		| uniform vec3  lightSpecularColor;
+		| uniform float lightSpecularIntensity;
+		| 
+		| // Camera information.
+		| uniform vec3 cameraPosition;
+		| 
+		| // Material information.
+		| uniform vec3  matDiffuseColor;
+		| uniform float matSpecularPower;
+		| 
+		| void main( ) {
+		|   // Light vector.
+		|   vec3 L = lightPosition - vs_world;
+		|   // Length of light vector (used for height attenuation).;
+		|   float distToLight = length(L);
+		|   // Normalize light vector.
+		|   L = normalize(L);
+		| 
+		|   // Compute smoothed dual-cone effect.
+		|   float cosDir = dot(L, -lightDirection);
+		|   float spotEffect = smoothstep(lightCosOuterAngle, lightCosInnerAngle, cosDir);
+		| 
+		|   // Compute height attenuation based on distance from earlier.
+		|   float heightAttenuation = smoothstep(lightRange, 0.0f, distToLight);
+		| 
+		|   // Normal.
+		|   vec3 N = normalize(vs_normal);
+		| 
+		|   // Diffuse lighting.
+		|   float diffuseLight = max(dot(N, L), 0.0f);
+		|   vec3 diffuse = (diffuseLight * lightDiffuseColor) * lightDiffuseIntensity;
+		| 
+		|   // Specular lighting.
+		|   float specularLight = 0.0f;
+		|   if( matSpecularPower &gt; 0.0f ) {
+		|     vec3 V = normalize(cameraPosition - vs_world);
+		|     vec3 H = normalize(L + V);
+		|     vec3 R = reflect(-L, N);
+		|     specularLight = pow(clamp(dot(R, H), 0.0f, 1.0f), matSpecularPower);
+		|   }
+		|   vec3 specular = (specularLight * lightSpecularColor) * lightSpecularIntensity;
+		| 
+		|   // Final combined color.
+		|   vec3 finalColor = ((diffuse + specular) * matDiffuseColor) * spotEffect * heightAttenuation;
+		| 
+		|   out_color = vec4(finalColor, 1.0f);
+		| }
