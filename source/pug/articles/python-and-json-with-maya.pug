@@ -1,0 +1,80 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Python and JSON With Maya | Daniel Green";
+
+block ArticleContent
+	h3.title Python and JSON With Maya
+
+	p #[+ExternalLink("http://json.org/", "JSON")] is a fantastic data-interchange format praised for its legibility, especially in comparison to other common data formats such as XML. When developing plugins for Maya - especially those that export data - JSON is a very compelling format to use. Lucky for us, Python has #[+ExternalLink("https://docs.python.org/2/library/json.html", "native support for JSON")], and it is very easy to use.
+
+	h3.heading A Simple Example
+	p A very useful feature the JSON implementation in Python supports is directly converting a Python dictionary into a JSON string, which then can be exported accordingly. What is more, nested dictionaries are automatically interpreted as one may expect in the conversion process - they become sub-elements of the parent within the generated JSON. Below shows a simple nested dictionary nesting our good friends Charles and Isaac along with some information about them, and then generates a JSON string based on the dictionary. The Python documentation for JSON details many of the customizable properties available during the JSON conversion process, of which a couple are demonstrated in the aforementioned snippet.
+	pre: code.language-python.line-numbers.ng-no-border
+		| import json
+		| 
+		| json_str = {
+		| 	'genius0': {
+		| 		'forename': 'Charles',
+		| 		'surname': 'Darwin',
+		| 		'age': '73'
+		| 	},
+		| 	'genius1': {
+		| 		'forename': 'Isaac',
+		| 		'surname': 'Newton',
+		| 		'age': '84'
+		| 	}
+		| }
+		| 
+		| output_json = json.dumps(json_str, sort_keys=True, indent=2, separators=(',', ': '))
+		| print output_json
+		| 
+		| # output:
+		| # {
+		| #   &quot;genius0&quot;: {
+		| #     &quot;age&quot;: &quot;73&quot;,
+		| #     &quot;forename&quot;: &quot;Charles&quot;,
+		| #     &quot;surname&quot;: &quot;Darwin&quot;
+		| #   },
+		| #   &quot;genius1&quot;: {
+		| #     &quot;age&quot;: &quot;84&quot;,
+		| #     &quot;forename&quot;: &quot;Isaac&quot;,
+		| #     &quot;surname&quot;: &quot;Newton&quot;
+		| #   }
+		| # }
+
+	h3.heading A Practical Maya Example
+	p There are multitudinous uses for exporting various Maya data into an external format such as JSON. A real-world example is a plugin I developed to assist a friend during their master's project at university. Hundreds of custom Maya nodes were placed in the 3D scene, and then numerous data, including custom attributes, were read into a nested dictionary structure and then exported to JSON for use elsewhere.
+	p That all sounds nice, but how does one practically unite Maya's data into potentially nested data structures and then convert into JSON? The example below clearly demonstrates this process in a simplified form. In this example, the position, vertex count, and triangle count of all selected transforms (assumed to have a mesh node as a child) are uniquely stored. The dictionary that is used to generate the JSON - #[strong json_str] - is populated with the variable #[strong node] for all selected objects, where #[strong node] is a dictionary consisting of the position, vertex count, and triangle count. It is worth nothing that it is also possible to store a list of the #[strong node] variable in order to have multiple entries. For instance, if one were to export all meshes, it may be desirable to group them all in a single JSON node, and that would be accomplished by using a list of further dictionaries in a similar format to node. Exporting the JSON using the generated nested dictionary is as simple as the example we have previously seen, with the same configurable options you can tweak to your own desired settings.
+	pre: code.language-python.line-numbers.ng-no-border
+		| import json
+		| import maya.cmds as cmds
+		| 
+		| json_str = {}
+		| selected_obj = cmds.ls(sl=True, type='transform')
+		| for curr_obj in selected_obj:
+		| 	position = cmds.xform(curr_obj, query=True, translation=True, worldSpace=True)
+		| 	node = {
+		| 		'position': str(round(position[0], 2)) + ',' + str(round(position[1], 2)) + ',' + str(round(position[2], 2)),
+		| 		'vertices': str(cmds.polyEvaluate(curr_obj, vertex=True)),
+		| 		'triangles': str(cmds.polyEvaluate(curr_obj, triangle=True))
+		| 	}
+		| 	json_str[curr_obj] = node
+		| 	
+		| output_json = json.dumps(json_str, sort_keys=True, indent=2, separators=(',', ': '))
+		| print output_json
+		| 
+		| # output:
+		| # {
+		| #   &quot;pCube1&quot;: {
+		| #     &quot;position&quot;: &quot;-3.62,4.02,-5.13&quot;,
+		| #     &quot;triangles&quot;: &quot;12&quot;,
+		| #     &quot;vertices&quot;: &quot;8&quot;
+		| #   },
+		| #   &quot;pSphere1&quot;: {
+		| #     &quot;position&quot;: &quot;5.38,0.0,8.16&quot;,
+		| #     &quot;triangles&quot;: &quot;760&quot;,
+		| #     &quot;vertices&quot;: &quot;382&quot;
+		| #   }
+		| # }
+	p Although the above example was intentionally simplified, I hope the technique of building nested dictionaries from Maya's data and then converting that dictionary into JSON formatting was clearly conveyed, as well as how useful it can be.
