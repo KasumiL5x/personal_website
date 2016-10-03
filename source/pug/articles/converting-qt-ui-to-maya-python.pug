@@ -1,0 +1,40 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Converting QT UI Files to Maya Python | Daniel Green";
+
+block ArticleContent
+	h3.title Converting QT UI Files to Maya Python
+
+	p Plugins are one of Maya's strongest points. As plugins become increasingly complex, they usually call for some form of user interface. However, Maya's native methods of building user interfaces is quite rudimentary and awkward to use at best. What many people are not aware of is that Maya itself is built using QT, and actually provides a compatible QT Designer. And that designer can result in usable Python code.
+
+	h3.heading The Designer
+	p Almost all tools I have created that use an interface that is more complex than a button or so, as is evident from the posts previously made to my website, are developed using the QT Designer. The QT Designer can be located in the #[strong bin] directory of your Maya installation as #[strong designer.exe]. Opening it up results in the standard QT Designer interface, where you are free to build, edit, and connect components as you such desire. Note that on OS X, the designer must be compiled, and that will not be covered here.
+	a(rel="lightbox" href="../img/articles/qtui-to-maya-python/qtdesigner.png"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/articles/qtui-to-maya-python/qtdesigner.png" class="ng-responsive-img" data-sizes="auto")
+
+	h3.heading Converting To Python
+	p It is important to note that saving user interfaces from QT Designer will result in a #[strong UI] file that is not compatible with Python nor Maya, naturally. Instead, this must be converted into usable Python code. There is a tool named #[strong pyside-uic] which is built for the purpose of converting the aforementioned format to Python. I have experimented in the past using scripts external to Maya to convert these files, but discovered that the workflow was not pleasing, and thereafter switched to implementing a conversion script, which will be shown below, within Maya itself.
+	pre: code.language-python.line-numbers.ng-no-border
+		| import os
+		| from pysideuic import compileUi
+		| import maya.cmds as cmds
+		| 
+		| def convert_qtui_to_py():
+		| 	caption = 'Select QT UI file...'
+		| 	fileFilter = 'QT UI Files (*ui)(*.ui)'
+		| 	result = cmds.fileDialog2(ds=2, ff=fileFilter, cap=caption, fm=1)
+		| 	if None == result:
+		| 		return
+		| 	try:
+		| 		py_file = open(os.path.splitext(result[0])[0] + '.py', 'w')
+		| 		compileUi(result[0], py_file, False, 4, False)
+		| 		py_file.close()
+		| 		cmds.warning('File converted.')
+		| 	except IOError:
+		| 		cmds.warning('Could not open file!')
+	p Feel free to integrate the above code snippet using whichever method you please. Personally, I have it saved in a scripts folder, and then have a shelf icon which calls the appropriate method when pressed. As can be seen in the above code sample, we are importing #[strong compileUi] from the #[strong pysideuic] module. Importing this module gives us the ability to convert the GUI files. The rest of the code is standard Python for opening files, stripping extensions, and so on. In the case of this simple script, the output from the converted #[strong UI] file is saved with the same name, but with a #[strong py] extension. This, of course, can be modified to personal taste.
+
+	h3.heading After The Conversion
+	p If you open a resulting converted Python file, it should be obvious that the code is not suitable for use straight away, especially in Maya. Instead, there's some work we need to do first.
+	p The current implementation of the converter (disclaimer: Maya 2016 and below) outputs two methods: #[strong setupUi()] and #[strong retranslateUi()]. The former builds the interface itself and the latter sets the localized text of each component that requires it.
+	p The following description is not intended as a tutorial, but instead, an overview, so please check out some of my previous plugins and scripts for practical, real-world examples. There are other methods for implementing the converted GUI code into your own plugins, but my personal approach is to inherit my plugin's class from #[strong QtGui.QMainWindow], which can be found by importing #[strong QtGui] from the #[strong PySide] module. While you are at it, import #[strong QtCore], also, as it is essential to component positioning and sizing. Note that due to inheriting from this, you should call super's init method as follows: #[strong super(YourClassName, self).__init__()]. The code from the #[strong setupUi()] and #[strong retranslateUi()] methods I usually place within a single method and call it upon initialization of the class, appending both #[strong self.show()] and #[strong self.raise_()] at the end in order to display the interface. Please note that the name of your dialog from the designer will be extensively used in the output Python code, and must instead be replaced with #[strong self].
