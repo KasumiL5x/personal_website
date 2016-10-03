@@ -1,0 +1,99 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Exporting Bézier Curves From Maya | Daniel Green";
+
+block ArticleContent
+	h3.title Exporting Bézier Curves From Maya
+
+	p In Maya, there are many degrees of curves available. Bézier curves are one of the more favored within Maya due to their intuitive usability and flexibility in comparison to other existing curve types. Bézier curves prove to be a useful asset in any toolbox, as is evident by its extensive use in video games, among other fields. For instance, smooth Bézier paths can be used to describe roads, streams, and other environmental objects, or describe the pathway upon which an object should follow. The helpful uses Bézier curves provide are endless. If you would like to learn more about Bézier curves in the context of games development, #[+ExternalLink("http://devmag.org.za/2011/04/05/bzier-curves-a-tutorial/", "Dev.Mag")] has a fantastic article describing uses and mathematical foundations of the curve.
+	p Firstly, let us briefly discuss how Maya's Bézier curves work on a high level. If you are already comfortable with Maya's Bézier curves, feel free to skip the following section.
+
+
+	h3.heading Maya's Bézier Curves
+	p When editing Bézier curves, you primarily move the control vertices, defining the core points the curve is made up of, and then configure the anchors - sometimes also referred to as handles - for each control vertex, defining the smoothness of the curve as it passes through the appropriate control vertex. As can be seen in the following image, the points highlighted in yellow are the control vertices that define the primary shape of the curve, and the points in purple are the anchors, defining the smoothness at each point as the curve approaches and exits the point.
+	a(rel="lightbox" href="../img/articles/exporting-bezier-curves-from-maya/bezier-curve-1.jpg"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/articles/exporting-bezier-curves-from-maya/bezier-curve-1.jpg" class="ng-responsive-img" data-sizes="auto")
+	p Each individual control vertex can have its anchors set to one of three configurations: #[strong Bézier], #[strong Bézier Corner], and #[strong Corner]. The #[strong Bézier] setting allows for both anchors to be controlled, but affecting one anchor will have the mirror affect on the other. #[strong Bézier Corner], on the other hand, allows for unique tweaking of each anchor without affecting the other. And finally, #[strong Corner], which places both anchors at the same position as the control vertex itself, creating a sharp and linear incoming and outgoing curve.
+	p At first thought, handling all of these potential options, especially considering each control vertex can have a different anchor configuration, seems increasingly difficult. Lucky for us, Maya has a very intuitive system for storing the control vertices and their respective anchors regardless of their configuration within the curve.
+
+	h3.heading Getting Bézier Data
+	p If you were to open the Connection Editor (Windows-&gt;General Editors-&gt;Connection Editor) and load the Bézier shape (ensure you load the shape, not the transform), you would see there is an attribute available to us called #[strong controlPoints]. The attentive of you may have noticed that there are way more elements in the attribute than there are control vertices. This is because this attribute stores both the control vertices and anchors. In fact, as far as Maya is concerned (and correctly so), there is no difference between the curve-defining points and their anchors; they are all simply control points for the curve. The first two elements of the array are the beginning control vertex and its single handle, followed by all control vertices surrounded by their handles (…, handle-&gt;control vertex-&gt;handle, …), and then the array terminates with the last handle followed by the end control vertex (note the ‘reversed' order here). A visual description can be seen below.
+	a(rel="lightbox" href="../img/articles/exporting-bezier-curves-from-maya/bezier-curve-2.jpg"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/articles/exporting-bezier-curves-from-maya/bezier-curve-2.jpg" class="ng-responsive-img" data-sizes="auto")
+	pre: code.language-python.line-numbers.ng-no-border
+		| print `pointPosition -world &quot;bezierShape1.controlPoints[5]&quot;`;
+
+	h3.heading Python Sample
+	p Let's talk code. Armed with the information discussed above, I will take snippets from a complete class and briefly analyze each one, and then provide the complete class at the end for learning and personal use. Please note that although this code is in Python, it primarily exercises standard MEL (#[strong maya.cmds]), and therefore is easy to translate into MEL.
+	p Firstly, we need to know which curve(s) we will be operating upon. The approach to generating a list of curves varies between implementations, but in my own example, I will be acting upon all selected Bézier curves within the scene. This can be achieved by using the #[+ExternalLink("http://help.autodesk.com/cloudhelp/2016/ENU/Maya-Tech-Docs/Commands/ls.html", "ls command")], with #[strong sl] enabled and the #[strong type] filtered to #[strong bezierCurve], combined with #[strong ap] and #[strong dag] to retrieve the shape nodes rather than the transform nodes. For more information on this command's flags, please check the #[+ExternalLink("http://help.autodesk.com/cloudhelp/2016/ENU/Maya-Tech-Docs/Commands/ls.html", "documentation")].
+	pre: code.language-python.line-numbers.ng-no-border
+		| def __get_selected_curves(self):
+		| 	return cmds.ls(sl=True, type='bezierCurve', ap=True, dag=True)
+	p As mentioned earlier, accessing the control points directly will be in local space, and we want world space by using the #[strong pointPosition] command. I have defined a method that takes both a given curve and the desired control point index, builds a string in the format appropriate, and passes the #[strong w/world] flag in order to ensure the returned position is indeed in world space and not local space.
+	pre: code.language-python.line-numbers.ng-no-border
+		| def __get_point_world_pos(self, curve, index):
+		| 	return cmds.pointPosition(curve + '.controlPoints[' + str(index) + ']', w=True)
+	p We now have a list of curves to process and a method to get the world space positions of each control point, but we do not know how many control points each curve has. A naive solution is to get the #[strong controlPoints] attribute array by passing in the #[strong *] character as the index, which in Maya, returns the full array, and then get the length of this array. This is inefficient and a waste of memory, however. Instead, the number of control points can be computed by summing the number of spans of a curve with its degree, and those values are both available through attributes of the curve.
+	pre: code.language-python.line-numbers.ng-no-border
+		| def __get_control_point_count(self, curve):
+		| 	return cmds.getAttr(curve + '.spans') + cmds.getAttr(curve + '.degree')
+	p Now it is time to bring everything together to create the core of the script. We now have a list of curves to operate upon, a method of getting the world space position of the control points, and a method of computing the total number of control points per curve. With these three things, we have everything we need to process all of the curves and their control points. The approach used to combat this task will differ dependent on the desired format of the output data. In my example, which can be seen in the complete code listing below, each curve has its initial control vertex and single anchor exported, and then for all intermediate points, the anchors and control vertices are extracted and remapped into a slightly different format (#[em anchor-&gt;control vertex-&gt;anchor, remapped to control vertex-&gt;left anchor-&gt;right anchor]), and finally, the end control vertex is extracted and remapped also (#[em anchor-&gt;control vertex, remapped to control vertex-&gt;anchor]). The resulting control points are placed in a list within a dictionary with an entry per curve. For more details about this implementation, see the code listing below.
+
+	h3.heading Conclusion
+	p Bézier curves are fantastic. Hopefully you should now be aware of how Maya handles Bézier curves on a high level, as well as have the necessary knowledge for extracting the control vertices and their anchors using Python or MEL.
+
+	h3.heading Code Listing
+	pre: code.language-python.line-numbers.ng-no-border
+		| import maya.cmds as cmds
+		| 
+		| class BezierParser(object):
+		| 	def __init__(self):
+		| 		pass
+		| 	#end
+		| 
+		| 	def __get_selected_curves(self):
+		| 		return cmds.ls(sl=True, type='bezierCurve', ap=True, dag=True)
+		| 	#end
+		| 
+		| 	def __get_point_world_pos(self, curve, index):
+		| 		return cmds.pointPosition(curve + '.controlPoints[' + str(index) + ']', w=True)
+		| 	#end
+		| 
+		| 	def __get_control_point_count(self, curve):
+		| 		return cmds.getAttr(curve + '.spans') + cmds.getAttr(curve + '.degree')
+		| 	#end
+		| 
+		| 	def parse(self):
+		| 		selected_curves = self.__get_selected_curves()
+		| 		if not len(selected_curves):
+		| 			cmds.warning('No curves selected.')
+		| 		#end
+		| 
+		| 		curves = {}
+		| 
+		| 		for curr_curve in selected_curves:
+		| 			# could just get the array using *, but that's not worldspace and would be a waste
+		| 			control_point_count = self.__get_control_point_count(curr_curve)
+		| 
+		| 			# first two points (point-&gt;handle)
+		| 			curves.setdefault(curr_curve, []).append([self.__get_point_world_pos(curr_curve, 0), self.__get_point_world_pos(curr_curve, 1)])
+		| 
+		| 			# all intermediate points (handle-&gt;point-&gt;handle remapped to point-&gt;handle(left)-&gt;handle(right))
+		| 			if control_point_count &gt;= 7: # (2+3+2)
+		| 				for i in range(2, control_point_count-2, 3): # after first two points to last points
+		| 					curves.setdefault(curr_curve, []).append([self.__get_point_world_pos(curr_curve, i+1), self.__get_point_world_pos(curr_curve, i), self.__get_point_world_pos(curr_curve, i+2)])
+		| 				#end
+		| 			#end
+		| 
+		| 			# last two points (handle-&gt;point)
+		| 			if control_point_count &gt;= 4: # (2+?+2)
+		| 				curves.setdefault(curr_curve, []).append([self.__get_point_world_pos(curr_curve, control_point_count-1), self.__get_point_world_pos(curr_curve, control_point_count-2)])
+		| 			#end
+		| 		#end
+		| 		return curves
+		| 	#end
+		| #end
+		| 
+		| # usage: 
+		| # bp = BezierParser()
+		| # curves = bp.parse()
+		| # now do something with curves
