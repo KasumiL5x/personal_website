@@ -1,0 +1,126 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Illustrator Scripts | Daniel Green";
+
+block ArticleContent
+	h3.title Illustrator Scripts
+
+	p This page contains various scripts for #[+ExternalLink("http://www.adobe.com/uk/products/illustrator.html", "Adobe Illustrator")] that I've made in the past.  To install the scripts, place them with a #[strong .js] or #[strong .jsx] extension (dependent on your Illustrator version) into the Scripts folder. My scripts folder, for instance, is #[em D:\programs\Adobe\Adobe Illustrator CC 2015\Presets\en_US\Scripts]. They can then be accessed from #[em File-&gt;Scripts].
+
+	h3.heading Save As PNG
+	p This script prompts you for a folder that contains #[strong .ai] files, and automatically opens and exports all of them as PNG files. This is useful when you have a large number of Illustrator files you need to export repeatedly. You can modify the #[strong getPngOpts()] function to change the PNG options.
+	pre: code.language-javascript.line-numbers.ng-no-border
+		| function run()
+		| {
+		| 	var srcFolder = Folder.selectDialog('Select the folder with Illustrator files you want to convert to PNG.', '~');
+		| 	if( srcFolder == null )
+		| 	{
+		| 		return;
+		| 	}
+		| 
+		| 	var files = srcFolder.getFiles(&quot;*.ai&quot;);
+		| 	if( !files.length )
+		| 	{
+		| 		alert('No matching files found.');
+		| 		return;
+		| 	}
+		| 
+		| 	var dstFolder = Folder.selectDialog('Select the folder where you want to save the converted PNG files.', '~');
+		| 	if( dstFolder == null )
+		| 	{
+		| 		return;
+		| 	}
+		| 	var srcDoc;
+		| 	for( var i = 0; i &lt; files.length; ++i )
+		| 	{
+		| 		srcDoc = app.open(files[i]);
+		| 		srcDoc.exportFile(getNewName(srcDoc, dstFolder), ExportType.PNG24, getPngOpts());
+		| 		srcDoc.close(SaveOptions.DONOTSAVECHANGES);
+		| 	}
+		| 	alert('Files are saved as PNG in ' + dstFolder);
+		| }
+		| 
+		| function getNewName( srcDoc, dstFolder )
+		| {
+		| 	var newName = &quot;&quot;;
+		| 	for( var i=0; srcDoc.name[i] != '.'; ++i )
+		| 	{
+		| 		newName += srcDoc.name[i];
+		| 	}
+		| 	newName += '.png';
+		| 
+		| 	return new File(dstFolder + '/' + newName);
+		| }
+		| 
+		| function getPngOpts()
+		| {
+		| 	var opts = new ExportOptionsPNG24();
+		| 	opts.antiAliasing = true;
+		| 	opts.artBoardClipping = false;
+		| 	opts.horizontalScale = 100.0;
+		| 	opts.matte = true;
+		| 	opts.matteColor.red = 255.0;
+		| 	opts.matteColor.green = 255.0;
+		| 	opts.matteColor.blue = 255.0;
+		| 	opts.saveAsHTML = false;
+		| 	opts.transparency = true;
+		| 	opts.verticalScale = 100.0;
+		| 	return opts;
+		| }
+		| 
+		| run();
+
+	h3.heading Save As CS6
+	p Similar to the previous script, this converts a folder of #[strong CC] files into #[strong CS6] files. You can modify the #[strong getSaveOpts()] function to change which version of Illustrator is exported.
+	pre: code.language-javascript.line-numbers.ng-no-border
+		| function run()
+		| {
+		| 	if( confirm(&quot;WARNING: This is destructive and will replace files.  Continue?&quot;) == false )
+		| 	{
+		| 		return;
+		| 	}
+		| 
+		| 	var srcFolder = Folder.selectDialog('Select the folder with the AI files to convert:', '~');
+		| 	if( srcFolder == null )
+		| 	{
+		| 		return;
+		| 	}
+		| 
+		| 	var files = srcFolder.getFiles(&quot;*.ai&quot;);
+		| 	if( !files.length )
+		| 	{
+		| 		alert('No matching files found.');
+		| 		return;
+		| 	}
+		| 
+		| 	var srcDoc;
+		| 	for( var i = 0; i &lt; files.length; ++i )
+		| 	{
+		| 		srcDoc = app.open(files[i]);
+		| 		srcDoc.saveAs(getNewName(srcDoc, srcFolder), getSaveOpts());
+		| 		srcDoc.close(SaveOptions.DONOTSAVECHANGES);
+		| 	}
+		| 	alert('Done!');
+		| }
+		| 
+		| function getNewName( srcDoc, dstFolder )
+		| {
+		| 	var newName = &quot;&quot;;
+		| 	for( var i=0; srcDoc.name[i] != '.'; ++i )
+		| 	{
+		| 		newName += srcDoc.name[i];
+		| 	}
+		| 	newName += '.ai';
+		| 
+		| 	return new File(dstFolder + '/' + newName);
+		| }
+		| 
+		| function getSaveOpts()
+		| {
+		| 	var opts = new IllustratorSaveOptions();
+		| 	opts.compatibility = Compatibility.ILLUSTRATOR15;
+		| 	return opts;
+		| }
+		| 
+		| run();
