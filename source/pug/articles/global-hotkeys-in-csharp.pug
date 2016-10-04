@@ -1,0 +1,187 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Global Hotkeys in C# | Daniel Green";
+
+block ArticleContent
+	h3.title Global Hotkeys in C#
+
+	p I recently picked up an old project and wanted to add some new functionality that would listen for and respond to hotkey combinations even when the application didn't have focus. After a little searching on the Internet, I came across #[+ExternalLink("http://stackoverflow.com/questions/2450373/set-global-hotkeys-using-c-sharp", "this")] helpful post on StackOverflow. The solution in the StackOverflow post made use of the WinAPI #[+ExternalLink("https://msdn.microsoft.com/en-gb/library/windows/desktop/ms646309(v=vs.85).aspx", "RegisterHotKey")] and #[+ExternalLink("https://msdn.microsoft.com/en-us/library/windows/desktop/ms646327(v=vs.85).aspx", "UnregisterHotKey")] functions. Functionality was okay, but was limited to calling the same function even with differing hotkeys. I written my own solution based on the StackOverflow post which fixes this issue. It's not elegant by any means, but it gets the job done.
+	p Below is the version I have implemented, as well as a pseudo-example. I hope it is useful.
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| /*
+		|  * Author: Daniel Green
+		|  * Date: 26 December 2014
+		|  */
+		| 
+		| using System;
+		| using System.Collections.Generic;
+		| using System.Runtime.InteropServices;
+		| using System.Windows.Forms;
+		| 
+		| namespace hotkey
+		| {
+		| 	[Flags]
+		| 	public enum Modifier : int
+		| 	{
+		| 		None     = 0x0000,
+		| 		Alt      = 0x0001,
+		| 		Ctrl     = 0x0002,
+		| 		NoRepeat = 0x4000,
+		| 		Shift    = 0x0004,
+		| 		Win      = 0x0008
+		| 	}
+		| 
+		| 	public class HotkeyEventArgs : EventArgs
+		| 	{
+		| 		private Modifier _modifier;
+		| 		private Keys _key;
+		| 
+		| 		internal HotkeyEventArgs( Modifier modifier, Keys key )
+		| 		{
+		| 			_modifier = modifier;
+		| 			_key = key;
+		| 		}
+		| 
+		| 		public Modifier Modifier
+		| 		{
+		| 			get{ return _modifier; }
+		| 		}
+		| 
+		| 		public Keys Key
+		| 		{
+		| 			get{ return _key; }
+		| 		}
+		| 	}
+		| 
+		| 	public delegate void HotkeyPressedCb( HotkeyEventArgs args );
+		| 
+		| 	class HotkeyCombo
+		| 	{
+		| 		public int modifier = 0;
+		| 		public int key = 0;
+		| 
+		| 		public HotkeyCombo()
+		| 		{
+		| 		}
+		| 
+		| 		public HotkeyCombo( int mmodifier, int kkey )
+		| 		{
+		| 			modifier = mmodifier;
+		| 			key = kkey;
+		| 		}
+		| 
+		| 		public bool Equals( HotkeyCombo rhs )
+		| 		{
+		| 			return (modifier == rhs.modifier) &amp;&amp; (key == rhs.key);
+		| 		}
+		| 
+		| 		public override bool Equals( object obj )
+		| 		{
+		| 			return Equals(obj as HotkeyCombo);
+		| 		}
+		| 
+		| 		public override int GetHashCode()
+		| 		{
+		| 			return modifier * 31 + key;
+		| 		}
+		| 	}
+		| 
+		| 	class Window : NativeWindow, IDisposable
+		| 	{
+		| 		private static int WM_HOTKEY = 0x0312;
+		| 		public Dictionary&lt;HotkeyCombo, HotkeyPressedCb&gt; callbacks = new Dictionary&lt;HotkeyCombo, HotkeyPressedCb&gt;();
+		| 
+		| 		public Window()
+		| 		{
+		| 			this.CreateHandle(new CreateParams());
+		| 		}
+		| 
+		| 		protected override void WndProc( ref Message m )
+		| 		{
+		| 			base.WndProc(ref m);
+		| 			if( m.Msg == WM_HOTKEY )
+		| 			{
+		| 				// Unpack the key and modifier from the lparam.
+		| 				Keys key = (Keys)(((int)m.LParam &gt;&gt; 16) &amp; 0xFFFF);
+		| 				Modifier modifier = (Modifier)((int)m.LParam &amp; 0xFFFF);
+		| 
+		| 				// Find and call the delegate hooked to the modifier/key combo.
+		| 				HotkeyCombo combo = new HotkeyCombo((int)modifier, (int)key);
+		| 				callbacks[combo](new HotkeyEventArgs(modifier, key));
+		| 			}
+		| 		}
+		| 
+		| 		public void Dispose()
+		| 		{
+		| 			this.DestroyHandle();
+		| 		}
+		| 	}
+		| 
+		| 	public class Hotkey
+		| 	{
+		| 		/* http://msdn.microsoft.com/en-gb/library/windows/desktop/ms646309%28v=vs.85%29.aspx */
+		| 		[DllImport(&quot;user32.dll&quot;, SetLastError = true)]
+		| 		[return: MarshalAs(UnmanagedType.Bool)]
+		| 		static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
+		| 
+		| 		/* http://msdn.microsoft.com/en-us/library/windows/desktop/ms646327%28v=vs.85%29.aspx */
+		| 		[DllImport(&quot;user32.dll&quot;, SetLastError = true)]
+		| 		[return: MarshalAs(UnmanagedType.Bool)]
+		| 		static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+		| 
+		| 		Window _window = new Window();
+		| 		int _currentId = 0;
+		| 
+		| 		public Hotkey()
+		| 		{
+		| 		}
+		| 
+		| 		public void registerHotkey( Modifier modifier, Keys key, HotkeyPressedCb func )
+		| 		{
+		| 			if( func == null )
+		| 			{
+		| 				throw new ArgumentNullException(&quot;func&quot;, &quot;Function pointer is null.&quot;);
+		| 			}
+		| 
+		| 			_currentId += 1;
+		| 			if( !RegisterHotKey(_window.Handle, _currentId, (uint)modifier, (uint)key) )
+		| 			{
+		| 				throw new InvalidOperationException(&quot;Couldn't register hotkey.&quot;);
+		| 			}
+		| 
+		| 			_window.callbacks.Add(new HotkeyCombo((int)modifier, (int)key), func);
+		| 		}
+		| 
+		| 		public void Dispose()
+		| 		{
+		| 			for( int i = _currentId; i &gt; 0; --i )
+		| 			{
+		| 				UnregisterHotKey(_window.Handle, i);
+		| 			}
+		| 			_window.Dispose();
+		| 		}
+		| 	}
+		| }
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| /*
+		|  * Here's a simple example of how to use it.
+		|  */
+		| 
+		| Hotkey hook = new Hotkey();
+		| 
+		| void firstCallback( HotkeyEventArgs e )
+		| {
+		| 	some_label.Text = &quot;First callback&quot;;
+		| }
+		| 
+		| void secondCallback( HotkeyEventArgs e )
+		| {
+		| 	some_label.Text = &quot;Second callback&quot;;
+		| }
+		| 
+		| void load()
+		| {
+		| 	hook.registerHotkey(Modifier.Ctrl, Keys.A, firstCallback);
+		| 	hook.registerHotkey(Modifier.Ctrl, Keys.D, secondCallback);
+		| }
