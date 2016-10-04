@@ -15,8 +15,8 @@ $portfolio-width-large: 220px;
 	}
 
 	figure {
-		background: #9d2e2c;
-		box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+		// background: #9d2e2c;
+		// box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
 		filter: sepia(0.4);
 		flex-grow: 0;
 		height: $portfolio-width-mobile;
@@ -62,6 +62,10 @@ $portfolio-width-large: 220px;
 		.content {
 			height: 100%;
 			width: 100%;
+
+			img {
+				width: 100%;
+			}
 		}
 
 		.overlay {
