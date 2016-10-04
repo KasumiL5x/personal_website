@@ -14,7 +14,7 @@ block ArticleContent
 	p Suspendisse lobortis sapien sit amet sapien accumsan placerat. Duis ut magna et tellus pulvinar tristique ut at tortor. Etiam at sapien nisl. Fusce ut fermentum elit. Nunc faucibus sed purus sed dignissim. Curabitur purus ante, dignissim vel auctor nec, bibendum sit amet arcu. In sed lorem sit amet arcu molestie tristique ut quis libero. Ut laoreet felis id convallis molestie. Etiam at enim velit. Sed sit amet euismod erat, quis pulvinar erat. Aenean porta, felis vitae bibendum vehicula, augue quam molestie mauris, eget convallis lacus ante vitae ante. Fusce eget risus dignissim, pharetra purus sit amet, interdum elit.
 
 	h3.heading Syntax Highlighting
-	p Supports CSS, C, C#, C++, GLSL, JSON, and Python.  Line numbers and line hilighting is supported, too.  Note that due to a bug in Prism.js, custom classes must to at the <strong>END</strong> of the CSS class list on code elements.
+	p Supports CSS, C, C#, C++, GLSL, Javascript, JSON, and Python.  Line numbers and line highlighting are supported, too.  Note that due to a bug in Prism.js, custom classes must to at the <strong>END</strong> of the CSS class list on code elements.
 
 	h5 CSS &amp; Line Numbers
 	pre: code.language-css.line-numbers.ng-no-border
@@ -41,6 +41,12 @@ block ArticleContent
 		|vec4 fs()
 		|	return float4(1.0, 0.0, 1.0, 1.0);
 		|}
+
+	h5 Javascript
+	pre: code.language-javascript.line-numbers.ng-no-border
+		| function x() {
+		| 	alert("this is javascript");
+		| }
 
 	h5 JSON
 	pre: code.language-json.line-numbers.ng-no-border
