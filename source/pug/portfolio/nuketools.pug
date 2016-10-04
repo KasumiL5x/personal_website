@@ -1,0 +1,37 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "nuketools | Daniel Green";
+
+block ArticleContent
+	h3.title nuketools
+
+	p nuketools is a collection of various tools I made for a 2D compositing module at university. My computer science background and interest in pipeline development pushed me to focus on creating a more technologically-focused product. They were written to work with NukeX9.0v6, so your mileage may vary with other versions of Nuke. Please note that the projects may contain references to my local drive (for instance, post-build scripts), and therefore may need to be updated (although the project itself will compile without issue). Due to how the NDK API is structured, the code may be somewhat unclean in certain parts.
+
+	h3.heading bumpy
+	p Converts and input image into a normal map with options for different algorithms, normalization, etc.
+	a(rel="lightbox" href="../img/portfolio/nuketools/bumpy.png"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/portfolio/nuketools/bumpy.png" class="ng-responsive-img" data-sizes="auto")
+
+	h3.heading check
+	p Generates a checkerboard mask with options for fuzziness, rotation, and scale.
+	a(rel="lightbox" href="../img/portfolio/nuketools/check.png"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/portfolio/nuketools/check.png" class="ng-responsive-img" data-sizes="auto")
+
+	h3.heading fractal
+	p Generates masks for various fractals with detailed control over each fractal.
+	a(rel="lightbox" href="../img/portfolio/nuketools/fractal.png"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/portfolio/nuketools/fractal.png" class="ng-responsive-img" data-sizes="auto")
+
+	h3.heading gradient
+	p Generates a radial gradient mask based on a custom user-provided curve and position.
+	a(rel="lightbox" href="../img/portfolio/nuketools/gradient.png"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/portfolio/nuketools/gradient.png" class="ng-responsive-img" data-sizes="auto")
+
+	h3.heading kirei
+	p Various image filters, such as temperature grading, channel mixing, vignette, and many more.
+	a(rel="lightbox" href="../img/portfolio/nuketools/kirei.png"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/portfolio/nuketools/kirei.png" class="ng-responsive-img" data-sizes="auto")
+
+	h3.heading multi render
+	p Script to render all selected nodes automagically.
+	a(rel="lightbox" href="../img/portfolio/nuketools/multirender.png"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/portfolio/nuketools/multirender.png" class="ng-responsive-img" data-sizes="auto")
+
+	h3.heading Source Code
+	p The source code can be obtained through my #[+ExternalLink("https://github.com/KasumiL5x/nuketools", "GitHub")] page.
+	p As the official NDK states, these plugins must be compiled in release mode using Microsoft's 2010 compiler for compatibility reasons.
