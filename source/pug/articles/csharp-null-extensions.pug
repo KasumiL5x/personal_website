@@ -1,0 +1,141 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "C# Null Extensions | Daniel Green";
+
+block ArticleContent
+	h3.title C# Null Extensions
+
+	p When working in C#, it is not uncommon to encounter nested object properties (e.g. #[code Student.Grades.Total]). Each chained object should be checked for null in order to avoid accessing null elements, throwing a #[code NullReferenceException]. This article aims to fix that.
+	p In C# 6, the #[+ExternalLink("https://msdn.microsoft.com/en-us/library/dn986595.aspx", "Null-Conditional Operator")] was introduced, which solves the null-checking in chained objects. Unfortunately, this feature is not always available; some technologies such as Unity still rely on aging versions of C#. We must make an alternate solution ourselves. Below we will discuss a number of extension methods with practical examples, followed by a complete listing.
+	p I would like to make it explicitly clear that the code presented here is directly derived from #[+ExternalLink("http://www.codeproject.com/Articles/109026/Chained-null-checks-and-the-Maybe-monad", "this fine fellow")]. Give credit where credit is due.
+
+	h3.heading Example Problem
+	p Let's define a practical scenario to apply our extensions to. Systems such as Unity that rely on hierarchical and component-based models naturally tend to require a lot of null checking. For our example, we will be attempting to receive a #[strong TextMesh] component of a child object named #[strong text]. The traditional approach would be something such as the following:
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| TextMesh text = null;
+		| var textObj = transform.Find(&quot;text&quot;);
+		| if( textObj != null ) {
+		| 	text = textObj.GetComponent&lt;TextMesh&gt;();
+		| }
+		| if( null == text ) {
+		| 	// handle missing TextMesh
+		| }
+	p While this does work, it is not pretty. More complicated scenarios sometimes cause even deeper nesting, resulting in unreadable and unmaintainable code.
+
+	h3.heading With
+	p The first extension, #[strong With], lets us traverse a chain of objects no matter the length without having to check for null. It is very simple to use and greatly improves our problematic code. As a templated extension, it can operate on any object. If the object is null, it will return null. Otherwise, it will return the next element in the chain, which is defined by us.
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| public static TResult With&lt;TInput, TResult&gt;(this TInput o, Func&lt;TInput, TResult&gt; evaluator) where TResult : class where TInput : class {
+		| 	return (null == o) ? null : evaluator(o);
+		| }
+	p The second parameter, #[strong evaluator], is a user-provided function with the input object as its own parameter, which returns the next object in the chain. Here is where we can declare what the next element will be providing our input was not null. With this extension, we can simplify our problem to:
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| var text = transform.Find(&quot;text&quot;).With(x =&gt; x.GetComponent&lt;TextMesh&gt;());
+		| if( null == text ) {
+		| 	// handle missing TextMesh
+		| }
+	p Let's break it down. Firstly we're obtaining the #[strong text] object the same way. Instead of then checking for null, however, we start a chain using our #[strong With] extension. In this function, we request the next element in the chain to be the #[strong TextMesh] by returning the result of #[strong GetComponent] on our text object. If either the #[strong text] object or #[strong TextMesh] component are null, then our result will be null. If not, we will successfully obtain our #[strong TextMesh] instance.
+
+	h3.heading Return
+	p Sometimes upon failure we do not want null, but instead would like a fallback value. This is what #[strong Return] does. It operates in exactly the same manner as #[strong With], but returns a fallback value upon encountering a null instance.
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| public static TResult Return&lt;TInput,TResult&gt;(this TInput o, Func&lt;TInput, TResult&gt; evaluator, TResult failureValue) where TInput: class {
+		| 	return (null == o) ? failureValue : evaluator(o);
+		| }
+	p As an example, let's say we would like the position of our #[strong text] child object, but would like a zero vector if it is null. We can do that as follows:
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| var position = transform.Find(&quot;text&quot;).Return(x =&gt; x.transform.position, Vector3.zero);
+
+	h3.heading If
+	p What about the times where we want to stop traversal of the chain based on a condition other than null? This is where #[strong If] comes in. With this extension, we can define a function that operates on our input object and returns a boolean stating if the chain should continue or not.
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| public static TInput If&lt;TInput&gt;(this TInput o, Func&lt;TInput, bool&gt; evaluator) where TInput : class {
+		| 	if( null == o ) {
+		| 		return null;
+		| 	}
+		| 	return evaluator(o) ? o : null;
+		| }
+	p What if, for instance, we wanted to return the text object only if its text was a specific value? We can do this using #[strong If]. In more complex chains, this extension can be used to truncate mid-chain. It is also possible to use an actual function here rather than an in-place lambda.
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| var text = transform.Find(&quot;text&quot;).With(x =&gt; x.GetComponent&lt;TextMesh&gt;()).If(x =&gt; &quot;hello&quot; == x.text);
+		| 
+		| // alternatively, with a function:
+		| bool myCondition( TextMesh textMesh ) {
+		| 	return &quot;hello&quot; == textMesh.text;
+		| }
+		| var text = transform.Find(&quot;text&quot;).With(x =&gt; x.GetComponent&lt;TextMesh&gt;()).If(x =&gt; myCondition(x));
+	p Analyzing the above, our #[strong TextMesh] component will be returned only if the chain before it is not null and that its text is equal to #[em hello]. If the condition we provide returns false, we will receive null instead. This is a great way to stop chains in their path.
+
+	h3.heading Unless
+	p Obviously it would be useful to be able to invert the #[strong If] extension, checking for something not being true. To do this, we can use the #[strong Unless] extension. It works in exactly the same way as #[strong If], but returns null on true, and the object on false.
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| public static TInput Unless&lt;TInput&gt;(this TInput o, Func&lt;TInput, bool&gt; evaluator) where TInput : class {
+		| 	if( null == o ) {
+		| 		return null;
+		| 	}
+		| 	return evaluator(o) ? null : o;
+		| }
+
+	h3.heading Do
+	p The #[strong Do] extension lets us execute a given function on the input object providing it is not null, passing the object along the chain after the function is complete. It differs from the other extensions in that it is rather passive (except for null checking), with the function's result not having any meaningful impact on the chain; the user is free to do anything to the object before it moves on to the next stage.
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| public static TInput Do&lt;TInput&gt;(this TInput o, Action&lt;TInput&gt; action) where TInput: class {
+		| 	if( null == o ) {
+		| 		return null;
+		| 	}
+		| 	action(o);
+		| 	return o;
+		| }
+	p If we wanted to do something to the #[strong text] child object before returning its #[strong TextMesh], this is the ideal extension. Once more, it can be either an in-place lambda or a standalone function.
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| var text = transform.Find(&quot;text&quot;).Do(x =&gt; process(x)).With(x =&gt; x.GetComponent&lt;TextMesh&gt;());
+
+	h3.heading Conclusion
+	p In this article, we've presented and covered the basics of extensions to deal with null objects. The extension methods we discussed work on any object instance, and are a formidable replacement for similar features of the newest versions of C#, and in some cases, prove more useful. They are especially ideal for hierarchical and component-based frameworks, such as Unity, where null checking is commonplace. They excel especially well when feature sets are restricted, due to framework versions, for instance. I hope you find these classes as amazing as I do.
+
+	h3.heading Complete Code listing
+	p Employ this class into your own projects to start using glorious null-checking extensions today!
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| // http://www.codeproject.com/Articles/109026/Chained-null-checks-and-the-Maybe-monad
+		| 
+		| using System;
+		| 
+		| public static class NullExtensions {
+		| 
+		| 	// Returns the value from evaluator or null if o is null.
+		| 	public static TResult With&lt;TInput, TResult&gt;(this TInput o, Func&lt;TInput, TResult&gt; evaluator) where TResult : class where TInput : class {
+		| 		return (null == o) ? null : evaluator(o);
+		| 	}
+		| 		
+		| 	// Returns the value from evaluator or failureValue if o is null.
+		| 	public static TResult Return&lt;TInput,TResult&gt;(this TInput o, Func&lt;TInput, TResult&gt; evaluator, TResult failureValue) where TInput: class {
+		| 		return (null == o) ? failureValue : evaluator(o);
+		| 	}
+		| 
+		| 
+		| 	// Returns o if evaluator is true, otherwise null.
+		| 	public static TInput If&lt;TInput&gt;(this TInput o, Func&lt;TInput, bool&gt; evaluator) where TInput : class {
+		| 		if( null == o ) {
+		| 			return null;
+		| 		}
+		| 		return evaluator(o) ? o : null;
+		| 	}
+		| 
+		| 	// Returns o if evaluator is false, otherwise null.
+		| 	public static TInput Unless&lt;TInput&gt;(this TInput o, Func&lt;TInput, bool&gt; evaluator) where TInput : class {
+		| 		if( null == o ) {
+		| 			return null;
+		| 		}
+		| 		return evaluator(o) ? null : o;
+		| 	}
+		| 
+		| 	// Returns null if o is null, or otherwise runs the action delegate on o before returning o.
+		| 	public static TInput Do&lt;TInput&gt;(this TInput o, Action&lt;TInput&gt; action) where TInput: class {
+		| 		if( null == o ) {
+		| 			return null;
+		| 		}
+		| 		action(o);
+		| 		return o;
+		| 	}
+		| }
