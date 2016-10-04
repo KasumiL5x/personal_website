@@ -1,0 +1,486 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Unity Scripts | Daniel Green";
+
+block ArticleContent
+	h3.title Unity Scripts
+
+	p This page contains various scripts for #[+ExternalLink("https://unity3d.com/", "Unity")] that I've made in the past. I use Unity only on occasion, so the number of scripts will not be vast. Nevertheless, hopefully this collection will be a useful resource to many. Please ensure you read the first entry to avoid confusion, as other scripts may use it. Please note that these scripts are as-is and are not guaranteed to be free of bugs. Mostly they are created for a single purpose and shared, rather than being developed with the purpose of being shared.
+
+	a(name="toc")
+	h3.heading Table of Contents
+	ul
+		li: a(href="#fader") Fader
+		li: a(href="#MouseHandler") MouseHandler
+		li: a(href="#getFullPath") getFullPath
+		li: a(href="#Bezier") Bezier
+		li: a(href="#getCurveControlPoints") getCurveControlPoints
+
+	h3.heading Null Extensions
+	p Please see my article on #[a(href="./articles/csharp-null-extensions.html") null extensions]. I often use this in Unity scripts to avoid manually checking for null. If you see anything in the form #[strong X.With/Return/If/Unless/Do(...)], then it is using null extensions. Be aware, as some of the scripts on this page will do so.
+
+	hr
+
+	h3.heading: a(name="fader") Fader #[a(href="#toc") &#8593;]
+	h5: strong Purpose
+	p Fades any number of given objects in and out.
+	h5: strong Usage
+	p Attach script to any GameObject, and add objects you want to fade to the #[strong ObjectsToFade] list in the inspector. Fade all in and out using the public #[strong fadeIn()] and #[strong fadeOut()] functions respectively.
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| using UnityEngine;
+		| using System.Collections.Generic;
+		| 
+		| public class Fader : MonoBehaviour {
+		| 	public float FadeInTime = 1.0f; /**&lt; Time it takes to fade in. */
+		| 	public float FadeOutTime = 1.0f; /**&lt; Time it takes to fade out. */
+		| 	float fadeTimer_ = 0.0f; /**&lt; Actual fade timer (counts down). */
+		| 	bool isFading_ = false; /**&lt; Is the fade in progress? */
+		| 	bool fadingOut_ = false; /**&lt; True if fading out, false otherwise. */
+		| 	public List&lt;GameObject&gt; ObjectsToFade = new List&lt;GameObject&gt;(); /**&lt; Objects to fade. */
+		| 	public bool DisableOnInvisible = true; /**&lt; Disables GameObjects when their alpha is set to zero.  Auto-enables when fading in. */
+		| 	bool firstFade_ = true; /**&lt; Used to force first fade rules. */
+		| 
+		| 	void Start () {
+		| 		fadeTimer_ = FadeInTime;
+		| 	}
+		| 
+		| 	void Update () {
+		| 		if( !isFading_ ) {
+		| 			return;
+		| 		}
+		| 
+		| 		fadeTimer_ -= Time.deltaTime;
+		| 
+		| 		float FadeTime = fadingOut_ ? FadeOutTime : FadeInTime;
+		| 		float alpha = (FadeTime - fadeTimer_) / FadeTime;
+		| 		if( fadingOut_ ) {
+		| 			alpha = 1.0f - alpha;
+		| 		}
+		| 
+		| 		alpha = Mathf.Clamp(alpha, 0.0f, 1.0f);
+		| 
+		| 		if( fadeTimer_ &lt;= 0.0f ) {
+		| 			isFading_ = false;
+		| 			fadeTimer_ = 0.0f;
+		| 			alpha = fadingOut_ ? 0.0f : 1.0f;
+		| 		}
+		| 
+		| 		foreach( var obj in ObjectsToFade ) {
+		| 			var renderer = obj.With(x =&gt; x.GetComponent&lt;Renderer&gt;());
+		| 			if( null == renderer ) {
+		| 				Debug.Log(&quot;Object's Renderer was null.&quot;);
+		| 				continue;
+		| 			}
+		| 			var color = renderer.material.color;
+		| 			renderer.material.color = new Color(color.r, color.g, color.b, alpha);
+		| 
+		| 			if( DisableOnInvisible &amp;&amp; !isFading_ &amp;&amp; alpha &lt;= 0.00001f ) {
+		| 				obj.SetActive(false);
+		| 			}
+		| 		}
+		| 	}
+		| 
+		| 	public void fadeIn() {
+		| 		// if first fade, set all alpha to zero
+		| 		if( firstFade_) {
+		| 			foreach( var obj in ObjectsToFade ) {
+		| 				var renderer = obj.With(x =&gt; x.GetComponent&lt;Renderer&gt;());
+		| 				if( null == renderer ) {
+		| 					Debug.Log(&quot;Object's Renderer was null.&quot;);
+		| 					continue;
+		| 				}
+		| 				var color = renderer.material.color;
+		| 				renderer.material.color = new Color(color.r, color.g, color.b, 0.0f);
+		| 			}
+		| 		}
+		| 
+		| 		// ignore request to fade if fade in was last requested
+		| 		if( !firstFade_ &amp;&amp; !fadingOut_ ) {
+		| 			return;
+		| 		}
+		| 
+		| 		firstFade_ = false;
+		| 
+		| 		// make all objects active just in case
+		| 		if( DisableOnInvisible ) {
+		| 			foreach( var obj in ObjectsToFade ) {
+		| 				// Debug.Log(&quot;Activating &quot; + obj.name);
+		| 				obj.Do(x =&gt; x.SetActive(true));
+		| 			}
+		| 		}
+		| 
+		| 		// if already fading out, switch to in w/ the timer set to the reversed remainder
+		| 		if( isFading_ &amp;&amp; fadingOut_ ) {
+		| 			isFading_ = true;
+		| 			fadingOut_ = false;
+		| 			//fadeTimer_ = FadeInTime - fadeTimer_;
+		| 			float percent = fadeTimer_ / FadeOutTime;
+		| 			fadeTimer_ = FadeInTime * (1.0f - percent);
+		| 			return;
+		| 		}
+		| 
+		| 		isFading_ = true;
+		| 		fadingOut_ = false;
+		| 		fadeTimer_ = FadeInTime;
+		| 	}
+		| 
+		| 	public void fadeOut() {
+		| 		// if first fade, set all alpha to 1
+		| 		if( firstFade_ ) {
+		| 			foreach( var obj in ObjectsToFade ) {
+		| 				var renderer = obj.With(x =&gt; x.GetComponent&lt;Renderer&gt;());
+		| 				if( null == renderer ) {
+		| 					Debug.Log(&quot;Object's Renderer was null.&quot;);
+		| 					continue;
+		| 				}
+		| 				var color = renderer.material.color;
+		| 				renderer.material.color = new Color(color.r, color.g, color.b, 1.0f);
+		| 			}
+		| 		}
+		| 
+		| 		// ignore request to fade if fade out was last requested
+		| 		if( !firstFade_ &amp;&amp; fadingOut_ ) {
+		| 			return;
+		| 		}
+		| 
+		| 		firstFade_ = false;
+		| 
+		| 		// if already fading in, switch to out w/ the timer set to the reversed remainder
+		| 		if( isFading_ &amp;&amp; !fadingOut_ ) {
+		| 			isFading_ = true;
+		| 			fadingOut_ = true;
+		| 			//fadeTimer_ = FadeOutTime - fadeTimer_;
+		| 			float percent = fadeTimer_ / FadeInTime;
+		| 			fadeTimer_ = FadeOutTime * (1.0f - percent);
+		| 			return;
+		| 		}
+		| 
+		| 		isFading_ = true;
+		| 		fadingOut_ = true;
+		| 		fadeTimer_ = FadeOutTime;
+		| 	}
+		| }
+	hr
+
+	h3.heading: a(name="MouseHandler") MouseHandler #[a(href="#toc") &#8593;]
+	h5: strong Purpose
+	p Callbacks for mouse down, mouse hold, and mouse up with a raycast object provided.
+	h5: strong Usage
+	p Apply to any GameObject so that it can update. In any other script, use the static functions #[strong addMouseDown/Hold/Up()] to add callbacks as desired.
+	h5: strong Notes
+	p The mouse button is hardcoded to 0 (LMB), and the raycast uses the mouse position; feel free to change these.
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| using UnityEngine;
+		| using System.Collections.Generic;
+		| 
+		| public class MouseHandler : MonoBehaviour {
+		| 	public delegate void OnMouseDown( GameObject hit );
+		| 	public delegate void OnMouseHold( GameObject hit );
+		| 	public delegate void OnMouseUp( GameObject hit );
+		| 
+		| 	static List&lt;OnMouseDown&gt; MouseDown = new List&lt;OnMouseDown&gt;();
+		| 	static List&lt;OnMouseHold&gt; MouseHold = new List&lt;OnMouseHold&gt;();
+		| 	static List&lt;OnMouseUp&gt; MouseUp = new List&lt;OnMouseUp&gt;();
+		| 
+		| 	public Camera camera_ = null;
+		| 	bool wasMouseDown_ = false;
+		| 
+		| 	public static void addMouseDown( OnMouseDown cb ) {
+		| 		MouseDown.Add(cb);
+		| 	}
+		| 
+		| 	public static void addMouseHold( OnMouseHold cb ) {
+		| 		MouseHold.Add(cb);
+		| 	}
+		| 
+		| 	public static void addMouseUp( OnMouseUp cb ) {
+		| 		MouseUp.Add(cb);
+		| 	}
+		| 
+		| 	void Awake() {
+		| 		if( null == camera_ ) {
+		| 			Debug.Log(&quot;Camera is null.&quot;);
+		| 		}
+		| 	}
+		| 
+		| 	void Update () {
+		| 		bool isMouseDown = Input.GetMouseButton(0);
+		| 
+		| 		if( isMouseDown &amp;&amp; !wasMouseDown_ ) {
+		| 			var obj = getObjectUnderCursor();
+		| 			foreach( var cb in MouseDown ) {
+		| 				cb.Invoke(obj);
+		| 			}
+		| 		} else if( isMouseDown &amp;&amp; wasMouseDown_ ) {
+		| 			var obj = getObjectUnderCursor();
+		| 			foreach( var cb in MouseHold ) {
+		| 				cb.Invoke(obj);
+		| 			}
+		| 		} else if( !isMouseDown &amp;&amp; wasMouseDown_ ) {
+		| 			var obj = getObjectUnderCursor();
+		| 			foreach( var cb in MouseUp ) {
+		| 				cb.Invoke(obj);
+		| 			}
+		| 		}
+		| 
+		| 		wasMouseDown_ = isMouseDown;
+		| 	}
+		| 
+		| 	GameObject getObjectUnderCursor() {
+		| 		var hit = Physics2D.Raycast(camera_.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+		| 		return (null == hit.transform) ? null : hit.transform.gameObject;
+		| 	}
+		| }
+	hr
+
+	h3.heading: a(name="getFullPath") getFullPath #[a(href="#toc") &#8593;]
+	h5: strong Purpose
+	p Retrieves the complete path of a GameObject rather than just its local name.
+	h5: strong Notes
+	p This originated #[+ExternalLink("http://answers.unity3d.com/answers/8502/view.html", "here")].
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| public static string getFullPath( GameObject obj ) {
+		| 	string path = &quot;/&quot; + obj.name;
+		| 	while( obj.transform.parent != null ) {
+		| 		obj = obj.transform.parent.gameObject;
+		| 		path = &quot;/&quot; + obj.name + path;
+		| 	}
+		| 	return path;
+		| }
+	hr
+
+	h3.heading: a(name="Bezier") Bezier #[a(href="#toc") &#8593;]
+	h5: strong Purpose
+	p Given a set of control points, generates continuous bezier curves. The generated curve can be sampled to retrieve position and tangent data, and can be cut off after a set distance, too. The total length can also be measured.
+	h5: strong Usage
+	p Set control points using the #[strong setControlPoints()] function. You can then sample the curve with the remaining functions.
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| using UnityEngine;
+		| using System;
+		| using System.Collections.Generic;
+		| 
+		| public class BezierPointTangent {
+		| 	public Vector3 point;
+		| 	public Vector3 tangent;
+		| 
+		| 	public BezierPointTangent( Vector3 p, Vector3 t ) {
+		| 		point = p;
+		| 		tangent = t;
+		| 	}
+		| }
+		| 
+		| public class Bezier {
+		| 	List&lt;Vector3&gt; controlPoints_;
+		| 	int curveCount_ = 0;
+		| 
+		| 
+		| 	public void setControlPoints( List&lt;Vector3&gt; points ) {
+		| 		controlPoints_ = points;
+		| 		curveCount_ = controlPoints_.Count / 3;
+		| 	}
+		| 
+		| 	public List&lt;BezierPointTangent&gt; samplePoints( int samplesPerSegment ) {
+		| 		List&lt;BezierPointTangent&gt; points = new List&lt;BezierPointTangent&gt;();
+		| 
+		| 		for( int currCurve = 0; currCurve &lt; curveCount_; ++currCurve ) {
+		| 			for( int currSeg = 0; currSeg &lt;= samplesPerSegment; ++currSeg ) {
+		| 				float t = (0==currSeg) ? 0.0f : (float)currSeg / (float)samplesPerSegment;
+		| 
+		| 				int index = currCurve * 3;
+		| 				var p0 = controlPoints_[index+0];
+		| 				var p1 = controlPoints_[index+1];
+		| 				var p2 = controlPoints_[index+2];
+		| 				var p3 = controlPoints_[index+3];
+		| 
+		| 				var point = calculateBezierPoint(t, p0, p1, p2, p3);
+		| 				var tangent = calculateBezierTangent(t, p0, p1, p2, p3);
+		| 				points.Add(new BezierPointTangent(point, tangent));
+		| 			}
+		| 		}
+		| 
+		| 		return points;
+		| 	}
+		| 
+		| 	public List&lt;BezierPointTangent&gt; samplePoints( int samplesPerSegment, float cutoff ) {
+		| 		cutoff = Mathf.Clamp(cutoff, 0.0f, 1.0f);
+		| 		int totalPoints = samplesPerSegment * curveCount_;
+		| 		bool exit = false;
+		| 
+		| 		List&lt;BezierPointTangent&gt; points = new List&lt;BezierPointTangent&gt;();
+		| 
+		| 		for( int currCurve = 0; currCurve &lt; curveCount_; ++currCurve ) {
+		| 			for( int currSeg = 0; currSeg &lt;= samplesPerSegment; ++currSeg ) {
+		| 				int currPoint = (currCurve * samplesPerSegment) + currSeg;
+		| 				float percentage = (((float)currPoint * 100.0f) / (float)totalPoints) / 100.0f;
+		| 
+		| 				float t = (0==currSeg) ? 0.0f : (float)currSeg / (float)samplesPerSegment;
+		| 
+		| 				int index = currCurve * 3;
+		| 				var p0 = controlPoints_[index+0];
+		| 				var p1 = controlPoints_[index+1];
+		| 				var p2 = controlPoints_[index+2];
+		| 				var p3 = controlPoints_[index+3];
+		| 
+		| 				var point = calculateBezierPoint(t, p0, p1, p2, p3);
+		| 				var tangent = calculateBezierTangent(t, p0, p1, p2, p3);
+		| 				points.Add(new BezierPointTangent(point, tangent));
+		| 
+		| 				if( percentage &gt;= cutoff ) {
+		| 					exit = true;
+		| 					break;
+		| 				}
+		| 			}
+		| 			if( exit ) {
+		| 				break;
+		| 			}
+		| 		}
+		| 
+		| 		return points;
+		| 	}
+		| 
+		| 	public float length( int steps=10 ) {
+		| 		if( steps &lt;= 0 ) {
+		| 			throw new ArgumentException (&quot;Steps must be positive and nonzero.&quot;, &quot;steps&quot;);
+		| 		}
+		| 
+		| 		float totalLength = 0.0f;
+		| 		Vector3 lastPoint = Vector3.zero;
+		| 
+		| 		for( int currCurve = 0; currCurve &lt; curveCount_; ++currCurve ) {
+		| 			for( int currStep = 0; currStep &lt;= steps; ++currStep ) {
+		| 				int index = currCurve * 3;
+		| 				var p0 = controlPoints_[index+0];
+		| 				var p1 = controlPoints_[index+1];
+		| 				var p2 = controlPoints_[index+2];
+		| 				var p3 = controlPoints_[index+3];
+		| 
+		| 				float t = (0 == currStep) ? 0.0f : (float)currStep / (float)steps;
+		| 				var point = calculateBezierPoint(t, p0, p1, p2, p3);
+		| 				if( currStep &gt; 0 ) {
+		| 					totalLength += Vector3.Distance (point, lastPoint);
+		| 				}
+		| 				lastPoint = point;
+		| 			}
+		| 		}
+		| 
+		| 		return totalLength;
+		| 	}
+		| 
+		| 	Vector3 calculateBezierTangent( float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3 ) {
+		| 		float nt = 1.0f - t;
+		| 		float x = -3.0f * p0.x * nt * nt  +  3.0f * p1.x * (1.0f - 4.0f * t + 3.0f * t * t)  +  3.0f * p2.x * (2.0f * t - 3.0f * t * t)  +  3.0f * p3.x * t * t;
+		| 		float y = -3.0f * p0.y * nt * nt  +  3.0f * p1.y * (1.0f - 4.0f * t + 3.0f * t * t)  +  3.0f * p2.y * (2.0f * t - 3.0f * t * t)  +  3.0f * p3.y * t * t;
+		| 		float z = -3.0f * p0.z * nt * nt  +  3.0f * p1.z * (1.0f - 4.0f * t + 3.0f * t * t)  +  3.0f * p2.z * (2.0f * t - 3.0f * t * t)  +  3.0f * p3.z * t * t;
+		| 		return new Vector3(x, y, z);
+		| 	}
+		| 
+		| 	Vector3 calculateBezierPoint( float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3 ) {
+		| 		float u = 1 - t;
+		| 		float tt = t * t;
+		| 		float uu = u * u;
+		| 		float uuu = uu * u;
+		| 		float ttt = tt * t;
+		| 		Vector3 p = uuu * p0;
+		| 		p += 3 * uu * t * p1;
+		| 		p += 3 * u * tt * p2;
+		| 		p += ttt * p3;
+		| 		return p;
+		| 	}
+		| }
+	hr
+
+	h3.heading: a(name="getCurveControlPoints") getCurveControlPoints #[a(href="#toc") &#8593;]
+	h5: strong Purpose
+	p Given a set of 2D knots (points), generates control handles that, when combined with the original knots, ensures a bezier curve goes directly through each knot.
+	h5: strong Usage
+	p Pass in an array of 2D points; these are the points the curve will go through. For each input point, there is a corresponding control point in each of the two returned lists at the same index (i.e. input point 9 has control points also at index 9). Combine the returned control point lists with the original input points and put them through a regular bezier class to have the curve go through the given points exactly.
+	h5: strong Notes
+	p This is a mixture of code found online with some changes made, but I've lost the original source.
+	pre: code.language-csharp.line-numbers.ng-no-border
+		| using UnityEngine;
+		| using System;
+		| using System.Collections.Generic;
+		| 
+		| public class BezierGenerator : MonoBehaviour {
+		| 	public static void getCurveControlPoints( List&lt;Vector2&gt; knots, ref List&lt;Vector2&gt; outFirstCPs, ref List&lt;Vector2&gt; outSecondCPs ) {
+		| 		if( null == knots ) {
+		| 			throw new ArgumentNullException(&quot;knots&quot;);
+		| 		}
+		| 
+		| 		int length = knots.Count-1;
+		| 		if( length &lt; 1 ) {
+		| 			throw new ArgumentException(&quot;At least two knot points required&quot;, &quot;knots&quot;);
+		| 		}
+		| 
+		| 		if( 1 == length ) { // special case: bezier curve should be a straight line
+		| 			// 3P1 = 2P0 + P3
+		| 			float firstX = (2.0f * knots[0].x + knots[1].x) / 3.0f;
+		| 			float firstY = (2.0f * knots[0].y + knots[1].y) / 3.0f;
+		| 			outFirstCPs.Add(new Vector2(firstX, firstY));
+		| 
+		| 			// P2 = 2P1 - P0
+		| 			float secondX = 2.0f * outFirstCPs[0].x - knots[0].x;
+		| 			float secondY = 2.0f * outFirstCPs[0].y - knots[0].y;
+		| 			outSecondCPs.Add(new Vector2(secondX, secondY));
+		| 			return;
+		| 		}
+		| 
+		| 		// calculate first bezier control points
+		| 		//
+		| 		// right hand side vector
+		| 		float[] rhs = new float[length];
+		| 		// set right hand side x values
+		| 		for( int i = 1; i &lt; length-1; ++i ) {
+		| 			rhs[i] = 4.0f * knots[i].x + 2.0f * knots[i+1].x;
+		| 		}
+		| 		rhs[0] = knots[0].x + 2.0f * knots[1].x;
+		| 		rhs[length-1] = (8.0f * knots[length-1].x + knots[length].x) / 2.0f;
+		| 		// get first control points x values
+		| 		float[] x = getFirstControlPoints(rhs);
+		| 
+		| 		// set right hand side y valus
+		| 		for( int i = 1; i &lt; length-1; ++i ) {
+		| 			rhs[i] = 4.0f * knots[i].y + 2.0f * knots[i+1].y;
+		| 		}
+		| 		rhs[0] = knots[0].y + 2.0f * knots[1].y;
+		| 		rhs[length-1] = (8.0f * knots[length-1].y + knots[length].y) / 2.0f;
+		| 		float[] y = getFirstControlPoints(rhs);
+		| 
+		| 		// fill output arrays
+		| 		outFirstCPs = new List&lt;Vector2&gt;();
+		| 		outSecondCPs = new List&lt;Vector2&gt;();
+		| 		for( int i = 0; i &lt; length; ++i ) {
+		| 			outFirstCPs.Add(new Vector2(x[i], y[i]));
+		| 
+		| 			float secondX;
+		| 			float secondY;
+		| 			if( i &lt; length-1 ) {
+		| 				secondX = 2.0f * knots[i + 1].x - x[i + 1];
+		| 				secondY = 2.0f * knots[i + 1].y - y[i + 1];
+		| 			} else {
+		| 				secondX = (knots[length].x + x[length - 1]) / 2.0f;
+		| 				secondY = (knots[length].y + y[length - 1]) / 2.0f;
+		| 			}
+		| 			outSecondCPs.Add(new Vector2(secondX, secondY));
+		| 		}
+		| 	}
+		| 
+		| 	private static float[] getFirstControlPoints( float[] rhs ) {
+		| 		int length = rhs.Length;
+		| 		float[] x = new float[length]; // solution
+		| 		float[] tmp = new float[length]; // workspace
+		| 
+		| 		float b = 2.0f;
+		| 		x[0] = rhs[0] / b;
+		| 		for( int i = 1; i &lt; length; ++i ) { // decomposition and forward substitution
+		| 			tmp[i] = 1.0f / b;
+		| 			b = (i &lt; length-1 ? 4.0f : 3.5f) - tmp[i];
+		| 			x[i] = (rhs[i] - x[i-1]) / b;
+		| 		}
+		| 		for( int i = 1; i &lt; length; ++i ) {
+		| 			x[length-i-1] -= tmp[length-i] * x[length-i]; // back substitution
+		| 		}
+		| 		return x;
+		| 	}
+		| }| 
