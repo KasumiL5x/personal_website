@@ -31,7 +31,7 @@ body {
 	flex-shrink: 0;	// force no shrink
 	margin: 0;
 	padding: 0;
-	padding-bottom: 4rem;
+	padding-bottom: $page-content-padding;
 	width: 100%;
 }
 
