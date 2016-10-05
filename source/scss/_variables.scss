@@ -1,6 +1,7 @@
 // Table of Contents
 //  - Generic
 //  - Preloader
+//  - Lazy Loading
 //  - Header
 //  - About
 //  - Portfolio
@@ -19,6 +20,11 @@ $preloader-orbit-color-a: #F8E71C;
 $preloader-orbit-color-b: #C7C2A6;
 $preloader-orbit-color-c: rgb(0, 155, 255);
 
+
+// Lazy Loading
+// --------------------------------------------------
+$lazyload-scale: 0.8;
+$lazyload-time: 300ms;
 
 // Header
 // --------------------------------------------------
