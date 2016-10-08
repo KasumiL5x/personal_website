@@ -18,19 +18,28 @@
 
 // logo and/or text
 .header__logo {
+	height: inherit;
 	display: inline-block;
 	float: left;
-	font-size: $header-logo-size;
+	// font-size: $header-logo-size;
 	left: 5%;
-	line-height: $header-logo-size;
+	// line-height: $header-logo-size;
 	position: relative;
-	text-transform: uppercase;
-	top: 50%;
-	transform: translateY(-50%);
+	// text-transform: uppercase;
+	// top: 50%;
+	// transform: translateY(-50%);
 
-	a {
-		color: $header-logo-color;
+	img {
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+		width: auto;
+		height: 75%;
 	}
+
+	// a {
+	// 	color: $header-logo-color;
+	// }
 }
 
 // mobile nav wrapper
