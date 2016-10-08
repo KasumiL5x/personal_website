@@ -12,8 +12,12 @@ mixin MakePortfolio(filters, items)
 				figure(data-categories=value.categories).ng-column
 					div.content
 						img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="ng-responsive-img" data-sizes="auto" data-src=value.image)
-					div.overlay
-						a(href=value.link): i(class="fa fa-search")
+						div.overlay
+							a(href=value.link): i(class="fa fa-search")
+					div.description
+						p: <strong>#{value.title}</strong> #{value.desc}
+						//- h3 #{value.title}
+						//- p #{value.desc}
 
 block append Variables
 	- var Title = "Portfolio | Daniel Green";
@@ -36,41 +40,64 @@ block PageContent
 		{
 			categories: "programming",
 			image: "./img/portfolio/github.png",
-			link: "https://github.com/kasumil5x"
+			link: "https://github.com/kasumil5x",
+			title: "GitHub",
+			desc: "All of my open-source git projects are hosted here."
+		},
+		{
+			categories: "programming",
+			image: "./img/portfolio/bitbucket.png",
+			link: "https://bitbucket.org/kasumil5x/",
+			title: "Bitbucket",
+			desc: "All of my open-source git and mercurial projects are hosted here."
 		},
 		{
 			categories: "programming",
 			image: "./img/portfolio/atom.png",
-			link: "./portfolio/atom.html"
+			link: "./portfolio/atom.html",
+			title: "Atom",
+			desc: "Atom is an API to transfer 3D Maya scenes over networks in real-time."
 		},
 		{
-			categories: "design",
+			categories: "programming design",
 			image: "./img/portfolio/kanaswap.png",
-			link: "./portfolio/kanaswap.html"
+			link: "./portfolio/kanaswap.html",
+			title: "KanaSwap",
+			desc: "A mobile and desktop app for beginners to study Japanese kana."
 		},
 		{
 			categories: "programming",
 			image: "./img/portfolio/hadan.jpg",
-			link: "./portfolio/hadan.html"
+			link: "./portfolio/hadan.html",
+			title: "Hadan",
+			desc: "A tool for Maya to fracture geometry."
 		},
 		{
 			categories: "programming design",
 			image: "./img/portfolio/ciri.jpg",
-			link: "./portfolio/ciri.html"
+			link: "./portfolio/ciri.html",
+			title: "Ciri",
+			desc: "My personal, perpetually-developed framework."
 		},
 		{
 			categories: "programming",
 			image: "./img/portfolio/showreel.jpg",
-			link: "./portfolio/tashowreel15.html"
+			link: "./portfolio/tashowreel15.html",
+			title: "Showreel",
+			desc: "My showreel from University August-November 2015.."
 		},
 		{
 			categories: "programming design",
 			image: "./img/portfolio/flash-water-sim.jpg",
-			link: "./portfolio/flashwater.html"
+			link: "./portfolio/flashwater.html",
+			title: "Water Simulation",
+			desc: "3D water simulation using Flash and Actionscript 3."
 		},
 		{
 			categories: "programming",
 			image: "./img/portfolio/nuketools/nuketools.jpg",
-			link: "./portfolio/nuketools.html"
+			link: "./portfolio/nuketools.html",
+			title: "Nuketools",
+			desc: "A collection of tools for Nuke."
 		}
 	])
