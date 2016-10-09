@@ -1,6 +1,8 @@
 // preloader
 $(window).on('load', function() {
   $('.preloader .orbit').fadeOut(250);
+  $('.preloader .ring1').fadeOut(250);
+  $('.preloader .ring2').fadeOut(250);
   $('.preloader').delay(250).fadeOut(500);
 });
 
