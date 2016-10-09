@@ -20,6 +20,7 @@ body {
 	flex-direction: column;
 	height: 100vh; // wtf microshaft; get your shit together
 	margin: 0 auto;
+	margin-top: $header-height;
 	min-height: 100vh;
 }
 
