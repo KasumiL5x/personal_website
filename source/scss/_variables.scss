@@ -1,4 +1,4 @@
-// Color Scheme
+// color scheme
 $text-darkest: #222;
 $text-dark: #333;
 $text-normal: #6b6b6b;
@@ -6,6 +6,8 @@ $primary-color: #da5858;
 $secondary-color: #8fbbbb;
 $light-grey: #d9d9d9;
 $lightest-grey: #999;
+
+// header
 
 
 // Generic
@@ -32,7 +34,8 @@ $lazyload-time: 300ms;
 // --------------------------------------------------
 $header-height: 120px;
 $header-nav-size: 2rem;
-$header-border-color: rgba(0, 0, 0, 0.5);
+$header-border-color: rgba(0, 0, 0, 0.2);
+$header-mobile-border-color: rgba(0, 0, 0, 0.5);
 $header-text-color: #000;
 $header-bg-color: #fff;
 $mobile-bg-color: #fafafa;

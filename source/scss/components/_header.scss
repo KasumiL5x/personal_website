@@ -1,16 +1,16 @@
 .header {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	z-index: 999;
 	background-color: $header-bg-color;
-	box-shadow: 0 0 5px rgba(0,0,0,0.1);
+	box-shadow: 0 0 2px $header-border-color;
 	display: block;
 	-ms-flex: 0 1 auto;
 	flex: 0 1 auto; // only take up size required
 	-ms-flex-negative: 0;
 	flex-shrink: 0;	// force no shrink
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 999;
 }
 
 // box to define size of header and align contents
@@ -22,18 +22,18 @@
 
 // logo and/or text
 .header__logo {
-	height: inherit;
 	display: inline-block;
 	float: left;
+	height: inherit;
 	left: 5%;
 	position: relative;
 
 	img {
+		height: 75%;
 		position: relative;
 		top: 50%;
 		transform: translateY(-50%);
 		width: auto;
-		height: 75%;
 	}
 }
 
@@ -123,7 +123,7 @@
 // actual navbar element
 .header__nav {
 	background-color: $mobile-bg-color;
-	box-shadow: 1px 1px 12px $header-border-color;
+	box-shadow: 1px 1px 12px $header-mobile-border-color;
 	display: block;
 	overflow: hidden;
 	position: absolute;
@@ -166,7 +166,7 @@
 		}
 
 		&.active, &:hover {
-			color: #CD5C5C !important;
+			color: $primary-color !important;
 		}
 
 		// text within the item
