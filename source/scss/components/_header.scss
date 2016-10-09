@@ -11,7 +11,6 @@
 	flex: 0 1 auto; // only take up size required
 	-ms-flex-negative: 0;
 	flex-shrink: 0;	// force no shrink
-	// margin-bottom: 4rem;
 }
 
 // box to define size of header and align contents
@@ -26,13 +25,8 @@
 	height: inherit;
 	display: inline-block;
 	float: left;
-	// font-size: $header-logo-size;
 	left: 5%;
-	// line-height: $header-logo-size;
 	position: relative;
-	// text-transform: uppercase;
-	// top: 50%;
-	// transform: translateY(-50%);
 
 	img {
 		position: relative;
@@ -41,10 +35,6 @@
 		width: auto;
 		height: 75%;
 	}
-
-	// a {
-	// 	color: $header-logo-color;
-	// }
 }
 
 // mobile nav wrapper
@@ -185,20 +175,7 @@
 			position: relative;
 			vertical-align: middle;
 		}
-		span::before {
-			background: $header-hilite-color;
-			bottom: -3px;
-			content: '';
-			height: 2px;
-			left: 0;
-			position: absolute;
-			transition: all 500ms;
-			width: 0;
-		}
-		&.active span::before {
-			// width: 100%;
-		}
-	} // a
+	}
 
 	ul {
 		display: block;
