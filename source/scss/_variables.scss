@@ -11,6 +11,14 @@ $lightest-grey: #999;
 
 // portfolio
 $portfolio-overlay-color: rgba(255, 255, 255, 0.85);
+$portfolio-padding-mobile: 2rem;
+$portfolio-width-mobile: 240px;
+$portfolio-padding-small: 1rem;
+$portfolio-width-small: 170px;
+$portfolio-padding-med: 1.5rem;
+$portfolio-width-med: 200px;
+$portfolio-padding-large: 2rem;
+$portfolio-width-large: 220px;
 
 
 // Generic
@@ -57,10 +65,3 @@ $about-content-h3-color: #777;
 $about-content-p-color: #6B6B6B;
 $about-skills-title-color: #6B6B6B;
 $about-skills-subtitle-color: #666;
-
-
-// Portfolio
-// --------------------------------------------------
-$portfolio-caption-bg-color: rgba(0, 0, 0, 0.8);//#2d2d2d;
-$portfolio-caption-color: #fff; //#ed4e6e;
-$portfolio-title-color: #222;
