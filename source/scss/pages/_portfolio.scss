@@ -15,9 +15,6 @@ $portfolio-width-large: 220px;
 	}
 
 	figure {
-		// background: #9d2e2c;
-		// box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
-		filter: sepia(0.4);
 		flex-grow: 0;
 		height: $portfolio-width-mobile;
 		line-height: $portfolio-width-mobile;
@@ -50,7 +47,6 @@ $portfolio-width-large: 220px;
 
 		&.current {
 			backface-visibility: hidden;
-			filter: sepia(0);
 			transform: scale(1.05);
 		}
 
