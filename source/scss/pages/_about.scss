@@ -11,14 +11,14 @@
 	text-align: center;
 
 	.social__item {
-		border: 1px solid #666;
+		border: 1px solid $lightest-grey;
 		border-radius: 50%;
-		color: #555;
+		color: $text-dark;
 		cursor: pointer;
 		display: inline-block;
 		font-size: 2.8rem;
 		height: 5rem;
-		line-height: 5rem;
+		line-height: 4.5rem;
 		margin: 0.5rem 1rem;
 		text-align: center;
 		transition: all 0.2s;
@@ -107,13 +107,20 @@
 	text-align: center;
 
 	a {
-		background-color: #999;
+		background-color: $lightest-grey;
 		border: 0;
 		transition: all 0.3s;
 	}
 }
 
 .skills-list {
+	.ng-progress.technical {
+		background-color: $primary-color;
+	}
+	.ng-progress.creative {
+		background-color: $secondary-color;
+	}
+
 	h1 {
 		color: $about-skills-title-color;
 		font-size: 1.75rem;
@@ -139,7 +146,7 @@
 	position: relative;
 
 	&::before {
-		background: #ededed;
+		background: $light-grey;
 		bottom: 0;
 		content: '';
 		height: 100%;
@@ -150,8 +157,8 @@
 	}
 
 	&::after {
-		background: #fff;
-		border: 3px solid #efefef;
+		background: $content-bg-color;
+		border: 3px solid $light-grey;
 		border-radius: 50%;
 		content: '\f12a';
 		font: normal normal normal 2rem FontAwesome;
@@ -183,8 +190,8 @@
 	position: relative;
 
 	&::after {
-		background: #cd5353;
-		border: 3px solid #fff;
+		background: $primary-color;
+		border: 3px solid $content-bg-color;
 		border-radius: 50%;
 		content: '';
 		height: 21px;
@@ -203,14 +210,14 @@
 	margin-bottom: 0.5rem;
 
 	h4 {
-		color: #333;
+		color: $text-dark;
 		font-size: 1.8rem;
 		font-weight: bold;
 		margin-bottom: 0;
 	}
 
 	h6 {
-		color: #666;
+		color: $text-darkest;
 		font-size: 1.2rem;
 		margin-bottom: 0;
 
@@ -219,7 +226,7 @@
 		}
 
 		span > i {
-			color: #ccc;
+			color: $text-normal;
 		}
 	}
 }
