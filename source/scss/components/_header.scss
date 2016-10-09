@@ -175,6 +175,10 @@
 			transition: all 0.4s, border-bottom 0.1s;
 		}
 
+		&.active, &:hover {
+			color: #CD5C5C !important;
+		}
+
 		// text within the item
 		span {
 			line-height: $header-height;
@@ -192,7 +196,7 @@
 			width: 0;
 		}
 		&.active span::before {
-			width: 100%;
+			// width: 100%;
 		}
 	} // a
 
