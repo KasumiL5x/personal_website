@@ -49,22 +49,6 @@ body {
 	width: 100%;
 	z-index: 9999999999;
 
-	.ring1 {
-		border: $preloader-ring-thickness solid $preloader-ring-color;
-		border-radius: 50%;
-		height: 30px;
-		position: absolute;
-		width: 30px;
-	}
-
-	.ring2 {
-		border: $preloader-ring-thickness solid $preloader-ring-color;
-		border-radius: 50%;
-		height: 65px;
-		position: absolute;
-		width: 65px;
-	}
-
 	.orbit {
 		background-color: $preloader-orbit-color-a;
 		border-radius: 50%;
