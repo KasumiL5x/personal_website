@@ -6,6 +6,13 @@
 		padding-top: 5rem;
 	}
 
+	ul {
+		padding-left: 4rem;
+		li {
+			list-style-type: disc;
+		}
+	}
+
 	.title { // basically just h3
 		font-size: 3rem;
 		font-weight: 300;

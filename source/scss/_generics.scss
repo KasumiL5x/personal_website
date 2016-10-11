@@ -12,6 +12,10 @@ body {
 	background-color: $background-color;
 }
 
+a {
+	color: $primary-color;
+}
+
 .main {
 	align-content: stretch;
 	align-items: stretch;
