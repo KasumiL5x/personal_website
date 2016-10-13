@@ -1,7 +1,7 @@
 .portfolio {
 	padding: 2rem 0;
 
-	@media only screen and(min-width: 601px) {
+	@media #{$medium-and-up} {
 		padding: 4rem 4.5rem;
 	}
 
@@ -15,21 +15,21 @@
 		transition: all 0.6s;
 		width: $portfolio-width-mobile;
 
-		@media only screen and (min-width: 601px) {
+		@media #{$medium-and-up} {
 			height: $portfolio-width-small;
 			line-height: $portfolio-width-small;
 			margin: $portfolio-padding-small;
 			width: $portfolio-width-small;
 		}
 
-		@media only screen and (min-width: 993px) {
+		@media #{$large-and-up} {
 			height: $portfolio-width-med;
 			line-height: $portfolio-width-med;
 			margin: $portfolio-padding-med;
 			width: $portfolio-width-med;
 		}
 
-		@media only screen and (min-width: 1201px) {
+		@media #{$xlarge-and-up} {
 			height: $portfolio-width-large;
 			line-height: $portfolio-width-large;
 			margin: $portfolio-padding-large;
@@ -124,7 +124,7 @@
 			color: $text-darkest;
 		}
 
-		@media only screen and (min-width : 601px) {
+		@media #{$medium-and-up} {
 			font-size: 1.75rem;
 		}
 	}

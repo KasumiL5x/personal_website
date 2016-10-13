@@ -2,7 +2,7 @@
 	max-width: 90rem;
 	padding-top: 2rem;
 
-	@media only screen and(min-width: 601px) {
+	@media #{$medium-and-up} {
 		padding-top: 5rem;
 	}
 }
@@ -78,7 +78,7 @@
 .about__content {
 	padding: 3rem 1rem;
 
-	@media only screen and (min-width : 601px) {
+	@media #{$medium-and-up} {
 		padding: 3rem 4rem;
 	}
 

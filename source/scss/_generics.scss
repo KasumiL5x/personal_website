@@ -26,8 +26,8 @@ a {
 	margin: 0 auto;
 	margin-top: $header-height-mobile;
 	min-height: 100vh;
-	@media only screen and (min-width: 993px) {
-		margin-top: $header-height;	
+	@media #{$large-and-up} {
+		margin-top: $header-height;
 	}
 }
 
