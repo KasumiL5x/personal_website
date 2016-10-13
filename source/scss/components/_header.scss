@@ -15,9 +15,13 @@
 
 // box to define size of header and align contents
 .header__box {
-	height: $header-height;
+	height: $header-height-mobile;
 	margin: 0 auto;
 	position: relative;
+
+	@media only screen and (min-width: 993px) {
+		height: $header-height;
+	}
 }
 
 // logo and/or text
@@ -155,6 +159,17 @@
 		display: block;
 		font-size: $header-nav-size;
 
+		&.active, &:hover {
+			color: $primary-color !important;
+		}
+
+		// text within the item
+		span {
+			line-height: $header-height-mobile;
+			position: relative;
+			vertical-align: middle;
+		}
+
 		@media only screen and (min-width: 993px) {
 			display: block;
 			height: 100%;
@@ -163,17 +178,10 @@
 			text-align: center;
 			text-decoration: none;
 			transition: all 0.4s, border-bottom 0.1s;
-		}
 
-		&.active, &:hover {
-			color: $primary-color !important;
-		}
-
-		// text within the item
-		span {
-			line-height: $header-height;
-			position: relative;
-			vertical-align: middle;
+			span {
+				line-height: $header-height;
+			}
 		}
 	}
 

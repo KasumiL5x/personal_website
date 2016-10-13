@@ -24,8 +24,11 @@ a {
 	flex-direction: column;
 	height: 100vh; // wtf microshaft; get your shit together
 	margin: 0 auto;
-	margin-top: $header-height;
+	margin-top: $header-height-mobile;
 	min-height: 100vh;
+	@media only screen and (min-width: 993px) {
+		margin-top: $header-height;	
+	}
 }
 
 .page-content {
