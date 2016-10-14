@@ -28,7 +28,12 @@ block append Styles
 
 block PageContent
 	section.ng-container.portfolio
-		p A number of my open-source projects are hosted on either #[+ExternalLink("https://github.com/kasumil5x", "Github")] or #[+ExternalLink("https://bitbucket.org/kasumil5x/", "BitBucket")].
+		div.portfolio-title
+			h1 Open-Source Projects
+		p A number of my open-source projects are hosted on either my #[+ExternalLink("https://github.com/kasumil5x", "Github")] or #[+ExternalLink("https://bitbucket.org/kasumil5x/", "BitBucket")].
+
+		div.portfolio-title
+			h1 Selected Works
 
 		+MakePortfolio([
 			{text: "All", filter: "*"},
