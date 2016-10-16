@@ -1,0 +1,35 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Cage Edit | Daniel Green";
+
+block ArticleContent
+	h3.title Cage Edit
+
+	p To get clean maps when baking, the best results are often with fine-tuned cages. Maya is notoriously slow for generating maps, so it is often desirable to use external programs, such as xNormal, to bake maps. The cage, however, is still required. Manually creating the cages, or using Maya's Transfer Maps functionality as a starting point, can be a cumbersome and tedious task, let alone prone to error. I have written a simple set of scripts, collectively named Cage Edit, to assist in creation and management of baking cages. The tool is not intended to be complex, but instead, to be able to quickly generate cages, edit them, export them, and delete them.
+
+	h3.heading Installation
+	p Copy #[em push_deformer.py] to a path defined in your #[strong MAYA_PLUG_IN_PATH]. For example, the default #[em plug-ins] folder in Maya's home directory.
+
+	h3.heading Usage
+	p Firstly, select all objects you wish to generate cages for, and then run the #[em generate_cages] function (see below). When prompted for a name for the cage, enter one. This is the name that will be used for deleting and exporting, if you choose to do that. Note that if you create a cage with the same name multiple times, such as when adding objects to the same cage separately, then the existing cage will be simply appended. A material will be created and applied to the generated cages, and they will be added to their own display layer. These cages all have a custom push deformer attached to them, which will allow you to push the vertices of the cages along their respective normals, inflating or deflating the cages. This is accessible through the Attribute Editor or the Channel Box, for each cage mesh generated. This is an undoable operation.
+	p To delete cages, run the #[em delete_cages] function (see below), and enter the name of the cage you wish to delete, when prompted. This will delete the cages, material, and display layer. This operation is undoable.
+	p To export cages, run the #[em export_cages] function (see below), and enter the name of the cage you wish to export, and then specify an output file.
+	pre: code.language-python.line-numbers.ng-no-border
+		| # Create an instance of the script
+		| cageedit = CageEdit()
+		| 
+		| # Generate and name cages for selected objects
+		| cageedit.generate_cages()
+		| 
+		| # Delete cages by name
+		| cageedit.delete_cages()
+		| 
+		| # Export cages by name
+		| cageedit.export_cages()
+
+	h3.heading Download
+	p The code can be downloaded from the #[+ExternalLink("https://github.com/KasumiL5x/cageedit", "GitHub")] page.
+
+	h3.heading Notes
+	p It may be quickly apparent that there is no user interface. The reason for this is that it is such a simple operation, and shelf items do the job just fine. CageEdit is, however, built so that an interface could easily be added on top, so by all means it is possible to create one.
