@@ -1,0 +1,206 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "AnimCurve Toolbox | Daniel Green";
+
+block ArticleContent
+	h3.title AnimCurve Toolbox
+
+	p #[+ExternalLink("http://help.autodesk.com/cloudhelp/2016/ENU/Maya-Tech-Docs/Nodes/animCurve.html", "animCurve")] nodes in Maya are fantastic. They are, however, astonishingly difficult to locate within Maya unless you are one with the code-foo – they can only be created and keyframed through scripting. AnimCurve Toolbox is a very modest collection of tools to assist with using animCurve nodes. It allows for creation, simple editing, and selection of various types of the node.
+
+	a(rel="lightbox" href="../img/portfolio/animcurvetb/interface.png"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/portfolio/animcurvetb/interface.png" class="ng-responsive-img" data-sizes="auto")
+
+	h3.heading Usage
+	p Creating curves is very simple. Within the #[em Create] group, there exists a dropdown with various types of animCurve node, followed by a textbox where a name can be specified. Below is a button for creating the desired curve type, which is named appropriately.
+	p The lower section, #[em Edit], contains yet another dropdown, this time with an accompanying button to its side. The dropdown will display all animCurve nodes within the scene (including ones created externally to this tool). The aforementioned button will refresh the dropdown with the current state of the scene. This tool does not automatically update this list, so remember to press the button.
+	p Adding keyframes to animCurve nodes shouldn’t be hard. Unfortunately, Maya has a penchant for making things hard. Luckily, this tool makes it easy. Clicking the #[em Add Keyframe] button will prompt you for both a time and value for the key. The currently active curve in the dropdown above will be used.
+	p Since animCurve nodes are not DAG objects, they will appear in the Outliner only when #[em DAG Objects Only] is disabled. Disabling this clutters the list, and can make finding your nodes difficult. Instead, this tool provides a Select button. Clicking this button will replace the active selection with the curve specified in the dropdown above. If #[strong shift] is held when clicking the button, the selection will instead be appended.
+	p The Graph Editor is ideal for editing animCurve keyframes. Instead of having to select them using this tool, or by hand, and then opening the Graph Editor manually, the #[em Graph Editor] button in the tool will select the curve specified in the above dropdown and then open the graph editor for easy and quick editing.
+
+	h3.heading Notes
+	p If you have added keyframes to an animCurve node but do not see anything in the Graph Editor, try connecting something to the animCurve’s #[em input] plug and that should rectify the problem.
+
+	h3.heading Source Code
+	p Below is the source code for the script. It was created in a single morning, so don’t expect anything magical. It is licensed under the #[a(href="http://www.mit.ngreen.org/") MIT] license. To use the script, simply create an instance of #[em AnimCurveToolbox]. Feel free to remove #[em main], if you such desire, and tweak accordingly.
+
+	pre: code.language-python.line-numbers.ng-no-border
+		| import sys
+		| from PySide import QtCore, QtGui
+		| import maya.cmds as cmds
+		| import maya.mel as mel
+		| 
+		| class AnimCurveToolbox(QtGui.QMainWindow):
+		| 	def __init__(self):
+		| 		super(AnimCurveToolbox, self).__init__()
+		| 		self.__build_ui()
+		| 	#end
+		| 
+		| 	def __get_curve_type(self):
+		| 		return self.cb_create_type.currentText()
+		| 	#end
+		| 
+		| 	def __create_curve(self):
+		| 		desired_name = mel.eval('formValidObjectName(\&quot;{0}\&quot;);'.format(self.txt_create_name.text()))
+		| 
+		| 		# defaultObject is what formValidObjectName returns for empty strings
+		| 		if (desired_name == 'defaultObject') or cmds.objExists(desired_name):
+		| 			cmds.warning('Node already exists.')
+		| 			return
+		| 
+		| 		cmds.createNode(self.__get_curve_type(), name=desired_name)
+		| 
+		| 		self.txt_create_name.setText('')
+		| 	#end
+		| 
+		| 	def __add_keyframe(self):
+		| 		curve_obj = self.cb_edit_curve.currentText()
+		| 		if (not len(curve_obj)) or (not cmds.objExists(curve_obj)):
+		| 			cmds.warning('Object does not exist.')
+		| 			return
+		| 
+		| 		# get input value
+		| 		result = cmds.promptDialog(title='AnimCurveToolbox',
+		| 			message='Input (float/time):', button=['OK', 'Cancel'], defaultButton='OK',
+		| 			cancelButton='Cancel', dismissString='Cancel')
+		| 		if result == 'Cancel':
+		| 			cmds.warning('User canceled.')
+		| 			return
+		| 		input_value = cmds.promptDialog(query=True, text=True)
+		| 
+		| 		# get value
+		| 		result = cmds.promptDialog(title='AnimCurveToolbox',
+		| 			message='Value (float):', button=['OK', 'Cancel'], defaultButton='OK',
+		| 			cancelButton='Cancel', dismissString='Cancel')
+		| 		if result == 'Cancel':
+		| 			cmds.warning('User canceled.')
+		| 			return
+		| 		value = cmds.promptDialog(query=True, text=True)
+		| 
+		| 		try:
+		| 			curve_type = cmds.nodeType(curve_obj)
+		| 			if (curve_type == 'animCurveUL' or curve_type == 'animCurveUA' or curve_type == 'animCurveUT' or curve_type == 'animCurveUU'):
+		| 				cmds.setKeyframe(curve_obj, float=float(input_value), value=float(value))
+		| 			else:
+		| 				cmds.setKeyframe(curve_obj, time=input_value, value=float(value))
+		| 		except:
+		| 			cmds.warning('Failed to parse user-provided arguments.')
+		| 	#end
+		| 
+		| 	def __refresh_curves(self):
+		| 		self.cb_edit_curve.clear()
+		| 		for curr in cmds.ls(type='animCurve'):
+		| 			self.cb_edit_curve.addItem(curr)
+		| 	#end
+		| 
+		| 	def __select_curve(self):
+		| 		curve_obj = self.cb_edit_curve.currentText()
+		| 		if (not len(curve_obj)) or (not cmds.objExists(curve_obj)):
+		| 			cmds.warning('Object does not exist.')
+		| 			return False
+		| 
+		| 		mods = cmds.getModifiers()
+		| 		shift_pressed = (mods &amp; 1) &gt; 0
+		| 		cmds.select(curve_obj, add=shift_pressed)
+		| 		return True
+		| 	#end
+		| 
+		| 	def __open_graph_editor(self):
+		| 		if not self.__select_curve():
+		| 			return
+		| 		mel.eval(&quot;GraphEditor;&quot;);
+		| 	#end
+		| 
+		| 	def __build_ui(self):
+		| 		self.setObjectName(&quot;self&quot;)
+		| 		self.setWindowTitle(&quot; &quot;)
+		| 		self.setFixedSize(196, 320)
+		| 		self.lbl_title = QtGui.QLabel(self)
+		| 		self.lbl_title.setGeometry(QtCore.QRect(10, 10, 181, 21))
+		| 		font = QtGui.QFont()
+		| 		font.setFamily(&quot;Arial&quot;)
+		| 		font.setPointSize(16)
+		| 		self.lbl_title.setFont(font)
+		| 		self.lbl_title.setObjectName(&quot;lbl_title&quot;)
+		| 		self.lbl_title.setText(&quot;AnimCurve Toolbox&quot;)
+		| 		self.gb_create = QtGui.QGroupBox(self)
+		| 		self.gb_create.setGeometry(QtCore.QRect(10, 40, 171, 111))
+		| 		self.gb_create.setObjectName(&quot;gb_create&quot;)
+		| 		self.cb_create_type = QtGui.QComboBox(self.gb_create)
+		| 		self.gb_create.setTitle(&quot;Create&quot;)
+		| 		self.cb_create_type.setGeometry(QtCore.QRect(40, 20, 121, 22))
+		| 		self.cb_create_type.setObjectName(&quot;cb_create_type&quot;)
+		| 		self.cb_create_type.addItem(&quot;animCurveUT&quot;)
+		| 		self.cb_create_type.addItem(&quot;animCurveUU&quot;)
+		| 		self.cb_create_type.addItem(&quot;animCurveUA&quot;)
+		| 		self.cb_create_type.addItem(&quot;animCurveTT&quot;)
+		| 		self.cb_create_type.addItem(&quot;animCurveTU&quot;)
+		| 		self.cb_create_type.addItem(&quot;animCurveUL&quot;)
+		| 		self.cb_create_type.addItem(&quot;animCurveTA&quot;)
+		| 		self.cb_create_type.addItem(&quot;animCurveTL&quot;)
+		| 		self.lbl_create_type = QtGui.QLabel(self.gb_create)
+		| 		self.lbl_create_type.setGeometry(QtCore.QRect(10, 20, 46, 21))
+		| 		self.lbl_create_type.setObjectName(&quot;lbl_create_type&quot;)
+		| 		self.lbl_create_type.setText(&quot;Type&quot;)
+		| 		self.txt_create_name = QtGui.QLineEdit(self.gb_create)
+		| 		self.txt_create_name.setGeometry(QtCore.QRect(40, 50, 121, 21))
+		| 		self.txt_create_name.setObjectName(&quot;txt_create_name&quot;)
+		| 		self.txt_create_name.setText(&quot;&quot;)
+		| 		self.lbl_create_name = QtGui.QLabel(self.gb_create)
+		| 		self.lbl_create_name.setGeometry(QtCore.QRect(10, 50, 46, 21))
+		| 		self.lbl_create_name.setObjectName(&quot;lbl_create_name&quot;)
+		| 		self.lbl_create_name.setText(&quot;Name&quot;)
+		| 		self.btn_create = QtGui.QPushButton(self.gb_create)
+		| 		self.btn_create.setGeometry(QtCore.QRect(10, 80, 151, 21))
+		| 		self.btn_create.setObjectName(&quot;btn_create&quot;)
+		| 		self.btn_create.setText(&quot;Create&quot;)
+		| 		self.btn_create.clicked.connect(self.__create_curve)
+		| 		self.gb_edit = QtGui.QGroupBox(self)
+		| 		self.gb_edit.setGeometry(QtCore.QRect(10, 160, 171, 141))
+		| 		self.gb_edit.setObjectName(&quot;gb_edit&quot;)
+		| 		self.gb_edit.setTitle(&quot;Edit&quot;)
+		| 		self.cb_edit_curve = QtGui.QComboBox(self.gb_edit)
+		| 		self.cb_edit_curve.setGeometry(QtCore.QRect(10, 20, 121, 22))
+		| 		self.cb_edit_curve.setObjectName(&quot;cb_edit_curve&quot;)
+		| 		self.btn_edit_add_keyframe = QtGui.QPushButton(self.gb_edit)
+		| 		self.btn_edit_add_keyframe.setGeometry(QtCore.QRect(10, 50, 151, 23))
+		| 		self.btn_edit_add_keyframe.setObjectName(&quot;btn_edit_add_keyframe&quot;)
+		| 		self.btn_edit_add_keyframe.setText(&quot;Add Keyframe&quot;)
+		| 		self.btn_edit_add_keyframe.clicked.connect(self.__add_keyframe)
+		| 		self.btn_edit_refresh = QtGui.QPushButton(self.gb_edit)
+		| 		self.btn_edit_refresh.setGeometry(QtCore.QRect(140, 20, 21, 23))
+		| 		self.btn_edit_refresh.setObjectName(&quot;btn_edit_refresh&quot;)
+		| 		self.btn_edit_refresh.setText(&quot;&lt;&quot;)
+		| 		self.btn_edit_refresh.clicked.connect(self.__refresh_curves)
+		| 		self.btn_edit_select = QtGui.QPushButton(self.gb_edit)
+		| 		self.btn_edit_select.setGeometry(QtCore.QRect(10, 80, 151, 23))
+		| 		self.btn_edit_select.setObjectName(&quot;btn_edit_select&quot;)
+		| 		self.btn_edit_select.setText(&quot;Select&quot;)
+		| 		self.btn_edit_select.clicked.connect(self.__select_curve)
+		| 		self.btn_edit_graph = QtGui.QPushButton(self.gb_edit)
+		| 		self.btn_edit_graph.setGeometry(QtCore.QRect(10, 110, 151, 23))
+		| 		self.btn_edit_graph.setObjectName(&quot;btn_edit_graph&quot;)
+		| 		self.btn_edit_graph.setText(&quot;Graph Editor&quot;)
+		| 		self.btn_edit_graph.clicked.connect(self.__open_graph_editor)
+		| 		self.lbl_website = QtGui.QLabel(self)
+		| 		self.lbl_website.setGeometry(QtCore.QRect(90, 300, 91, 16))
+		| 		self.lbl_website.setObjectName(&quot;lbl_website&quot;)
+		| 		self.lbl_website.setText(&quot;www.ngreen.org&quot;)
+		| 
+		| 		self.show()
+		| 		self.raise_()
+		| 	#end
+		| #end
+		| 
+		| def main():
+		| 	app = QtGui.QApplication.instance()
+		| 	if not app:
+		| 		app = QtGui.QApplication(sys.argv)
+		| 		app.aboutToQuit.connect(app.deleteLater)
+		| 	global anim_curve_toolbox
+		| 	anim_curve_toolbox = AnimCurveToolbox()
+		| 	sys.exit(app.exec_())
+		| #end
+		| 
+		| if __name__ == '__main__':
+		| 	main()
+		| #end
