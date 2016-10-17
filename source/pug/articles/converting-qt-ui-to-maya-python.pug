@@ -10,7 +10,7 @@ block ArticleContent
 
 	h3.heading The Designer
 	p Almost all tools I have created that use an interface that is more complex than a button or so, as is evident from the posts previously made to my website, are developed using the QT Designer. The QT Designer can be located in the #[strong bin] directory of your Maya installation as #[strong designer.exe]. Opening it up results in the standard QT Designer interface, where you are free to build, edit, and connect components as you such desire. Note that on OS X, the designer must be compiled, and that will not be covered here.
-	a(rel="lightbox" href="../img/articles/qtui-to-maya-python/qtdesigner.png"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/articles/qtui-to-maya-python/qtdesigner.png" class="ng-responsive-img" data-sizes="auto")
+	+LightboxImage("../img/articles/qtui-to-maya-python/qtdesigner.png")
 
 	h3.heading Converting To Python
 	p It is important to note that saving user interfaces from QT Designer will result in a #[strong UI] file that is not compatible with Python nor Maya, naturally. Instead, this must be converted into usable Python code. There is a tool named #[strong pyside-uic] which is built for the purpose of converting the aforementioned format to Python. I have experimented in the past using scripts external to Maya to convert these files, but discovered that the workflow was not pleasing, and thereafter switched to implementing a conversion script, which will be shown below, within Maya itself.

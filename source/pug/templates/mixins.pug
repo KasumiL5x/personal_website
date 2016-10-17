@@ -1,2 +1,8 @@
 mixin ExternalLink(url, text)
 	a(href=url, target="_blank", class="ng-external-link") #{text}
+
+mixin LightboxImage(url)
+	a(rel="lightbox" href=url): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src=url class="ng-responsive-img" data-sizes="auto")
+
+mixin LightboxGallery(url, galleryName)
+	a(data-lightbox=galleryName href=url): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src=url class="ng-responsive-img" data-sizes="auto")

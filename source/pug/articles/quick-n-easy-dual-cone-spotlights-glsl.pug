@@ -13,7 +13,7 @@ block ArticleContent
 
 	h3.heading Theory
 	p Now we're going to have a quick visual analysis of the components we discussed in the introduction, and cover them in a little more detail. Hopefully, this will prepare you with a solid foundation of what a dual-cone spotlight entails for implementation.
-	a(rel="lightbox" href="../img/articles/dual-cone-spotlight-glsl/dual-cone-spotlight-diagram.png"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/articles/dual-cone-spotlight-glsl/dual-cone-spotlight-diagram.png" class="ng-responsive-img" data-sizes="auto")
+	+LightboxImage("../img/articles/dual-cone-spotlight-glsl/dual-cone-spotlight-diagram.png")
 	p Firstly, we will look at the position of the spotlight. The position, denoted as #[strong L] in the image above, refers to the 3D position in the scene of the origin of the spotlight. If you have a 3D cone, #[strong L] would be the converging apex. Relating this to the flashlight, #[strong L] would be the location of the bulb - the root source of the outgoing light. The direction of our light source is the normalized vector from the position, #[strong L], to the endpoint, denoted as #[strong E] in the image above. Both of these 3D positions can be moved independently, which in turn, can alter the direction of our spotlight. The distance between #[strong L] and #[strong E] can be thought of as the range of the spotlight. The inner cone angle is named #[strong &theta;#[sub i]] in the above image. This angle has many names, such as #[em inner cone angle], #[em core angle], and #[em cone angle], among others. As can be seen in the image above, this angle defines the center cone where the light is most bright, and is the inner of the two angles the dual-cone spotlight uses. The outer cone angle is named #[strong &theta;#[sub o]] in the above image. This angle has many names, also, such as #[em outer cone angle], #[em penumbra angle], and #[em cut-off angle], among others. This angle is the outer of the two angles, and defines a smooth falloff radius from the inner cone angle onwards. The smaller the distance between the inner and outer cone angle, the tighter the falloff. The larger the distance between the inner and outer cone angle, the smoother and larger the falloff. In both the inner and outer cone angles, #[strong &theta;] is the cosine of an angle in radians.
 	p So, to summarize: We have a 3D position, #[strong L]. We have a direction, #[strong E] - #[strong L] normalized. We have a range, #[strong E] - #[strong L] magnitude. We have an inner cone angle, #[strong &theta;#[sub i]]. And we have an outer cone angle, #[strong &theta;#[sub o]].
 
@@ -47,7 +47,7 @@ block ArticleContent
 
 	h3.heading Conclusion
 	p Hopefully by now, you are armed with enough understanding to successfully implement a dual-cone spotlight. We've covered a high-level description, basic theory, and implementation of the dual-cone spotlight.
-	a(rel="lightbox" href="../img/articles/dual-cone-spotlight-glsl/spotlight-demo.png"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/articles/dual-cone-spotlight-glsl/spotlight-demo.png" class="ng-responsive-img" data-sizes="auto")
+	+LightboxImage("../img/articles/dual-cone-spotlight-glsl/spotlight-demo.png")
 
 	h3.heading Appendix
 	p A complete pixel shader implementing a dual-cone spotlight with color and specular properties, as well as basic diffuse and specular shading and surface material parameters.
