@@ -1,0 +1,28 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Maya Viewport 2.0 Renderer Override | Daniel Green";
+
+block ArticleContent
+	h3.title Maya Viewport 2.0 Renderer Override
+
+	p This project is a voyage into replacing Maya's Viewport 2.0 renderer with a custom-built, external rendering system. This sort of system is ideal for games development, as the artists can then see and edit final quality art assets directly in the viewport without having to export anything. Technical limitations of built-in viewport, such as the number of active light sources, can also be overcome due to being in full control of the rendering pipeline. The renderer and plugin for this project were entirely written from the ground up. The renderer in Maya is fully real-time. Materials, lights, meshes, and so on, all update in the viewport as they are edited. This is achieved by mirroring Maya's DAG and connecting mirrored nodes to the external renderer appropriately. If you would like to know more about this topic, I have previously written #[a(href="../articles/notes-on-implementing-maya-vp2-renderer.html") an article] discussing implementation and providing useful tips for those wanting to implement something akin to this themselves. On a similar note, I also have #[a(href="../articles/exporting-a-maya-light-radius.html") an article] on how to extract the radius/range of light sources from Maya, which may be of interest.
+
+	p Please note that this project was more of a test than a polished product. Currently, I have no plans to open source the project, but it something I will consider in the future.
+
+	h3.heading Previews
+	p Below are a couple of snapshots from Maya's viewport of various test scenes I've used throughout development of the plugin. These are all using my own renderer within Maya, in real-time.  Not all of the models are my own.
+
+	a(data-lightbox="vp2-examples" href="../img/portfolio/mayavp2renderer/maya-renderer-bradley.jpg"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/portfolio/mayavp2renderer/maya-renderer-bradley.jpg" class="ng-responsive-img" data-sizes="auto")
+
+	a(data-lightbox="vp2-examples" href="../img/portfolio/mayavp2renderer/maya-renderer-bunny.jpg"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/portfolio/mayavp2renderer/maya-renderer-bunny.jpg" class="ng-responsive-img" data-sizes="auto")
+
+	a(data-lightbox="vp2-examples" href="../img/portfolio/mayavp2renderer/maya-renderer-dragon.jpg"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/portfolio/mayavp2renderer/maya-renderer-dragon.jpg" class="ng-responsive-img" data-sizes="auto")
+
+	a(data-lightbox="vp2-examples" href="../img/portfolio/mayavp2renderer/maya-renderer-guardian.jpg"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/portfolio/mayavp2renderer/maya-renderer-guardian.jpg" class="ng-responsive-img" data-sizes="auto")
+
+	a(data-lightbox="vp2-examples" href="../img/portfolio/mayavp2renderer/maya-renderer-lamp-box-tex.jpg"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/portfolio/mayavp2renderer/maya-renderer-lamp-box-tex.jpg" class="ng-responsive-img" data-sizes="auto")
+
+	a(data-lightbox="vp2-examples" href="../img/portfolio/mayavp2renderer/maya-renderer-mitsuba.jpg"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/portfolio/mayavp2renderer/maya-renderer-mitsuba.jpg" class="ng-responsive-img" data-sizes="auto")
+
+	a(data-lightbox="vp2-examples" href="../img/portfolio/mayavp2renderer/maya-renderer-voyager.jpg"): img.lazyload(src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="../img/portfolio/mayavp2renderer/maya-renderer-voyager.jpg" class="ng-responsive-img" data-sizes="auto")
