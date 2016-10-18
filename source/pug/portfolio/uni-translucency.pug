@@ -1,0 +1,17 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Exploring Real-Time Translucency | Daniel Green";
+
+block ArticleContent
+	h3.title Exploring Real-Time Translucency
+
+	p As a final-year graphics module at university, I had to work on exploring real-time translucency. The technique I ended up using is based upon #[+ExternalLink("http://dl.acm.org/citation.cfm?id=882433", "Translucent Shadow Maps (TSM)")]. I did, however, cite multiple papers, combining mathematical approaches to find one that works best for me. One paper that was rather useful was #[+ExternalLink("http://dl.acm.org/citation.cfm?id=1669279", "Image-Space Subsurface Scattering for Interactive Rendering of Deformable Translucent Objects")], as it covered the Rd function rather clearly. Another that was helpful was #[+ExternalLink("http://dl.acm.org/citation.cfm?id=826632", "Interactive Rendering of Translucent Objects")]; I think that this paper described the detailed mathematics better than TSM. #[+ExternalLink("http://dl.acm.org/citation.cfm?id=383319", "A Practical Model for Subsurface Light Transport")] is another essential reference.
+	p Below are a series of images of various models with and without translucency in a multi-light environment.
+
+	+LightboxGallery("../img/portfolio/uni-translucency/rtg-dragon-on.jpg", "translucency-gallery")
+	+LightboxGallery("../img/portfolio/uni-translucency/rtg-dragon-off.jpg", "translucency-gallery")
+	+LightboxGallery("../img/portfolio/uni-translucency/rtg-buddha-on.jpg", "translucency-gallery")
+	+LightboxGallery("../img/portfolio/uni-translucency/rtg-buddha-off.jpg", "translucency-gallery")
+	+LightboxGallery("../img/portfolio/uni-translucency/rtg-bunny-on.jpg", "translucency-gallery")
+	+LightboxGallery("../img/portfolio/uni-translucency/rtg-bunny-off.jpg", "translucency-gallery")
