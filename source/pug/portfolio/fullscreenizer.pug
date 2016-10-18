@@ -1,0 +1,37 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Fullscreenizer | Daniel Green";
+
+block ArticleContent
+	h3.title Fullscreenizer
+
+	p A little tool for making games run in borderless fullscreen instead of windowed mode. Apps are displayed with a user-set filter to reduce needless clutter. Fullscreenizing apps is fully reversible to their initial settings, and multiple monitors are supported. A hotkey can be used instead of the UI. Configuration options are saved, and the hotkey can automatically enable upon startup.
+
+	+LightboxImage("../img/portfolio/fullscreenizer/fullscreenizer-main.png")
+
+	h3.heading Features
+	ul
+		li User-filtered, no-clutter list of applications
+		li Togglable borderless fullscreen
+		li Hotkey support
+		li Multi-monitor support (windows become fullscreen on the monitor they are on)
+		li Automatically saving and loading configuration
+		li Lightweight
+
+	h3.heading Usage
+	p Initially, Fullscreenizer will not display any programs, as there are no user-defined filters. To show all running programs, click the Show All button. In the presented window, applications can be added to the user-define filter by selecting them and clicking the Add button. Both the previously mentioned window and the main window automatically update when applications open or close.
+	p The Remove button will remove the currently selected application from the user-filter, which will stop it from showing and disallow this window to be fullscreenized.
+	p The Fullscreenize button makes the selected window fullscreenized. The Scale checkbox will scale the fullscreenized window to fit the monitor. The Move checkbox will position the fullscreenized window to the top-left of the monitor. Note that certain applications detect movements and resizes, so if something doesn’t work as expected, try disabling these options appropriately.
+	p Alternatively, the hotkey settings directly below can be configured to fullscreenize the active window regardless of the Fullscreenizer window being in focus. At least one modifier (ctrl, shift, alt) and a single key from the provided list must be picked for the hotkey to be active. Note that due to how input is handled exclusively in a large number of games, running Fullscreenizer as an administrator is strongly recommended. If the window still doesn’t fullscreenize correctly, it is possible that the application is actively correcting modified window states.
+	p Filters, hotkey configurations, the active status of the hotkey, and other options, are all saved upon exit of Fullscreenizer and are loaded upon initialization. The configuration file is human-readable, but I strongly advise against editing it unless you know what you are doing.
+	p Please note that future revisions of Fullscreenizer may modify the structure of the configuration file, rendering old configuration files not compatible. However, it is possible to copy and paste the windows into a newly generated configuration file, and all should work as expected.
+
+	h3.heading Notes
+	p User filters are based on the class name of windows. Sometimes games that are created with popular game engines do not rename their class name, and therefore adding one class may, in some scenarios, may allow for more than one application to be filtered.
+	p #[strong You should run the program as administrator.] This is because a lot of games handle input in such a way that standard keyboard hooks for hotkeys do not receive any keyboard events. Fullscreenizer uses a low-level keyboard hook to detect the hotkey and therefore requires administrator privileges to detect correctly. If you are cautious about Fullscreenizer hooking the keyboard for hotkeys, feel free to browse the source code (see below).
+	p In certain applications, the window can correctly scale, but leave the contents unchanged, or missaligned with the cursor (e.g. buttons don’t highlight when the cursor is hovering over them). If this does happen, the window will have to be set to the native resolution of the monitor and the scale option disabled. This happens because some games do not expect external sources to modify the window size and therefore do not react to changes to the window size.
+	p If your application does not become correctly fullscreenized, and you are running Fullscreenizer as administrator, try disabling resizing and moving using the appropriate checkboxes. The reason for this is that some applications detect movements and resizes and the border is sometimes added as a consequence. If this does not solve the problem, then there’s not much that can be done.
+
+	h3.heading Source and Binaries
+	p The source code is available on #[+ExternalLink("https://bitbucket.org/kasumil5x/fullscreenizer", "BitBucket")] or #[+ExternalLink("https://github.com/KasumiL5x/Fullscreenizer", "GitHub")]. If you do not want to compile it, you can also get #[a(href="http://www.ngreen.org/projects_dl/fullscreenizer/Fullscreenizer.zip") precompiled binaries].
