@@ -5,7 +5,7 @@ mixin MakePortfolio(filters, items)
 		for value, i in filters
 			a(href="#", data-filter=value.filter, class=(i === 0 ? "current" : "")) #{value.text}
 			if (filters.length-1 != i )
-				| /
+				//- | /
 	div.items-wrapper.ng-row.ng-row-wrap
 		for value in items
 			figure(data-categories=value.categories).ng-column

@@ -114,10 +114,10 @@
 
 	a {
 		color: $text-normal;
-		display: inline-block;
+		display: block;
 		font-size: 1.3rem;
 		margin: 0 10px;
-		padding: 0 10px;
+		padding: 10px 10px;
 		position: relative;
 		text-decoration: none;
 		text-transform: uppercase;
@@ -130,12 +130,8 @@
 
 		@media #{$medium-and-up} {
 			font-size: 1.75rem;
+			display: inline-block;
+			padding: 0 10px;
 		}
-	}
-
-	a:last-child {
-		border-right: 0;
-		margin-right: 0;
-		padding-right: 0;
 	}
 }
