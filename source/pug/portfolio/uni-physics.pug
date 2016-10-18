@@ -1,0 +1,15 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Physics Simulation | Daniel Green";
+
+block ArticleContent
+	h3.title Physics Simulation
+
+	+LightboxImage("../img/portfolio/uni-physics/gph-ica-1.jpg")
+
+	p For an assessment at university, we had to create a basic rigid body simulator consisting of various primitives. We were given the freedom to pick any framework to write the simulation in. I picked Unity because the rendering, of which we were not marked on, is already complete, allowing me to focus more so on the simulation side of things. Unity also provides quick and easy ways to visually debug elements, such as drawing vectors in 3D space, which helped during development astoundingly.
+	p The simulation itself wasn't the best, but I am happy with the results considering it was my first attempt at such a task. Although sleeping of bodies was implemented, waking was not. I looked in to many solutions to waking bodies, including cell-based waking, where the world is split into containers and all bodies within a container are awaken when a moving body enters that cell. Unfortunately, due to time constraints, I was unable to implement this feature.
+
+	h3.heading Source and Binaries
+	p Binaries can be downloaded #[a(href="http://ngreen.org/portfolio_dl/gph-bin.zip") here] and the source code can be downloaded #[a(href="http://ngreen.org/portfolio_dl/gph-src.zip") here].
