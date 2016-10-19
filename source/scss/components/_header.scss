@@ -161,6 +161,7 @@
 		color: $header-text-color !important;
 		display: block;
 		font-size: $header-nav-size;
+		transition: color 0.4s;
 
 		&.active, &:hover {
 			color: $primary-color !important;
@@ -180,7 +181,6 @@
 			padding: 0 1em;
 			text-align: center;
 			text-decoration: none;
-			transition: all 0.4s, border-bottom 0.1s;
 
 			span {
 				line-height: $header-height;
