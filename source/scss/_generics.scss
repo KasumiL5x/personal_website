@@ -24,10 +24,10 @@ a {
 	flex-direction: column;
 	height: 100vh; // wtf microshaft; get your shit together
 	margin: 0 auto;
-	margin-top: $header-height-mobile;
+	// margin-top: $header-height-mobile;
 	min-height: 100vh;
 	@media #{$large-and-up} {
-		margin-top: $header-height;
+		// margin-top: $header-height;
 	}
 }
 

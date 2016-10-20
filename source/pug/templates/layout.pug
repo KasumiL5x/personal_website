@@ -30,14 +30,22 @@ html
 		div.preloader
 			div.orbit
 		div.header
-			div.header__box
-				div.header__logo
-					a(href=Path+"index.html"): img(src=Path+"./img/dg.png")
-				button.ng-button-clear.header__mobile-nav-toggle: span
-				nav.header__nav.closed
-					ul
-						for value, key in Menu
-							li: a(href=value, class="header__nav__item " + (ActiveMenu === key ? "active" : "")): span #{key}
+			div.header__logo
+				a(href="#"): img(src=Path + "./img/dg.png")
+			button.ng-button-clear.header__mobile-nav-toggle: span &gt;
+			ul.header__nav
+				for value, key in Menu
+					li: a(href=value, class="header__nav__item " + (ActiveMenu === key ? "active" : "")) #{key}
+
+		//- div.header
+		//- 	div.header__box
+		//- 		div.header__logo
+		//- 			a(href=Path+"index.html"): img(src=Path+"./img/dg.png")
+		//- 		button.ng-button-clear.header__mobile-nav-toggle: span
+		//- 		nav.header__nav.closed
+		//- 			ul
+		//- 				for value, key in Menu
+		//- 					li: a(href=value, class="header__nav__item " + (ActiveMenu === key ? "active" : "")): span #{key}
 		div.main
 			div.page-content
 				block PageContent
