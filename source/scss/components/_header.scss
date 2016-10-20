@@ -4,11 +4,10 @@
 
 	.header__logo {
 		display: inline-block;
-		float: left;
 		height: $header-new-size;
 		left: 5%;
 		opacity: 1;
-		position: relative;
+		position: absolute;
 		transition: all 0.2s ease;
 
 		img {
@@ -24,7 +23,7 @@
 		z-index: 999;
 		position: absolute;
 		top: $header-new-size;
-		left: calc(50% - #{$header-tag-width/2});
+		left: calc(50% - #{$header-tag-width / 2});
 		width: $header-tag-width;
 		height: $header-tag-height;
 		background-color: $secondary-color;
@@ -42,7 +41,7 @@
 		transition: all 0.25s ease;
 
 		&:hover {
-			height: $header-new-size;
+			height: $header-tag-height-expanded;
 			background-color: $secondary-color;
 			color: #fff;
 		}
@@ -68,6 +67,7 @@
 			opacity: 1;
 			line-height: $header-new-size-expanded;
 			cursor: pointer;
+			border-bottom: 1px solid #222b2f;
 		}
 
 		.header__mobile-nav-toggle {
@@ -87,8 +87,10 @@
 
 		li {
 			position: relative;
+			// float: none;
+			// width: 100%;
 			float: left;
-			width: 33%;
+			width: 33.3333%;
 
 			a {
 				display: block;
