@@ -67,7 +67,7 @@ $header-nav-size: 2rem;
 $header-border-color: rgba(0, 0, 0, 0.2);
 $header-mobile-border-color: rgba(0, 0, 0, 0.5);
 $header-text-color: #000;
-$header-bg-color: #fff;
+
 $mobile-bg-color: #fafafa;
 $mobile-nav-thickness: 2px;
 $mobile-nav-distance: 10px;
@@ -75,6 +75,8 @@ $mobile-nav-time: 0.2s;
 $mobile-nav-color: #333;
 $mobile-nav-size: 32px;
 
+$header-bg-color: #fff;
+$header-hover-border-color: #C04E4E;//#BE3232;
 $header-new-size: 60px;
 $header-new-size-expanded: 80px;
 $header-tag-width: 60px;
