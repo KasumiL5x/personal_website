@@ -30,9 +30,10 @@ html
 		div.preloader
 			div.orbit
 		div.header
-			div.header__logo
-				a(href="#"): img(src=Path + "./img/dg.png")
-			button.ng-button-clear.header__mobile-nav-toggle: span &gt;
+			div.header__box
+				div.header__logo
+					a(href="#"): img(src=Path + "./img/dg.png")
+				button.ng-button-clear.header__mobile-nav-toggle: span &gt;
 			ul.header__nav
 				for value, key in Menu
 					li: a(href=value, class="header__nav__item " + (ActiveMenu === key ? "active" : "")) #{key}
