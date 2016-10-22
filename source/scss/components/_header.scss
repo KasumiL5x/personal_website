@@ -1,23 +1,23 @@
 .header {
 	background-color: $header-bg-color;
-	box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 0 2px $header-border-color;
 	position: relative;
 
 	.header__box {
 		display: block;
-		height: 75px;
+		height: $header-height;
+		padding-left: $header-padding;
+		padding-right: $header-padding;
 		width: 100%;
-		padding-left: 2rem;
-		padding-right: 2rem;
 
 		.header__logo {
 			display: inline-block;
-			height: $header-new-size;
+			height: $header-logo-scale;
 			opacity: 1;
 			position: relative;
-			transition: all 0.2s ease;
 			top: 50%;
 			transform: translateY(-50%);
+			transition: all $header-anim-time ease;
 
 			img {
 				height: 100%;
@@ -36,48 +36,79 @@
 			position: relative;
 			top: 50%;
 			transform: translateY(-50%);
-			transition: background $mobile-nav-time;
-			width: $mobile-nav-size;
+			transition: background $header-anim-time;
+			width: $mobile-burger-width;
 			z-index: 99999;
 
 			// internal span for burger lines
 			span {
-				background: $mobile-nav-color;
+				background: $header-burger-color;
 				bottom: 0;
 				display: block;
-				height: $mobile-nav-thickness;
+				height: $header-burger-thickness;
 				left: 0;
 				position: absolute;
 				right: 0;
 				top: 50%;
-				transition: background 0s $mobile-nav-time;
+				transition: background 0s $header-anim-time;
 
 				// above and below burger lines
 				&::before,
 				&::after {
-					background-color: $mobile-nav-color;
+					background-color: $header-burger-color;
 					content: '';
 					display: block;
-					height: $mobile-nav-thickness;
+					height: $header-burger-thickness;
 					left: 0;
 					position: absolute;
-					transition-delay: $mobile-nav-time, 0s;
-					transition-duration: $mobile-nav-time, $mobile-nav-time;
+					transition-delay: $header-anim-time, 0s;
+					transition-duration: $header-anim-time, $header-anim-time;
 					width: 100%;
 				}
 
 				// top burger line position
 				&::before {
-					top: -$mobile-nav-distance;
+					top: -$header-burger-separation;
 					transition-property: top, transform;
 				}
 
 				// bottom burger bar position
 				&::after {
-					bottom: -$mobile-nav-distance;
+					bottom: -$header-burger-separation;
 					transition-property: bottom, transform;
 				}
 			}
+		}
+	}
+
+	.header__nav {
+		overflow: hidden;
+		margin: 0;
+		padding: 0;
+
+		li {
+			position: relative;
+			float: none;
+			width: 100%;
+		}
+	}
+
+	.header__nav__item {
+		color: $header-nav-color;
+		cursor: default;
+		display: block;
+		font-size: 1.25rem;
+		height: 0;
+		line-height: $header-height-expanded;
+		opacity: 0;
+		text-align: center;
+		text-decoration: none;
+		transition: all $header-anim-time ease;
+
+		&:hover,
+		&.active {
+			color: $header-nav-color-hover;
+			background-color: $primary-color;
 		}
 	}
 
@@ -89,7 +120,7 @@
 				// delay for the top and bottom burger bar animating their rotation
 				&::before,
 				&::after {
-					transition-delay: 0s, $mobile-nav-time;
+					transition-delay: 0s, $header-anim-time;
 				}
 
 				// active rotates top burger line down
@@ -106,274 +137,10 @@
 			}
 		}
 
-		ul.header__nav li a {
-			height: $header-new-size-expanded;
-			opacity: 1;
-			line-height: $header-new-size-expanded;
+		.header__nav__item {
 			cursor: pointer;
-			// border-bottom: 1px solid #222b2f;
-		}
-	}
-
-	ul.header__nav {
-		overflow: hidden;
-		margin: 0;
-		padding: 0;
-
-		li {
-			position: relative;
-			float: none;
-			width: 100%;
-
-			a {
-				display: block;
-				height: 0;//$header-new-size;
-				line-height: $header-new-size;
-				opacity: 0;
-				font-size: 1.25rem;
-				color: #848e92;
-				text-decoration: none;
-				text-align: center;
-				cursor: default;
-				transition: all 0.25s ease;
-
-				&:hover,
-				&.active {
-					color: #fff;
-					background-color: $primary-color;
-					// background-color: #222b2f;
-				}
-
-				&:hover:first-child:not(.active) {
-					border-right: 1px solid $header-hover-border-color;
-				}
-				&:hover:last-child:not(.active) {
-					border-left: 1px solid $header-hover-border-color;
-				}
-				&:hover:not(.active) {
-					border-left: 1px solid $header-hover-border-color;
-					border-right: 1px solid $header-hover-border-color;
-				}
-			}
+			height: $header-height-expanded;
+			opacity: 1;
 		}
 	}
 }
-
-// .header {
-// 	background-color: $header-bg-color;
-// 	box-shadow: 0 0 2px $header-border-color;
-// 	display: block;
-// 	-ms-flex: 0 1 auto;
-// 	flex: 0 1 auto; // only take up size required
-// 	-ms-flex-negative: 0;
-// 	flex-shrink: 0;	// force no shrink
-// 	left: 0;
-// 	position: fixed;
-// 	top: 0;
-// 	width: 100%;
-// 	z-index: 999;
-// }
-
-// // box to define size of header and align contents
-// .header__box {
-// 	height: $header-height-mobile;
-// 	margin: 0 auto;
-// 	position: relative;
-
-// 	@media #{$large-and-up} {
-// 		height: $header-height;
-// 	}
-// }
-
-// // logo and/or text
-// .header__logo {
-// 	display: inline-block;
-// 	float: left;
-// 	height: inherit;
-// 	left: 5%;
-// 	position: relative;
-
-// 	img {
-// 		height: 75%;
-// 		position: relative;
-// 		top: 50%;
-// 		transform: translateY(-50%);
-// 		width: auto;
-// 	}
-// }
-
-// // mobile nav wrapper
-// .header__mobile-nav-toggle {
-// 	cursor: pointer;
-// 	display: block;
-// 	float: right;
-// 	margin: 0;
-// 	overflow: hidden;
-// 	padding: 0;
-// 	position: relative;
-// 	right: 5%;
-// 	top: 50%;
-// 	transform: translateY(-50%);
-// 	transition: background $mobile-nav-time;
-// 	width: $mobile-nav-size;
-// 	z-index: 99999;
-
-// 	@media #{$large-and-up} {
-// 		display: none;
-// 	}
-
-// 	// internal span for burger lines
-// 	span {
-// 		background: $mobile-nav-color;
-// 		bottom: 0;
-// 		display: block;
-// 		height: $mobile-nav-thickness;
-// 		left: 0;
-// 		position: absolute;
-// 		right: 0;
-// 		top: 50%;
-// 		transition: background 0s $mobile-nav-time;
-
-// 		// above and below burger lines
-// 		&::before,
-// 		&::after {
-// 			background-color: $mobile-nav-color;
-// 			content: '';
-// 			display: block;
-// 			height: $mobile-nav-thickness;
-// 			left: 0;
-// 			position: absolute;
-// 			transition-delay: $mobile-nav-time, 0s;
-// 			transition-duration: $mobile-nav-time, $mobile-nav-time;
-// 			width: 100%;
-// 		}
-
-// 		// top burger line position
-// 		&::before {
-// 			top: -$mobile-nav-distance;
-// 			transition-property: top, transform;
-// 		}
-
-// 		// bottom burger bar position
-// 		&::after {
-// 			bottom: -$mobile-nav-distance;
-// 			transition-property: bottom, transform;
-// 		}
-// 	}
-
-// 	// active disables the middle burger line
-// 	&.active span {
-// 		background: none;
-
-// 		// delay for the top and bottom burger bar animating their rotation
-// 		&::before,
-// 		&::after {
-// 			transition-delay: 0s, $mobile-nav-time;
-// 		}
-
-// 		// active rotates top burger line down
-// 		&::before {
-// 			top: 0;
-// 			transform: rotate(45deg);
-// 		}
-
-// 		// active rotates bottom burger line up
-// 		&::after {
-// 			bottom: 0;
-// 			transform: rotate(-45deg);
-// 		}
-// 	}
-// }
-
-// // actual navbar element
-// .header__nav {
-// 	background-color: $mobile-bg-color;
-// 	box-shadow: 1px 1px 12px $header-mobile-border-color;
-// 	display: block;
-// 	height: 100%;
-// 	overflow: visible;
-// 	padding-top: 50px;
-// 	position: fixed;
-// 	right: 0;
-// 	transition: all 0.2s;
-// 	z-index: 99998; // one less than header__mobile-nav-toggle
-
-// 	&.opened {
-// 		width: 250px;
-// 	}
-
-// 	&.closed {
-// 		width: 0;
-// 	}
-
-// 	@media #{$large-and-up} {
-// 		background-color: transparent;
-// 		box-shadow: none;
-// 		float: right;
-// 		height: 100%;
-// 		max-height: 100% !important;
-// 		padding: 0;
-// 		position: absolute;
-// 		right: 5%;
-// 		width: auto !important;
-// 	}
-
-// 	.header__nav__item {
-// 		color: $header-text-color !important;
-// 		display: block;
-// 		font-size: $header-nav-size;
-// 		transition: color 0.4s;
-
-// 		&.active, &:hover {
-// 			color: $primary-color !important;
-// 		}
-
-// 		// text within the item
-// 		span {
-// 			line-height: $header-height-mobile;
-// 			position: relative;
-// 			vertical-align: middle;
-// 		}
-
-// 		@media #{$large-and-up} {
-// 			display: block;
-// 			height: 100%;
-// 			line-height: 0;
-// 			padding: 0 1em;
-// 			text-align: center;
-// 			text-decoration: none;
-
-// 			span {
-// 				line-height: $header-height;
-// 			}
-// 		}
-// 	}
-
-// 	ul {
-// 		display: block;
-// 		font-size: 0; // fix spacing bug between elements
-// 		list-style: none;
-// 		margin: 0 auto;
-// 		// margin-top: 10%;
-// 		padding: 2.35em 0 3em;
-// 		text-align: center;
-// 		width: 100%;
-
-// 		@media #{$large-and-up} {
-// 			display: inline-block;
-// 			height: 100%;
-// 			margin: 0;
-// 			padding: 0;
-// 		}
-
-// 		li {
-// 			display: block;
-// 			margin: 0;
-
-// 			@media #{$large-and-up} {
-// 				display: inline-block;
-// 				height: 100%;
-// 			}
-// 		} // li
-// 	} // ul
-// }
