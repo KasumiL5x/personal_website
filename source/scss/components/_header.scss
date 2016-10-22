@@ -2,6 +2,8 @@
 	background-color: $header-bg-color;
 	box-shadow: 0 0 2px $header-border-color;
 	position: relative;
+	display: flex;
+	flex-flow: row wrap;
 
 	.header__box {
 		display: block;
@@ -9,6 +11,13 @@
 		padding-left: $header-padding;
 		padding-right: $header-padding;
 		width: 100%;
+		flex: 1 1 auto;
+
+		@media #{$medium-and-up} {
+			display: inline-flex;
+			width: auto;
+			flex: 0 0 auto;
+		}
 
 		.header__logo {
 			display: inline-block;
@@ -39,6 +48,10 @@
 			transition: background $header-anim-time;
 			width: $mobile-burger-width;
 			z-index: 99999;
+
+			@media #{$medium-and-up} {
+				display: none;
+			}
 
 			// internal span for burger lines
 			span {
@@ -85,11 +98,25 @@
 		overflow: hidden;
 		margin: 0;
 		padding: 0;
+		width: 100%;
+
+		@media #{$medium-and-up} {
+			display: inline-flex;
+			width: auto;
+			height: 100%;
+			flex: 1 1 auto;
+		}
 
 		li {
 			position: relative;
 			float: none;
 			width: 100%;
+
+			@media #{$medium-and-up} {
+				width: 33.333%;
+				height: 100%;
+				float: left;
+			}
 		}
 	}
 
@@ -104,6 +131,13 @@
 		text-align: center;
 		text-decoration: none;
 		transition: all $header-anim-time ease;
+
+		@media #{$medium-and-up} {
+			height: $header-height;
+			opacity: 1;
+			cursor: pointer;
+			line-height: $header-height;
+		}
 
 		&:hover,
 		&.active {
