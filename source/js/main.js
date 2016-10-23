@@ -1,6 +1,9 @@
 // preloader
-$(window).on('load', function() {
-  $('.preloader .orbit').fadeOut(250);
+// $(window).on('load', function() {
+$(document).ready(function() {
+  $('.preloader').addClass('done');
+  // $('.preloader').delay(250).addClass('done');
+  // $('.preloader .orbit').fadeOut(250);
   $('.preloader').delay(250).fadeOut(500);
 });
 

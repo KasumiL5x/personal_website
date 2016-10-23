@@ -28,7 +28,14 @@ html
 		title #{Title}
 	body
 		div.preloader
-			div.orbit
+			div.logo-wrapper
+				svg(viewBox="0 0 600 600")
+					g
+						path(d="M150.2,223.5v56.5h-5.6V189h5.6v29h85v187.8h-90.5v-5.6H202v-28.7h27.5v-68.8h-56v-5.6h56v-73.5H150.2z M206.1,375.6v24.6 h23.1v-24.6H206.1z M248,247.6v-59.8h5.6v59.8H248z M261.2,247.6v-59.8h5.6v59.8H261.2z")
+						path(d="M373.1,226.8v30.8h-5.6v-60.1h5.6v23.7h89.1v187.2h-89.1v-5.6h83.5V226.8H373.1z M478.9,243.2v-62.7h5.6v62.7H478.9z M494.4,243.2v-62.7h5.6v62.7H494.4z")
+					circle(class="logo-ring-bg" cx="300" cy="300" r="275.8")
+					circle(class="logo-ring-anim" cx="300" cy="300" r="275.8")
+			//- div.orbit
 		div.header
 			div.header__box
 				div.header__logo
