@@ -178,6 +178,10 @@
 			cursor: pointer;
 			height: $header-height-expanded;
 			opacity: 1;
+
+			@media #{$medium-and-up} {
+				height: $header-height;
+			}
 		}
 	}
 }
