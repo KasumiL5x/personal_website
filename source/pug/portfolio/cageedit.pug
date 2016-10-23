@@ -10,6 +10,7 @@ block ArticleContent
 
 	h3.heading Installation
 	p Copy #[em push_deformer.py] to a path defined in your #[strong MAYA_PLUG_IN_PATH]. For example, the default #[em plug-ins] folder in Maya's home directory.
+	p Copy #[em apply_push_deformer.py] and #[em cage_edit.py] to a path defined in your #[strong PYTHONPATH]. For instance, the default scripts folder in Maya's home directory.
 
 	h3.heading Usage
 	p Firstly, select all objects you wish to generate cages for, and then run the #[em generate_cages] function (see below). When prompted for a name for the cage, enter one. This is the name that will be used for deleting and exporting, if you choose to do that. Note that if you create a cage with the same name multiple times, such as when adding objects to the same cage separately, then the existing cage will be simply appended. A material will be created and applied to the generated cages, and they will be added to their own display layer. These cages all have a custom push deformer attached to them, which will allow you to push the vertices of the cages along their respective normals, inflating or deflating the cages. This is accessible through the Attribute Editor or the Channel Box, for each cage mesh generated. This is an undoable operation.
