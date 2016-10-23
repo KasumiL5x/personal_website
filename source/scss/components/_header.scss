@@ -2,8 +2,7 @@
 	background-color: $header-bg-color;
 	box-shadow: 0 0 2px $header-border-color;
 	position: relative;
-	display: flex;
-	flex-flow: row wrap;
+	display: block;
 
 	.header__box {
 		display: block;
@@ -11,12 +10,11 @@
 		padding-left: $header-padding;
 		padding-right: $header-padding;
 		width: 100%;
-		flex: 1 1 auto;
+		position: relative;
 
 		@media #{$medium-and-up} {
-			display: inline-flex;
+			display: inline-block;
 			width: auto;
-			flex: 0 0 auto;
 		}
 
 		.header__logo {
@@ -98,13 +96,16 @@
 		overflow: hidden;
 		margin: 0;
 		padding: 0;
+		display: block;
 		width: 100%;
+		font-size: 0;
 
 		@media #{$medium-and-up} {
-			display: inline-flex;
+			display: inline-block;
 			width: auto;
-			height: 100%;
-			flex: 1 1 auto;
+			position: relative;
+			float: right;
+			right: 4rem;
 		}
 
 		li {
@@ -113,9 +114,8 @@
 			width: 100%;
 
 			@media #{$medium-and-up} {
-				width: 33.333%;
-				height: 100%;
-				float: left;
+				width: auto;
+				display: inline-block;
 			}
 		}
 	}
@@ -133,10 +133,13 @@
 		transition: all $header-anim-time ease;
 
 		@media #{$medium-and-up} {
+			display: inline-block;
 			height: $header-height;
 			opacity: 1;
 			cursor: pointer;
 			line-height: $header-height;
+			padding-right: 2rem;
+			padding-left: 2rem;
 		}
 
 		&:hover,
