@@ -3,7 +3,7 @@ block PathVariable
 
 block Variables
 	- var Title = "Default";
-	- var Menu = { "About": Path+"about.html", "Portfolio": Path+"portfolio.html", "Articles": Path+"articles.html" };
+	- var Menu = { "About": Path+"index.html", "Portfolio": Path+"portfolio.html", "Articles": Path+"articles.html" };
 	- var ActiveMenu = "About";
 
 include mixins
@@ -39,7 +39,7 @@ html
 		div.header
 			div.header__box
 				div.header__logo
-					a(href="#"): img(src=Path + "./img/dg.png")
+					a(href=Path+"index.html"): img(src=Path + "./img/dg.png")
 				button.ng-button-clear.header__mobile-nav-toggle: span
 			ul.header__nav
 				for value, key in Menu
