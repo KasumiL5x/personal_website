@@ -25,7 +25,7 @@ block ArticleContent
 		| def __get_average_normal(faces):
 		| 	average = pm.datatypes.Vector()
 		| 	for curr_face in faces:
-		| 		average += curr_face.getNormal()
+		| 		average += curr_face.getNormal(space='world')
 		| 	return average.normal()
 		| 
 		| def look_at_selected_faces():
