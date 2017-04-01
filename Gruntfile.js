@@ -27,12 +27,12 @@ module.exports = function(grunt) {
 			},
 			update_ngreen_css: {
 				cwd: '.',
-				src: ['D:/prg/proj/web/ngreen_css/dist/ngreen.css'],
+				src: ['F:/projects/ngreen_org/css/dist/ngreen.css'],
 				dest: 'source/css/ngreen.css'
 			},
 			update_ngreen_js: {
 				cwd: '.',
-				src: ['D:/prg/proj/web/ngreen_css/js/ngreen.js'],
+				src: ['F:/projects/ngreen_org/css/js/ngreen.js'],
 				dest: 'source/js/ngreen.js'
 			},
 			build: {
