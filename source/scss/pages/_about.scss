@@ -121,6 +121,16 @@
 		background-color: $secondary-color;
 	}
 
+	.other-skills {
+		display: block;
+		text-align: center;
+		width: 100%;
+
+		li {
+			display: inline-block;
+		}
+	}
+
 	h1 {
 		color: $about-skills-title-color;
 		font-size: 1.75rem;

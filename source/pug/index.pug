@@ -41,8 +41,8 @@ block PageContent
 
 		div.about__content
 			h1 Daniel Green
-			h3 Programmer and Artist
-			p I'm a hardworking and motivated programmer and artist with a penchant for all things science. My areas of interest are primarily in rigging, pipeline development, and computer graphics. I love to teach and live to learn.
+			h3 Technical Artist &amp; Web Developer
+			p I am a naturally inquisitive programmer and artist.  My primary areas of interest are rigging, tools development, compositing, and creative pipelines.  I also occasionally work with various web technologies.  I love to teach and live to learn.
 			div.social
 				div.social__item.social--linkedin: a(href="https://uk.linkedin.com/in/kasumil5x", target="_blank"): i(class="fa fa-linkedin")
 				div.social__item.social--github: a(href="https://github.com/kasumil5x", target="_blank"): i(class="fa fa-github")
@@ -60,12 +60,24 @@ block PageContent
 					h4 #{value.title}
 					div.ng-progress-container.ng-shadowed
 						div.ng-progress.ng-animated.technical(ng-percent=value.percent, ng-delay=value.delay, ng-duration="1000")
+				ul.other-skills
+					li MEL #[b &middot;]
+					li NODE.JS #[b &middot;]
+					li JAVA #[b &middot;]
+					li LATEX #[b &middot;]
+					li OTHERS
 				h1 Technical
 			div.skills-list
 				for value in CreativeSkills
 					h4 #{value.title}
 					div.ng-progress-container.ng-shadowed
 						div.ng-progress.ng-animated.creative(ng-percent=value.percent, ng-delay=value.delay, ng-duration="1000")
+				ul.other-skills
+					li 3DS MAX #[b &middot;]
+					li AFTER EFFECTS #[b &middot;]
+					li CAMERA WORK #[b &middot;]
+					li COMPOSITING #[b &middot;]
+					li OTHERS
 				h1 Creative
 		//- END Professional Skills
 
