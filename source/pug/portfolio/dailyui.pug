@@ -1,0 +1,83 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "#DailyUI | Daniel Green";
+
+block ArticleContent
+	h3.title #DailyUI
+
+	p For the uninitiated, #[+ExternalLink("http://dailyui.co/", "DailyUI")] is a design challenge lasting 100 days.  Each day, a new keyword and a new design to imagine.  Constant creation.  I embarked upon this adventure to better my knowledge of design and to expand my areas of interest.  Working full time, I only had a little time before work each day.  Hit by other duties, I had to stop early.  Here is a collection of what I created with brief comments on each.
+
+	h3.heading #001 - Sign Up
+	p The input fields' text act as placeholders until the field is focused. Then, it transitions from a placeholder into a header. I think this is great, as it acts as a non-intrusive way of reminding the user of the content without having to splash additional labels around the element in question.  The submit verification animation is nice, but could be better.
+	<p data-height="570" data-theme-id="0" data-slug-hash="ZKxzdM" data-default-tab="result" data-user="KasumiL5x" data-embed-version="2" data-pen-title="#DailyUI 001 (Chrome)" class="codepen">See the Pen <a href="https://codepen.io/KasumiL5x/pen/ZKxzdM/">#DailyUI 001 (Chrome)</a> by KasumiL5x (<a href="https://codepen.io/KasumiL5x">@KasumiL5x</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+	<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+	h3.heading #002 - Credit Card Checkout
+	p The first of the mobile UI designs. While this interface is functional, I feel as though it could have displayed a product, or at least an indication of how much was purchased (e.g. a shopping cart with a notification icon).  The currently selected payment method also seems a little faint and could be pulled more into focus.
+	+LightboxImage("../img/portfolio/dailyui/DailyUI2.png", "", "max-height: 50vh;")
+
+	h3.heading #003 - Landing Page
+	p Another experiment with input field labels and placeholders. An idea similar to that of the first, but with separated elements, allowing for a more specific description for the placeholder.
+	<p data-height="533" data-theme-id="0" data-slug-hash="qmYNdw" data-default-tab="result" data-user="KasumiL5x" data-embed-version="2" data-pen-title="#DailyUI #003" class="codepen">See the Pen <a href="https://codepen.io/KasumiL5x/pen/qmYNdw/">#DailyUI #003</a> by KasumiL5x (<a href="https://codepen.io/KasumiL5x">@KasumiL5x</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+	<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+	h3.heading #004 - Calculator
+	p A simplistic interface designed for desktop or tablet use. The triple dot at the bottom center switches to an advanced mode, where other functions become available.
+	+LightboxImage("../img/portfolio/dailyui/DailyUI4.png", "", "max-height: 50vh;")
+
+	h3.heading #005 - App icon
+	p A piano application icon for a mobile device. Negative space used for the black keys.
+	+LightboxImage("../img/portfolio/dailyui/DailyUI5.png", "", "max-height: 35vh;")
+
+	h3.heading #006 - User Profile
+	p In this imaginary social app, a user's social feed is consolidated into one, with links to each provided. Useful for following somebody who posts on multiple networks.
+	+LightboxImage("../img/portfolio/dailyui/DailyUI6.png", "", "max-height: 60vh;")
+
+	h3.heading #007 - Settings
+	p This application controls the settings of a connected light source.  The color can be modulated using the hex wheels in the center in combination with the brightness slider below.  The bulb at the top changes color to match.  I feel that something more creative could have been done for the brightness control, potentially involving the bulb itself, and revealing more screen space for it to exist.
+	+LightboxImage("../img/portfolio/dailyui/DailyUI7.png", "", "max-height: 60vh;")
+
+	h3.heading #008 - 404 Page
+	p Large, simple, and bold to get the point across, with a little lighthearted humor.
+	<p data-height="591" data-theme-id="0" data-slug-hash="ybQKZO" data-default-tab="result" data-user="KasumiL5x" data-embed-version="2" data-pen-title="#DaliyUI 008 - 404 page" class="codepen">See the Pen <a href="https://codepen.io/KasumiL5x/pen/ybQKZO/">#DaliyUI 008 - 404 page</a> by KasumiL5x (<a href="https://codepen.io/KasumiL5x">@KasumiL5x</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+	<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+	h3.heading #009 - Music Player
+	p I had experimented with using the audio waveform as a timeline for the progress of the song.  Unfortunately, it took too long as ate up my time, and the design was simplified.  It feels as though this design still has potential, but is missing key components like volume control.
+	+LightboxImage("../img/portfolio/dailyui/DailyUI9.png", "", "max-height: 60vh;")
+
+	h3.heading #010 - Social Share
+	p The icons use actual brand colors for recognition.  When focused, a snappy, bouncy, but not overkill, animation floods the background with the respective brand color.  The logo then inverts to create a negative space cutout.  This is reversed when focus is lost.  I find these kinds of buttons appealing when used correctly.
+	<p data-height="265" data-theme-id="0" data-slug-hash="bWOXMd" data-default-tab="result" data-user="KasumiL5x" data-embed-version="2" data-pen-title="#DailyUI 010" class="codepen">See the Pen <a href="https://codepen.io/KasumiL5x/pen/bWOXMd/">#DailyUI 010</a> by KasumiL5x (<a href="https://codepen.io/KasumiL5x">@KasumiL5x</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+	<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+	h3.heading #011 - Success Message
+	p Not only is toast nutritious, it is great for notifications, too!   The SVG animation draws attention to the popup in addition to it just appearing, and adds a layer of interactivity.  It could definitely use work, but it is functional.
+	<p data-height="269" data-theme-id="0" data-slug-hash="jmJWeb" data-default-tab="result" data-user="KasumiL5x" data-embed-version="2" data-pen-title="#DailyUI 0011" class="codepen">See the Pen <a href="https://codepen.io/KasumiL5x/pen/jmJWeb/">#DailyUI 0011</a> by KasumiL5x (<a href="https://codepen.io/KasumiL5x">@KasumiL5x</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+	<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+	h3.heading #012 - Single Product
+	p A simplistic yet effective product page.  I find that adding an offset in size of the element in focus – the product – to the content next to it draws the eye toward that element.  I do think that the colors could have been implemented in a smarter way, and somehow indicated what they actually change, too.  Most of the core information is available, but it is missing some essentials such as the size.
+	+LightboxImage("../img/portfolio/dailyui/DailyUI12.png")
+
+	h3.heading #013 - Direct Messenging
+	p The color of the heading and the color of the contact’s messages are matched for consistency and easy identification.  Colored blocks on each message are simple enough to read at a glance, but do not take up too much whitespace, which is vital for mobile.  The input at the bottom of the screen is kept in a minimal state unless interacted with to allow for more reading room.
+	+LightboxImage("../img/portfolio/dailyui/DailyUI13.png")
+
+	h3.heading #014 - Timer
+	p Unfortunately, too much experimenting left no time available, reducing the design to a simplistic form.  That said, sometimes less is more.  The tabs at the top switch modes.  The three buttons at the bottom control the stopwatch.  Placing them at the bottom and making them large makes them sit directly under the resting position of the thumb, making it easy to use.
+	+LightboxImage("../img/portfolio/dailyui/DailyUI14.png")
+
+	h3.heading #015 - Toggle
+	p A simple binary switch.  Labels are placed inline on each side of the toggle to confirm what each state means.  I think that the shadow may be overdone, though.
+	<p data-height="244" data-theme-id="0" data-slug-hash="EmBpEp" data-default-tab="result" data-user="KasumiL5x" data-embed-version="2" data-pen-title="#DailyUI 015" class="codepen">See the Pen <a href="https://codepen.io/KasumiL5x/pen/EmBpEp/">#DailyUI 015</a> by KasumiL5x (<a href="https://codepen.io/KasumiL5x">@KasumiL5x</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+	<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+	h3.heading #016 - Modal Dialog
+	p When handled incorrectly, modal dialogs can completely break a user’s flow.  As such, I find it important to make the message clear and provide an obvious method for closing the dialog quickly.
+	+LightboxImage("../img/portfolio/dailyui/DailyUI16.png")
+
+	h3.heading #017 - Email Receipt
+	p This minimal receipt had people questioning if I had bought an Apple Watch.  In my books, that’s a win for the design.  I found that the distribution of elements plays a large role in the appearance and flow of a design.  While visually appealing, it is missing a number of features often found in emails, such as clickable links for tracking, quick links to account settings, reviewing of orders, and so on.
+	+LightboxImage("../img/portfolio/dailyui/DailyUI17.png")
