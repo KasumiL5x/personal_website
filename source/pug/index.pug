@@ -35,6 +35,14 @@ block PageContent
 			{title: "Photoshop", percent: "80", delay: "300"},
 			{title: "NUKE", percent: "75", delay: "400"},
 		];
+	
+	-
+		var SocialSites = {
+			'linkedin': 'https://uk.linkedin.com/in/kasumil5x',
+			'twitter': 'https://twitter.com/KasumiL5x',
+			'github': 'https://github.com/kasumil5x',
+			'bitbucket': 'https://bitbucket.org/kasumil5x/'
+		};
 
 	div.ng-container.about
 		div.about__title: h1 Who Am I
@@ -43,12 +51,12 @@ block PageContent
 			h1 Daniel Green
 			h3 Technical Artist &amp; Web Developer
 			p I am a naturally inquisitive programmer and artist.  My primary areas of interest are rigging, tools development, compositing, and creative pipelines.  I also occasionally work with various web technologies.  I love to teach and live to learn.
+			//- 
 			div.social
-				div.social__item.social--linkedin: a(href="https://uk.linkedin.com/in/kasumil5x", target="_blank"): i(class="fa fa-linkedin")
-				div.social__item.social--github: a(href="https://github.com/kasumil5x", target="_blank"): i(class="fa fa-github")
-				div.social__item.social--bitbucket: a(href="https://bitbucket.org/kasumil5x/", target="_blank"): i(class="fa fa-bitbucket")
-				div.social__item.social--twitter: a(href="https://twitter.com/KasumiL5x", target="_blank"): i(class="fa fa-twitter")
-				div.social__item.social--mail: a(href="mailto:d@ngreen.org", target="_self"): i(class="fa fa-envelope-o")
+				each link, site in SocialSites
+					a(href=link, target="_blank", class="social__item " + site)
+						i(class="fa fa-" + site)
+			//- 
 			div.resume-button
 				a(href="http://ngreen.org/resume_dl/resume.pdf" class="ng-button") Download Resume
 

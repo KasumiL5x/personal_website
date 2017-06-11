@@ -9,6 +9,17 @@ $lightest-grey: #999;
 
 // header
 
+// social buttons
+$social-size: 7rem;
+$social-bg: #fff;//f7f7f7;
+$social-anim-time: 0.3s;
+$social-sites: (
+	"linkedin": #0077b5,
+	"github": #333,
+	"bitbucket": #205081,
+	"twitter": #1da1f2
+);
+
 // portfolio
 $portfolio-overlay-color: rgba(255, 255, 255, 0.85);
 $portfolio-padding-mobile: 2rem;

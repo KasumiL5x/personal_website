@@ -10,54 +10,60 @@
 .social {
 	text-align: center;
 
-	.social__item {
-		border: 1px solid $lightest-grey;
-		border-radius: 50%;
-		color: $text-dark;
-		cursor: pointer;
-		display: inline-block;
-		font-size: 2.8rem;
-		height: 5rem;
-		line-height: 4.5rem;
-		margin: 0.5rem 1rem;
-		text-align: center;
-		transition: all 0.2s;
-		width: 5rem;
+	// set colors and initial scales
+	@each $i, $j in $social-sites {
+		.social__item.#{$i} {
+			&:before {
+				background-color: #{$j};
+			}
 
-		a {
-			color: inherit;
+			.fa {
+				color: $j;
+				transform: scale(0.8);
+				transition: all $social-anim-time;
+				transition-timing-function: cubic-bezier(0.09, 0.99, 0.87, 1.6);
+			}
 		}
 	}
 
-	.social__item:hover {
-		&.social--linkedin { // https://brand.linkedin.com/visual-identity/color-palettes
-			background-color: #0077b5;
-			border-color: #0077b5;
-			color: #fff;
+	.social__item {
+		border: 1px solid rgba(0,0,0,0.05); // makes it slightly visible w/ white bg
+		background-color: $social-bg;
+		border-radius: 30%;
+		box-shadow: 0 0.5rem 1.5rem -0.5rem rgba(0, 0, 0, 0.25);
+		display: inline-block;
+		font-size: 4rem;
+		height: $social-size;
+		line-height: $social-size;
+		margin: 0 1rem;
+		overflow: hidden;
+		position: relative;
+		transform: translateZ(0);
+		width: $social-size;
+
+		&:before {
+			border-radius: 100%;
+			bottom: 0;
+			content: '';
+			left: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+			transform: scale(0);
+			transition: all $social-anim-time;
+			transition-timing-function: ease-out;
+			z-index: -1;
 		}
 
-		&.social--github { // https://github.com/logos
-			background-color: #222;
-			border-color: #222;
-			color: #fff;
-		}
+		&:hover, &:focus {
+			&:before {
+				transform: scale(2);
+			}
 
-		&.social--bitbucket { // https://www.atlassian.com/company/news/press-kit
-			background-color: #205081;
-			border-color: #205081;
-			color: #fff;
-		}
-
-		&.social--twitter { // https://brand.twitter.com/en.html
-			background-color: #1DA1F3;
-			border-color: #1DA1F3;
-			color: #fff;
-		}
-
-		&.social--mail {
-			background-color: #d2d2d2;
-			border-color: #d2d2d2;
-			color: #fff;
+			.fa {
+				color: $social-bg;
+				transform: scale(1);
+			}
 		}
 	}
 }
