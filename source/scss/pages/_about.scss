@@ -119,13 +119,14 @@
 	color: #fff;
 	display: inline-block;
 	font-weight: 700;
+	max-width: 100%; // max 100 of parent (for mobile)
 	overflow: hidden;
 	padding: 2rem;
 	position: relative;
 	text-align: center;
 	text-transform: uppercase;
 	transition: all 0.3s ease-in-out;
-	width: 300px;
+	width: 300px; // regular width
 	z-index: 1;
 
 	&:after {
