@@ -57,8 +57,10 @@ block PageContent
 					a(href=link, target="_blank", class="social__item " + site)
 						i(class="fa fa-" + site)
 			//- 
-			div.resume-button
-				a(href="http://ngreen.org/resume_dl/resume.pdf" class="ng-button") Download Resume
+			div.resume-button-wrapper
+				a(href="http://ngreen.org/resume_dl/resume.pdf")
+					div.resume-button
+						span Download Resume
 
 		//- BEGIN Professional Skills
 		div.about__title: h1 Professional Skills
