@@ -31,32 +31,32 @@ block ArticleContent
 		| import maya.cmds as mc
 		| import maya.mel as mel
 		| import maya.OpenMayaUI as omui
-		| 
+		|  
 		| def get_maya_window():
 		| 	ptr = omui.MQtUtil.mainWindow()
 		| 	parent = shiboken2.wrapInstance(long(ptr), QW.QDialog)
 		| 	return parent
 		| #end
-		| 
+		|  
 		| class MaximumReplacer(QW.QDialog):
 		| 	def __init__(self, parent=get_maya_window()):
 		| 		QW.QDialog.__init__(self, parent=parent)
-		| 
+		|  
 		| 		# [(short_name, long_name), ...]
 		| 		self.selected_items = []
 		| 		# [(regexed_short_name, different_from_original), ...] maps 1-1 with the above in size
 		| 		self.regexed_items = []
-		| 
+		|  
 		| 		self.setWindowFlags(QC.Qt.Window)
 		| 		self.setWindowTitle('Maximum Replacer')
 		| 		self.setMinimumWidth(380)
 		| 		self.setMinimumHeight(400)
-		| 
+		|  
 		| 		self.setLayout(QW.QVBoxLayout())
 		| 		self.layout().setContentsMargins(5, 5, 5, 5)
 		| 		self.layout().setSpacing(5)
 		| 		self.layout().setAlignment(QC.Qt.AlignTop)
-		| 
+		|  
 		| 		# Selection Section
 		| 		#
 		| 		gb_selection = QW.QGroupBox()
@@ -82,7 +82,7 @@ block ArticleContent
 		| 		self.txt_filter_type = QW.QLineEdit()
 		| 		self.txt_filter_type.setPlaceholderText('Type (e.g. transform)...')
 		| 		gb_selection.layout().addWidget(self.txt_filter_type)
-		| 
+		|  
 		| 		# Expression Section
 		| 		#
 		| 		gb_expression = QW.QGroupBox()
@@ -119,7 +119,7 @@ block ArticleContent
 		| 		self.txt_replace_subs = QW.QLineEdit()
 		| 		self.txt_replace_subs.setPlaceholderText('Substitute...')
 		| 		subs_widget.layout().addWidget(self.txt_replace_subs)
-		| 
+		|  
 		| 		# Preview Section
 		| 		#
 		| 		gb_preview = QW.QGroupBox()
@@ -131,19 +131,19 @@ block ArticleContent
 		| 		#
 		| 		self.lv_preview = QW.QListWidget()
 		| 		gb_preview.layout().addWidget(self.lv_preview)
-		| 
+		|  
 		| 		# Button!
 		| 		self.btn_commit = QW.QPushButton()
 		| 		self.btn_commit.setText('Commit')
 		| 		self.layout().addWidget(self.btn_commit)
-		| 
+		|  
 		| 		# copyright!
 		| 		info_lbl = QW.QLabel()
 		| 		info_lbl.setTextFormat(QC.Qt.RichText)
 		| 		info_lbl.setOpenExternalLinks(True)
 		| 		info_lbl.setText('Maximum Replacer &lt;a href=\&quot;http://www.ngreen.org/\&quot;&gt;www.ngreen.org&lt;/a&gt;')
 		| 		self.layout().addWidget(info_lbl)
-		| 
+		|  
 		| 		# connections
 		| 		self.txt_filter_name.textChanged.connect(self.update)
 		| 		self.txt_filter_type.textChanged.connect(self.update)
@@ -152,29 +152,29 @@ block ArticleContent
 		| 		self.txt_replace_expr.textChanged.connect(self.update)
 		| 		self.txt_replace_subs.textChanged.connect(self.update)
 		| 		self.btn_commit.clicked.connect(self.commit)
-		| 
+		|  
 		| 		# initial
 		| 		self.update()
 		| 	#end
-		| 
+		|  
 		| 	def get_real_short_names(self, selected):
 		| 		result = []
 		| 		for x in mc.ls(sl=selected, shortNames=True):
 		| 			result.append(x[x.rfind('|')+1:]) # basically strip all after last | (the |+1 becomes 0 if the find fails, so it's okay to fail)
 		| 		return result
 		| 	#end
-		| 
+		|  
 		| 	def get_selection(self, regex=None):
 		| 		result = []
-		| 
+		|  
 		| 		# all objects
 		| 		if self.rb_select_all.isChecked():
 		| 			result = zip(self.get_real_short_names(False), mc.ls(long=True))
-		| 
+		|  
 		| 		# selected objects
 		| 		if self.rb_select_sel.isChecked():
 		| 			result = zip(self.get_real_short_names(True), mc.ls(sl=True, long=True))
-		| 
+		|  
 		| 		# filter by type
 		| 		filter_type = self.txt_filter_type.text()
 		| 		if len(filter_type):
@@ -187,11 +187,11 @@ block ArticleContent
 		| 				except:
 		| 					continue
 		| 			#end for
-		| 
+		|  
 		| 			# remove all non-matching elements
 		| 			result = [x for idx, x in enumerate(result) if idx not in to_remove]
 		| 		#end
-		| 
+		|  
 		| 		# filter by expression
 		| 		pattern = self.txt_filter_name.text()
 		| 		if len(pattern):
@@ -203,33 +203,33 @@ block ArticleContent
 		| 				except:
 		| 					continue
 		| 			#end for
-		| 
+		|  
 		| 			# remove all non-matching elements
 		| 			result = [x for idx, x in enumerate(result) if idx not in to_remove]
 		| 		#end
-		| 
+		|  
 		| 		return result
 		| 	#end
-		| 
+		|  
 		| 	def calculate_regexed_names(self):
 		| 		pattern = self.txt_replace_expr.text()
 		| 		subs = self.txt_replace_subs.text()
 		| 		result = []
-		| 
+		|  
 		| 		for x in self.selected_items:
 		| 			subbed_name = re.sub(pattern, subs, x[0])
 		| 			subbed_name = mel.eval('formValidObjectName(\&quot;{0}\&quot;);'.format(subbed_name)) # make it maya-valid
 		| 			result.append((subbed_name, subbed_name != x[0])) # (regex name, changed from original)
 		| 		return result
 		| 	#end
-		| 
+		|  
 		| 	def update(self):
 		| 		# 1. get the selection
 		| 		self.selected_items = self.get_selection()
-		| 
+		|  
 		| 		# 2. get the regex'd versions
 		| 		self.regexed_items = self.calculate_regexed_names()
-		| 
+		|  
 		| 		# 3. update list view with a preview of changes
 		| 		bold_font = QG.QFont('', -1, QG.QFont.Bold, False)
 		| 		self.lv_preview.clear()
@@ -237,59 +237,67 @@ block ArticleContent
 		| 			short_old = self.selected_items[x][0]
 		| 			short_new = self.regexed_items[x][0]
 		| 			if self.regexed_items[x][1]:
-		| 				txt = short_old + ' => ' + short_new
+		| 				txt = short_old + ' =&gt; ' + short_new
 		| 			else:
 		| 				txt = short_old
 		| 			self.lv_preview.addItem(txt)
 		| 			if self.regexed_items[x][1]:
 		| 				self.lv_preview.item(self.lv_preview.count()-1).setFont(bold_font)
 		| 	#end
-		| 
+		|  
 		| 	def commit(self):
 		| 		# safety check
 		| 		if None == self.selected_items or None == self.regexed_items:
 		| 			return
-		| 
+		|  
 		| 		# confirm dialog
 		| 		number_different = len([x for x in self.regexed_items if x[1]])
 		| 		dialog_msg = 'Confirm rename of ' + str(number_different) + ' objects?'
 		| 		dialog_result = mc.confirmDialog(title='Maximum Replacer', message=dialog_msg, button=['Yes', 'No'], defaultButton='Yes', cancelButton='No', dismissString='No')
 		| 		if 'No' == dialog_result:
 		| 			return
-		| 
+		|  
 		| 		# undo chunk for all names
 		| 		mc.undoInfo(openChunk=True, chunkName='MaximumReplacer')
-		| 
+		|  
 		| 		# rename all objects (in REVERSE order as to not break the hierarchy)
 		| 		for x in reversed(range(len(self.selected_items))):
+		| 			# ignore nodes that don't need changing
+		| 			if not self.regexed_items[x][1]:
+		| 				continue
+		| 				
 		| 			old_name = self.selected_items[x][1] # old LONG name
 		| 			new_name = self.regexed_items[x][0] # new SHORT name
-		| 			mc.rename(old_name, new_name)
-		| 
+		| 			
+		| 			try:
+		| 				mc.rename(old_name, new_name)
+		| 			except Exception as e:
+		| 				print 'Failed to rename %s: %s' % (old_name, e)
+		|  
 		| 		# end chunk!
 		| 		mc.undoInfo(closeChunk=True)
-		| 
+		|  
 		| 		# refresh view
 		| 		self.update()
 		| 	#end
 		| #end
-		| 
+		|  
 		| def create():
 		| 	global g_maximum_replacer_inst
-		| 
+		|  
 		| 	try:
 		| 		g_maximum_replacer_inst.close()
 		| 		g_maximum_replacer_inst.deleteLater()
 		| 	except:
 		| 		pass
-		| 
+		|  
 		| 	g_maximum_replacer_inst = MaximumReplacer()
 		| 	g_maximum_replacer_inst.setAttribute(QC.Qt.WA_DeleteOnClose)
 		| 	g_maximum_replacer_inst.show()
 		| #end
-		| 
+		|  
 		| create()
-		| 
+		|  
 
 	h3.heading 3ds Max Source Code
 	p Coming soon!
