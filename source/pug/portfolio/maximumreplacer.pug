@@ -17,11 +17,13 @@ block ArticleContent
 	p Below is a preview of the renaming operation, should it be committed to.  All items in this list are determined by the selection method above.  As a pattern may not match every entry, only those that will actually change are highlighted in bold, and their new name is displayed.  Clicking the Commit button below will apply the rename changes.
 
 	h3.heading Notes
-	p In Maya, all renames are grouped into a chunk, and therefore a single undo can reverse the rename operations, regardless of the count.
-	p This plugin uses #[+ExternalLink("https://docs.python.org/2/library/re.html", "Python’s re library")], and therefore any rules about substitution, such as the format for groups, applies here, too.
+	p In both Max and Maya, all renames are grouped into a chunk, and therefore a single undo can reverse the rename operations, regardless of the count.
+	p The Maya plugin uses #[+ExternalLink("https://docs.python.org/2/library/re.html", "Python’s re library")], and therefore any rules about substitution, such as the format for groups, applies here, too.
+	p The Max plugin uses #[+ExternalLink("https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expressions", ".NET’s Regex library")], therefore its rules apply instead.
+	p All scripts are licensed under #[a(href="http://www.mit.ngreen.org/") MIT].
 
 	h3.heading Maya Source Code
-	p Below is the source code for the script, licensed under #[a(href="http://www.mit.ngreen.org/") MIT].  Execute it from Maya's script editor or add it to a Python shelf button.  Note that this is built for #[b Maya 2017].  As they changed the PySide version, it is not compatible with earlier releases.  It is not difficult to port it, though.
+	p Below is the source code for the script.  Execute it from Maya's script editor or add it to a Python shelf button.  Note that this is built for #[b Maya 2017].  As they changed the PySide version, it is not compatible with earlier releases.  It is not difficult to port it, though.
 	pre: code.language-python.line-numbers.ng-no-border
 		| import re
 		| import PySide2.QtCore as QC
@@ -300,4 +302,173 @@ block ArticleContent
 		|  
 
 	h3.heading 3ds Max Source Code
-	p Coming soon!
+	p This version uses only MaxScript.  It is my first attempt at MaxScript.
+	pre: code.language-python.line-numbers.ng-no-border
+		| (
+		| global MaximumReplacer
+		| try destroyDialog MaximumReplacer catch()
+		| 
+		| -- Window dimensions
+		| WND_WIDTH = 380
+		| WND_HEIGHT = 410
+		| 	
+		| rollout MaximumReplacer &quot;Maximum Replacer&quot;
+		| (
+		| 	struct RegexObject
+		| 	(
+		| 		inode,
+		| 		name,
+		| 		regexed
+		| 	)
+		| 	local objects_list = #()
+		| 
+		| 	group &quot;Selection&quot;
+		| 	(
+		| 		radiobuttons rb_select_method labels:#(&quot;All&quot;, &quot;Selected&quot;) align:#left
+		| 		edittext txt_select_filter &quot;&quot; offset:[100, -22] fieldWidth:250
+		| 	)
+		| 	
+		| 	group &quot;Regular Expression&quot;
+		| 	(
+		| 		edittext txt_pattern &quot;Pattern&quot;
+		| 		edittext txt_substitute &quot;Substitute&quot;
+		| 	)
+		| 	
+		| 	group &quot;Preview&quot;
+		| 	(
+		| 		listbox lb_preview height:15
+		| 	)
+		| 	
+		| 	button btn_commit &quot;Commit&quot; width:370 height:30
+		| 	
+		| 	label lbl_name &quot;Maximum Replacer&quot; align:#left
+		| 	hyperlink lnk_site &quot;www.ngreen.org&quot; address:&quot;http://www.ngreen.org/&quot; color:(color 0 0 255) offset:[95, -18]
+		| 	
+		| 	fn collect_objects =
+		| 	(
+		| 		-- clear now so that if the try/catch triggers the array is cleared
+		| 		objects_list = #()
+		| 		
+		| 		rx = dotNetClass &quot;System.Text.RegularExpressions.RegEx&quot;
+		| 		pattern = txt_select_filter.text
+		| 		
+		| 		try
+		| 		(
+		| 			-- 2 = selected rb
+		| 			list = if (rb_select_method.state == 2) then selection else objects
+		| 			-- filter by name w/ regex pattern
+		| 			objs = for x in list where ((rx.match x.name pattern).success) collect x
+		| 			-- store all resulting objects
+		| 			for x in objs do
+		| 			(
+		| 				entry = RegexObject x x.name
+		| 				append objects_list entry
+		| 			)
+		| 		)
+		| 		catch
+		| 		(
+		| 			format &quot;*** % ***\n&quot; (getCurrentException())
+		| 		)
+		| 	)
+		| 	
+		| 	fn calculate_regex =
+		| 	(
+		| 		rx = dotNetClass &quot;System.Text.RegularExpressions.RegEx&quot;
+		| 		pattern = txt_pattern.text
+		| 		subst = txt_substitute.text
+		| 		
+		| 		for x in objects_list do
+		| 		(
+		| 			try
+		| 			(
+		| 				-- replace the name using regex replace
+		| 				x.regexed = rx.replace x.name pattern subst
+		| 			)
+		| 			catch
+		| 			(
+		| 				-- failsafe for undefined variables
+		| 				x.regexed = &quot;&quot;
+		| 				format &quot;*** % ***\n&quot; (getCurrentException())
+		| 			)
+		| 		)
+		| 	)
+		| 	
+		| 	fn populate_list =
+		| 	(
+		| 		item_list = #()
+		| 		for x in objects_list do
+		| 		(
+		| 			-- different display if the regexed value is not the same to visually show renames that will happen
+		| 			str = if x.name != x.regexed then (x.name + &quot; =&gt; &quot; + x.regexed) else x.name
+		| 			append item_list str
+		| 		)
+		| 		lb_preview.items = item_list
+		| 	)
+		| 	
+		| 	fn update_all =
+		| 	(
+		| 		collect_objects()
+		| 		calculate_regex()
+		| 		populate_list()
+		| 	)
+		| 	
+		| 	fn replace_names =
+		| 	(
+		| 		num = 0
+		| 		for x in objects_list where x.name != x.regexed do ( num += 1 )
+		| 		if 0 == num then
+		| 		(
+		| 			return 0
+		| 		)
+		| 		
+		| 		msg = (&quot;Confirm rename of &quot; + num as string + &quot; objects?&quot;)
+		| 		if queryBox msg title:&quot;Maximum Replacer&quot; then
+		| 		(
+		| 			undo &quot;Maximum Replacer Rename&quot; on
+		| 			(
+		| 				for x in objects_list do
+		| 				(
+		| 					if x.name != x.regexed do
+		| 					(
+		| 						x.inode.name = x.regexed
+		| 					)
+		| 				)
+		| 			)
+		| 		)
+		| 	)
+		| 	
+		| 	on MaximumReplacer open do
+		| 	(
+		| 		update_all()
+		| 	)
+		| 	
+		| 	on rb_select_method changed idx do
+		| 	(
+		| 		update_all()
+		| 	)
+		| 	
+		| 	on txt_select_filter changed txt do
+		| 	(
+		| 		update_all()
+		| 	)
+		| 
+		| 	on txt_pattern changed txt do
+		| 	(
+		| 		update_all()
+		| 	)
+		| 	
+		| 	on txt_substitute changed txt do
+		| 	(
+		| 		update_all()
+		| 	)
+		| 	
+		| 	on btn_commit pressed do
+		| 	(
+		| 		replace_names()
+		| 		update_all()
+		| 	)
+		| )
+		| 
+		| createDialog MaximumReplacer width:WND_WIDTH height:WND_HEIGHT
+		| )
+		| 
