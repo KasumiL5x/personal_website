@@ -31,8 +31,8 @@ block PageContent
 	-
 		var CreativeSkills = [
 			{title: "Maya", percent: "90", delay: "100"},
-			{title: "Illustrator", percent: "85", delay: "200"},
-			{title: "Photoshop", percent: "80", delay: "300"},
+			{title: "3ds Max", percent: "85", delay: "200"},
+			{title: "Illustrator", percent: "80", delay: "300"},
 			{title: "NUKE", percent: "75", delay: "400"},
 		];
 	
@@ -73,13 +73,13 @@ block PageContent
 				ul.other-skills
 					li MEL
 					li #[b &middot;]
-					li NODE.JS
+					li MAXScript
 					li #[b &middot;]
 					li JAVA
 					li #[b &middot;]
 					li LATEX
 					li #[b &middot;]
-					li OTHERS
+					li ETC.
 				h1 Technical
 			div.skills-list
 				for value in CreativeSkills
@@ -87,11 +87,15 @@ block PageContent
 					div.ng-progress-container.ng-shadowed
 						div.ng-progress.ng-animated.creative(ng-percent=value.percent, ng-delay=value.delay, ng-duration="1000")
 				ul.other-skills
-					li 3DS MAX #[b &middot;]
-					li AFTER EFFECTS #[b &middot;]
-					li CAMERA WORK #[b &middot;]
-					li COMPOSITING #[b &middot;]
-					li OTHERS
+					li PHOTOSHOP
+					li #[b &middot;]
+					li AFTER EFFECTS
+					li #[b &middot;]
+					li CAMERA WORK
+					li #[b &middot;]
+					li COMPOSITING
+					li #[b &middot;]
+					li ETC.
 				h1 Creative
 		//- END Professional Skills
 
