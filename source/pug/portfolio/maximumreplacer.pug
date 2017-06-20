@@ -10,19 +10,30 @@ block ArticleContent
 
 	+LightboxImage("../img/portfolio/maximumreplacer/MaximumReplacer.png")
 
-	h3.heading Usage
-	p If you are uncertain of what regular expressions are, please take the time to study the basics before using this tool, otherwise its functionality will not be clear.
-	p At the top, you can declare which objects to include in the renaming process; either all objects or only those selected.  This selection can be further narrowed down in two ways.  First, by pattern matching the object names using regular expressions.  Second, by the type of node.
-	p Following is where both the regular expression pattern and substitute can be entered.  This tool uses #[+ExternalLink("https://docs.python.org/2/library/re.html", "Python’s re library")], so ensure that you follow their rules.
-	p Below is a preview of the renaming operation, should it be committed to.  All items in this list are determined by the selection method above.  As a pattern may not match every entry, only those that will actually change are highlighted in bold, and their new name is displayed.  Clicking the Commit button below will apply the rename changes.
-
 	h3.heading Notes
+	p To use this tool efficiently, you will have to know how to use regular expressions.  Please read up on them if you do not (they are great).
 	p In both Max and Maya, all renames are grouped into a chunk, and therefore a single undo can reverse the rename operations, regardless of the count.
 	p The Maya plugin uses #[+ExternalLink("https://docs.python.org/2/library/re.html", "Python’s re library")], and therefore any rules about substitution, such as the format for groups, applies here, too.
 	p The Max plugin uses #[+ExternalLink("https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expressions", ".NET’s Regex library")], therefore its rules apply instead.
 	p All scripts are licensed under #[a(href="http://www.mit.ngreen.org/") MIT].
 
-	h3.heading Maya Source Code
+	h3.heading Changelog
+	p The latest version is always provided below.
+	p #[strong Maya]
+	h5 v1.2 (latest)
+	ul
+		li Fixed a bug where re.sub was not caught when invalid or incomplete patterns were used.
+		li Added a checkbox to disable updating while typing; useful for very large scenes.
+	h5 v1.0
+	ul
+		li Initial version.
+
+	p #[strong 3ds Max]
+	h5 v1.0 (latest)
+	ul
+		li Initial version.
+
+	h3.heading Maya
 	p Below is the source code for the script.  Execute it from Maya's script editor or add it to a Python shelf button.  Note that this is built for #[b Maya 2017].  As they changed the PySide version, it is not compatible with earlier releases.  It is not difficult to port it, though.
 	pre: code.language-python.line-numbers.ng-no-border
 		| import re
@@ -138,25 +149,62 @@ block ArticleContent
 		| 		self.btn_commit = QW.QPushButton()
 		| 		self.btn_commit.setText('Commit')
 		| 		self.layout().addWidget(self.btn_commit)
+		| 
+		| 		# footer
+		| 		footer_widget = QW.QWidget()
+		| 		footer_widget.setLayout(QW.QHBoxLayout())
+		| 		footer_widget.layout().setContentsMargins(0,0,0,0)
+		| 		footer_widget.layout().setSpacing(5)
+		| 		self.layout().addWidget(footer_widget)
 		|  
 		| 		# copyright!
 		| 		info_lbl = QW.QLabel()
 		| 		info_lbl.setTextFormat(QC.Qt.RichText)
 		| 		info_lbl.setOpenExternalLinks(True)
-		| 		info_lbl.setText('Maximum Replacer &lt;a href=\&quot;http://www.ngreen.org/\&quot;&gt;www.ngreen.org&lt;/a&gt;')
-		| 		self.layout().addWidget(info_lbl)
-		|  
+		| 		info_lbl.setText('Maximum Replacer v1.2 &lt;a href=\&quot;http://www.ngreen.org/\&quot;&gt;www.ngreen.org&lt;/a&gt;')
+		| 		footer_widget.layout().addWidget(info_lbl, 0, QC.Qt.AlignLeft)
+		| 		# update while typing checkbox
+		| 		self.chk_update_while_typing = QW.QCheckBox()
+		| 		self.chk_update_while_typing.setText('Update while typing')
+		| 		self.chk_update_while_typing.setChecked(True)
+		| 		footer_widget.layout().addWidget(self.chk_update_while_typing, 0, QC.Qt.AlignRight)
+		| 
+		| 
 		| 		# connections
-		| 		self.txt_filter_name.textChanged.connect(self.update)
-		| 		self.txt_filter_type.textChanged.connect(self.update)
+		| 		self.txt_filter_name.textChanged.connect(self.on_text_changed)
+		| 		self.txt_filter_type.textChanged.connect(self.on_text_changed)
+		| 		self.txt_replace_expr.textChanged.connect(self.on_text_changed)
+		| 		self.txt_replace_subs.textChanged.connect(self.on_text_changed)
+		| 		self.txt_filter_name.editingFinished.connect(self.on_text_edited)
+		| 		self.txt_filter_type.editingFinished.connect(self.on_text_edited)
+		| 		self.txt_replace_expr.editingFinished.connect(self.on_text_edited)
+		| 		self.txt_replace_subs.editingFinished.connect(self.on_text_edited)
 		| 		self.rb_select_all.clicked.connect(self.update)
 		| 		self.rb_select_sel.clicked.connect(self.update)
-		| 		self.txt_replace_expr.textChanged.connect(self.update)
-		| 		self.txt_replace_subs.textChanged.connect(self.update)
 		| 		self.btn_commit.clicked.connect(self.commit)
 		|  
 		| 		# initial
 		| 		self.update()
+		| 	#end
+		| 
+		| 	# called when any text changes in text fields
+		| 	def on_text_changed(self):
+		| 		if not self.chk_update_while_typing.isChecked():
+		| 			return
+		| 
+		| 		self.update()
+		| 	#end
+		| 
+		| 	# called when changes have been committed in text fields (e.g. return pressed)
+		| 	def on_text_edited(self):
+		| 		if self.chk_update_while_typing.isChecked():
+		| 			return
+		| 
+		| 		self.update()
+		| 	#end
+		| 
+		| 	def edit_done(self):
+		| 		print 'Editing done'
 		| 	#end
 		|  
 		| 	def get_real_short_names(self, selected):
@@ -219,9 +267,14 @@ block ArticleContent
 		| 		result = []
 		|  
 		| 		for x in self.selected_items:
-		| 			subbed_name = re.sub(pattern, subs, x[0])
-		| 			subbed_name = mel.eval('formValidObjectName(\&quot;{0}\&quot;);'.format(subbed_name)) # make it maya-valid
-		| 			result.append((subbed_name, subbed_name != x[0])) # (regex name, changed from original)
+		| 			subbed_name = x[0]
+		| 			try:
+		| 				subbed_name = re.sub(pattern, subs, x[0])
+		| 				subbed_name = mel.eval('formValidObjectName(\&quot;{0}\&quot;);'.format(subbed_name)) # make it maya-valid
+		| 				result.append((subbed_name, subbed_name != x[0])) # (regex name, changed from original)
+		| 			except:
+		| 				result.append((subbed_name, False)) # failed so just passthrough data and make it not changed
+		| 			
 		| 		return result
 		| 	#end
 		|  
@@ -299,10 +352,10 @@ block ArticleContent
 		| #end
 		|  
 		| create()
-		|  
+		| 
 
-	h3.heading 3ds Max Source Code
-	p This version uses only MaxScript.  It is my first attempt at MaxScript.
+	h3.heading 3ds Max
+	p This version uses only MaxScript.  It is my first attempt at MaxScript.  What an interesting language.
 	pre: code.language-python.line-numbers.ng-no-border
 		| (
 		| global MaximumReplacer
