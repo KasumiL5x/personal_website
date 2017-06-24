@@ -1,0 +1,24 @@
+extends ../templates/article
+
+block append Variables
+	- var Title = "Substance | Daniel Green";
+
+block ArticleContent
+	h3.title Substance
+
+	p Procedural is power.  Substance Designer is a great tool to create procedurally built and parameterized content.  Below are a select set of some experiments I have done with Designer.
+
+	h3.heading Camouflage
+	p A camouflage material with multiple layers.  Each layer has numerous controls for its overall appearance, including color and opacity.
+	p #[strong Substance Share:] #[+ExternalLink("https://share.allegorithmic.com/libraries/3001", "Download")]
+	+LightboxImage("../img/portfolio/substance/camo.png", "", "max-height: 50vh;")
+
+	h3.heading Tempered Steel
+	p Tempering steel changes the properties of the material, most visible being its color.  I took #[+ExternalLink("https://share.allegorithmic.com/libraries/2493", "another steel material")], recreated it in my own way, and added parameters to alter the material based on its tempered state.
+	p #[strong Substance Share:] #[+ExternalLink("https://share.allegorithmic.com/libraries/3013", "Download")]
+	+LightboxImage("../img/portfolio/substance/steel.png", "", "max-height: 50vh;")
+
+	h3.heading Quarter Truchet tiles
+	p #[+ExternalLink("https://en.wikipedia.org/wiki/Truchet_tiles", "Truchet tiles")] are an interesting concept.  The quarter variation in particular is trivial but can create great infinite patterns that are seemingly random.  Unique modulations can be created by varying the thickness, bevel, and zoom of the tiling, as well as the seed for randomized orientations.
+	p #[strong Substance Share:] #[+ExternalLink("https://share.allegorithmic.com/libraries/2998", "Download")]
+	+LightboxImage("../img/portfolio/substance/truchet.jpg", "", "max-height: 50vh;")
