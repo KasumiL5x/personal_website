@@ -15,7 +15,7 @@ block ArticleContent
 	p In both Max and Maya, all renames are grouped into a chunk, and therefore a single undo can reverse the rename operations, regardless of the count.
 	p The Maya plugin uses #[+ExternalLink("https://docs.python.org/2/library/re.html", "Python’s re library")], and therefore any rules about substitution, such as the format for groups, applies here, too.
 	p The Max plugin uses #[+ExternalLink("https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expressions", ".NET’s Regex library")], therefore its rules apply instead.
-	p All scripts are licensed under #[a(href="http://www.mit.ngreen.org/") MIT].
+	p All scripts are licensed under #[a(href="http://www.mit.dgreen.me/") MIT].
 
 	h3.heading Changelog
 	p The latest version is always provided below.
@@ -161,7 +161,7 @@ block ArticleContent
 		| 		info_lbl = QW.QLabel()
 		| 		info_lbl.setTextFormat(QC.Qt.RichText)
 		| 		info_lbl.setOpenExternalLinks(True)
-		| 		info_lbl.setText('Maximum Replacer v1.2 &lt;a href=\&quot;http://www.ngreen.org/\&quot;&gt;www.ngreen.org&lt;/a&gt;')
+		| 		info_lbl.setText('Maximum Replacer v1.2 &lt;a href=\&quot;http://www.dgreen.me/\&quot;&gt;www.dgreen.me&lt;/a&gt;')
 		| 		footer_widget.layout().addWidget(info_lbl, 0, QC.Qt.AlignLeft)
 		| 		# update while typing checkbox
 		| 		self.chk_update_while_typing = QW.QCheckBox()
@@ -395,7 +395,7 @@ block ArticleContent
 		| 	button btn_commit &quot;Commit&quot; width:370 height:30
 		| 	
 		| 	label lbl_name &quot;Maximum Replacer&quot; align:#left
-		| 	hyperlink lnk_site &quot;www.ngreen.org&quot; address:&quot;http://www.ngreen.org/&quot; color:(color 0 0 255) offset:[95, -18]
+		| 	hyperlink lnk_site &quot;www.dgreen.me&quot; address:&quot;http://www.dgreen.me/&quot; color:(color 0 0 255) offset:[95, -18]
 		| 	
 		| 	fn collect_objects =
 		| 	(

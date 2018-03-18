@@ -3,7 +3,7 @@
 	"description": "My portfolio.",
 	"author": "Daniel Green",
 	"dependencies": {
-		"grunt": "1.0.1",
+		"grunt": "latest",
 		"grunt-postcss": "latest",
 		"autoprefixer": "latest",
 		"grunt-contrib-clean": "latest",

@@ -11,7 +11,7 @@ block ArticleContent
 	p The grid of characters is interactive via touch or mouse click. The set of icons in the top-right manipulate the grid or provide context-sensitive interactions. For instance, toggling between hiragana and katakana display, shuffling and resetting the characters on the board, and even viewing the stroke order of the selected character in the grid.
 	
 	h3.heading Downloads
-	p You can try the #[a(href="http://ngreen.org/portfolio_dl/kanaswap/webgl/index.html") WebGL build] online (no mobile support). Alternatively, #[a(href="http://ngreen.org/portfolio_dl/kanaswap/KanaSwap_win.zip") Windows binaries] are available. If you're running Android, you can also #[a(href="http://ngreen.org/portfolio_dl/kanaswap/KanaSwap.apk") download and install the APK].
+	p You can try the #[a(href="./portfolio_dl/kanaswap/webgl/index.html") WebGL build] online (no mobile support). Alternatively, #[a(href="./portfolio_dl/kanaswap/KanaSwap_win.zip") Windows binaries] are available. If you're running Android, you can also #[a(href="./portfolio_dl/kanaswap/KanaSwap.apk") download and install the APK].
 	
 	h3.heading Development Extras
 	p One of the most interesting problems solved was the creation and rendering of line segments used in the stroke viewing. For rendering, LineRenderer was initially used, but it quickly became apparent that it had too many limitations and not enough flexibility. Instead, a custom triangle-list GL renderer was created. The more fascinating side is that of how the triangle lists were generated in an editor-friendly way, especially considering there is a total of 92 characters to create stroke order animations for.
