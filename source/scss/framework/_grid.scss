@@ -1,0 +1,230 @@
+// Grid
+// --------------------------------------------------
+// Built on top of Milligram's grid system.
+//
+
+// main centered wrapper with max width
+.ng-container {
+	margin: 0 auto;
+	// max-width: 112rem;
+	padding: 0 2rem;
+	position: relative;
+	width: 100%;
+}
+
+// By default, each column within a row evenly takes up available width,
+// and the height of each column will take up the height of the tallest
+// collumn in the same row.
+.ng-row {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
+	flex-direction: column;
+
+	-ms-flex: 0 1 auto;
+	flex: 0 1 auto;
+
+	padding: 0;
+	width: 100%;
+
+	@media #{$medium-and-up} {
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: row;
+	flex-direction: row;
+		margin-left: -1rem;
+		width: calc(100% + 2rem);
+	}
+
+	&.ng-row-wrap {
+		-ms-flex-wrap: wrap;
+		flex-wrap: wrap;
+	}
+
+	&.ng-row-top {
+		-webkit-box-align: start;
+		-ms-flex-align: start;
+		-ms-grid-row-align: flex-start;
+		align-items: flex-start;
+	}
+
+	&.ng-row-bottom {
+		-webkit-box-align: end;
+		-ms-flex-align: end;
+		-ms-grid-row-align: flex-end;
+		align-items: flex-end;
+	}
+
+	&.ng-row-center {
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		-ms-grid-row-align: center;
+		align-items: center;
+	}
+
+	&.ng-row-stretch {
+		-webkit-box-align: stretch;
+		-ms-flex-align: stretch;
+		-ms-grid-row-align: stretch;
+		align-items: stretch;
+	}
+
+	&.ng-row-baseline {
+		-webkit-box-align: baseline;
+		-ms-flex-align: baseline;
+		-ms-grid-row-align: baseline;
+		align-items: baseline;
+	}
+
+	&.ng-row-no-padding {
+		padding: 0;
+
+		&.ng-column {
+			padding: 0;
+		}
+	}
+}
+
+.ng-column {
+	display: block;
+	-ms-flex: 1 1 auto;
+	flex: 1 1 auto;
+	margin-left: 0;
+	max-width: 100%;
+	// width: 100%;
+
+	@media #{$medium-and-up} {
+		margin-bottom: inherit;
+		padding: 0 1rem;
+	}
+
+	// column-* vertically aligns an individual column
+	.ng-col-top {
+		-ms-flex-item-align: start;
+		align-self: flex-start;
+	}
+
+	.ng-col-bottom {
+		-ms-flex-item-align: end;
+		align-self: flex-end;
+	}
+
+	.ng-col-center {
+		-ms-flex-item-align: center;
+		align-self: center;
+	}
+
+	// column offsets
+	&.ng-column-offset-10 {
+		margin-left: 10%;
+	}
+
+	&.ng-column-offset-20 {
+		margin-left: 20%;
+	}
+
+	&.ng-column-offset-25 {
+		margin-left: 25%;
+	}
+
+	&.ng-column-offset-33,
+	&.ng-column-offset-34 {
+		margin-left: 33.3333%;
+	}
+
+	&.ng-column-offset-50 {
+		margin-left: 50%;
+	}
+
+	&.ng-column-offset-66,
+	&.ng-column-offset-67 {
+		margin-left: 66.6666%;
+	}
+
+	&.ng-column-offset-75 {
+		margin-left: 75%;
+	}
+
+	&.ng-column-offset-80 {
+		margin-left: 80%;
+	}
+
+	&.ng-column-offset-90 {
+		margin-left: 90%;
+	}
+
+	// explicit column percentages.
+	// by default, each grid column will evenly distribute across the grid.
+	// these let you specify individual columns to take up specific amounts
+	// of available area.
+	&.ng-column-10 {
+		-ms-flex: 0 0 10%;
+		flex: 0 0 10%;
+		max-width: 10%;
+	}
+
+	&.ng-column-20 {
+		-ms-flex: 0 0 20%;
+		flex: 0 0 20%;
+		max-width: 20%;
+	}
+
+	&.ng-column-25 {
+		-ms-flex: 0 0 25%;
+		flex: 0 0 25%;
+		max-width: 25%;
+	}
+
+	&.ng-column-33,
+	&.ng-column-34 {
+		-ms-flex: 0 0 33.3333%;
+		flex: 0 0 33.3333%;
+		max-width: 33.3333%;
+	}
+
+	&.ng-column-40 {
+	-ms-flex: 0 0 40%;
+	flex: 0 0 40%;
+		max-width: 40%;
+	}
+
+	&.ng-column-50 {
+		-ms-flex: 0 0 50%;
+		flex: 0 0 50%;
+		max-width: 50%;
+	}
+
+	&.ng-column-60 {
+		-ms-flex: 0 0 60%;
+		flex: 0 0 60%;
+		max-width: 60%;
+	}
+
+	&.ng-column-66,
+	&.ng-column-67 {
+		-ms-flex: 0 0 66.6666%;
+		flex: 0 0 66.6666%;
+		max-width: 66.6666%;
+	}
+
+	&.ng-column-75 {
+		-ms-flex: 0 0 75%;
+		flex: 0 0 75%;
+		max-width: 75%;
+	}
+
+	&.ng-column-80 {
+		-ms-flex: 0 0 80%;
+		flex: 0 0 80%;
+		max-width: 80%;
+	}
+
+	&.ng-column-90 {
+		-ms-flex: 0 0 90%;
+		flex: 0 0 90%;
+		max-width: 90%;
+	}
+}

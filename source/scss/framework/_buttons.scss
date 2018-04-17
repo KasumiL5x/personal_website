@@ -1,0 +1,67 @@
+.ng-button,button,input[type='button'],input[type='reset'],input[type='submit'] {
+  background-color: $btn-bg-color;
+  border: .1rem solid $btn-bg-color;
+  border-radius: .4rem;
+  color: $btn-text-color;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  height: 3.8rem;
+  letter-spacing: .1rem;
+  line-height: 3.8rem;
+  padding: 0 3rem;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ng-button:hover,.ng-button:focus,button:hover,button:focus,input[type='button']:hover,input[type='button']:focus,input[type='reset']:hover,input[type='reset']:focus,input[type='submit']:hover,input[type='submit']:focus {
+  background-color: $btn-bg-hover-color;
+  border-color: $btn-bg-hover-color;
+  color: $btn-text-color;
+  outline: 0;
+}
+
+.ng-button.ng-button-disabled,.ng-button[disabled],button.ng-button-disabled,button[disabled],input[type='button'].ng-button-disabled,input[type='button'][disabled],input[type='reset'].ng-button-disabled,input[type='reset'][disabled],input[type='submit'].ng-button-disabled,input[type='submit'][disabled] {
+  cursor: default;
+  opacity: .5;
+}
+
+.ng-button.ng-button-disabled:hover,.ng-button.ng-button-disabled:focus,.ng-button[disabled]:hover,.ng-button[disabled]:focus,button.ng-button-disabled:hover,button.ng-button-disabled:focus,button[disabled]:hover,button[disabled]:focus,input[type='button'].ng-button-disabled:hover,input[type='button'].ng-button-disabled:focus,input[type='button'][disabled]:hover,input[type='button'][disabled]:focus,input[type='reset'].ng-button-disabled:hover,input[type='reset'].ng-button-disabled:focus,input[type='reset'][disabled]:hover,input[type='reset'][disabled]:focus,input[type='submit'].ng-button-disabled:hover,input[type='submit'].ng-button-disabled:focus,input[type='submit'][disabled]:hover,input[type='submit'][disabled]:focus {
+  background-color: $btn-bg-color;
+  border-color: $btn-bg-color;
+}
+
+.ng-button.ng-button-outline,button.ng-button-outline,input[type='button'].ng-button-outline,input[type='reset'].ng-button-outline,input[type='submit'].ng-button-outline {
+  background-color: transparent;
+  color: $btn-bg-color;
+}
+
+.ng-button.ng-button-outline:hover,.ng-button.ng-button-outline:focus,button.ng-button-outline:hover,button.ng-button-outline:focus,input[type='button'].ng-button-outline:hover,input[type='button'].ng-button-outline:focus,input[type='reset'].ng-button-outline:hover,input[type='reset'].ng-button-outline:focus,input[type='submit'].ng-button-outline:hover,input[type='submit'].ng-button-outline:focus {
+  background-color: transparent;
+  border-color: $btn-bg-hover-color;
+  color: $btn-bg-hover-color;
+}
+
+.ng-button.ng-button-outline.ng-button-disabled:hover,.ng-button.ng-button-outline.ng-button-disabled:focus,.ng-button.ng-button-outline[disabled]:hover,.ng-button.ng-button-outline[disabled]:focus,button.ng-button-outline.ng-button-disabled:hover,button.ng-button-outline.ng-button-disabled:focus,button.ng-button-outline[disabled]:hover,button.ng-button-outline[disabled]:focus,input[type='button'].ng-button-outline.ng-button-disabled:hover,input[type='button'].ng-button-outline.ng-button-disabled:focus,input[type='button'].ng-button-outline[disabled]:hover,input[type='button'].ng-button-outline[disabled]:focus,input[type='reset'].ng-button-outline.ng-button-disabled:hover,input[type='reset'].ng-button-outline.ng-button-disabled:focus,input[type='reset'].ng-button-outline[disabled]:hover,input[type='reset'].ng-button-outline[disabled]:focus,input[type='submit'].ng-button-outline.ng-button-disabled:hover,input[type='submit'].ng-button-outline.ng-button-disabled:focus,input[type='submit'].ng-button-outline[disabled]:hover,input[type='submit'].ng-button-outline[disabled]:focus {
+  border-color: inherit;
+  color: $btn-bg-color;
+}
+
+.ng-button.ng-button-clear,button.ng-button-clear,input[type='button'].ng-button-clear,input[type='reset'].ng-button-clear,input[type='submit'].ng-button-clear {
+  background-color: transparent;
+  border-color: transparent;
+  color: $btn-bg-color;
+}
+
+.ng-button.ng-button-clear:hover,.ng-button.ng-button-clear:focus,button.ng-button-clear:hover,button.ng-button-clear:focus,input[type='button'].ng-button-clear:hover,input[type='button'].ng-button-clear:focus,input[type='reset'].ng-button-clear:hover,input[type='reset'].ng-button-clear:focus,input[type='submit'].ng-button-clear:hover,input[type='submit'].ng-button-clear:focus {
+  background-color: transparent;
+  border-color: transparent;
+  color: $btn-bg-hover-color;
+}
+
+.ng-button.ng-button-clear.ng-button-disabled:hover,.ng-button.ng-button-clear.ng-button-disabled:focus,.ng-button.ng-button-clear[disabled]:hover,.ng-button.ng-button-clear[disabled]:focus,button.ng-button-clear.ng-button-disabled:hover,button.ng-button-clear.ng-button-disabled:focus,button.ng-button-clear[disabled]:hover,button.ng-button-clear[disabled]:focus,input[type='button'].ng-button-clear.ng-button-disabled:hover,input[type='button'].ng-button-clear.ng-button-disabled:focus,input[type='button'].ng-button-clear[disabled]:hover,input[type='button'].ng-button-clear[disabled]:focus,input[type='reset'].ng-button-clear.ng-button-disabled:hover,input[type='reset'].ng-button-clear.ng-button-disabled:focus,input[type='reset'].ng-button-clear[disabled]:hover,input[type='reset'].ng-button-clear[disabled]:focus,input[type='submit'].ng-button-clear.ng-button-disabled:hover,input[type='submit'].ng-button-clear.ng-button-disabled:focus,input[type='submit'].ng-button-clear[disabled]:hover,input[type='submit'].ng-button-clear[disabled]:focus {
+  color: $btn-bg-color;
+}

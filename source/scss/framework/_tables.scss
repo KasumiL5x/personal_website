@@ -1,0 +1,118 @@
+table, th, td {
+  border: 0;
+}
+
+table {
+  display: table;
+  width: 100%;
+
+  &.ng-bordered > thead > tr,
+  &.ng-bordered > tbody > tr {
+    border-bottom: 1px solid $table-border-color;
+  }
+
+  &.ng-striped > tbody {
+    > tr:nth-child(odd) {
+      background-color: $table-striped-color;
+    }
+
+    > tr > td {
+      border-radius: 0;
+    }
+  }
+
+  &.ng-hilite > tbody > tr {
+    transition: background-color .25s ease;
+
+    &:hover {
+      background-color: $table-striped-color;
+    }
+  }
+
+  &.ng-centered {
+    thead tr th, tbody tr td {
+      text-align: center;
+    }
+  }
+}
+
+thead {
+  border-bottom: 1px solid $table-border-color;
+}
+
+td, th {
+  border-radius: 2px;
+  display: table-cell;
+  padding: 15px 5px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+// responsive table
+@media #{$small-and-down} {
+  table.ng-responsive-table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: block;
+    position: relative;
+    width: 100%;
+
+    td:empty::before {
+      content: '\00a0';
+    }
+
+    th,
+    td {
+      margin: 0;
+      vertical-align: top;
+    }
+
+    th {
+      display: block;
+      text-align: right;
+    }
+    thead {
+      border: 0;
+      border-right: 1px solid $table-border-color;
+      display: block;
+      float: left;
+
+      tr {
+        display: block;
+        padding: 0 10px 0 0;
+
+        th::before {
+          content: "\00a0";
+        }
+      }
+    }
+
+    tbody {
+      display: block;
+      overflow-x: auto;
+      position: relative;
+      white-space: nowrap;
+      width: auto;
+
+      tr {
+        display: inline-block;
+        vertical-align: top;
+      }
+    }
+
+    td {
+      display: block;
+      min-height: 1.25em;
+      text-align: left;
+    }
+
+    tr { padding: 0 10px; }
+
+    &.ng-bordered {
+      th { border-bottom: 0; border-left: 0; }
+      td { border-bottom: 0; border-left: 0; border-right: 0; }
+      tr { border: 0; }
+      tbody tr { border-right: 1px solid $table-border-color; }
+    }
+  }
+}

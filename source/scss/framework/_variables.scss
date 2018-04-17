@@ -1,0 +1,73 @@
+// Table of Contents
+//  - Colors
+//  - Media queries
+//  - Typography
+//  - Flow Text
+//  - Tables
+//  - Progress
+
+
+// Colors
+//--------------------------------------------------
+$primary-color: #222;
+$link-color: #039be5;
+$code-bg-color: #f4f5f6;
+$code-border-color: #e1e1e1;
+$code-border-radius: 4px;
+$pre-bg-color: #f5f5f5;
+$pre-border-color: #ccc;
+$pre-text-color: #333;
+$pre-border-radius: 4px;
+$pre-scroll-height: 340px;
+$btn-bg-color: #9b4dca;
+$btn-bg-hover-color: #606c76;
+$btn-text-color: #fff;
+
+
+// Media Queries
+//--------------------------------------------------
+$small-screen-up: 601px;
+$medium-screen-up: 993px;
+$large-screen-up: 1201px;
+$small-screen: 600px;
+$medium-screen: 992px;
+$large-screen: 1200px;
+
+$medium-and-up: "only screen and (min-width : #{$small-screen-up})";
+$large-and-up: "only screen and (min-width : #{$medium-screen-up})";
+$small-and-down: "only screen and (max-width : #{$small-screen})";
+$medium-and-down: "only screen and (max-width : #{$medium-screen})";
+$medium-only: "only screen and (min-width : #{$small-screen-up}) and (max-width : #{$medium-screen})";
+
+
+// Typography
+//--------------------------------------------------
+$h1-size: 4rem;
+$h2-size: 3.6rem;
+$h3-size: 3rem;
+$h4-size: 2.4rem;
+$h5-size: 1.8rem;
+$h6-size: 1.5rem;
+
+
+// Tables
+//--------------------------------------------------
+$table-border-color: #d0d0d0;
+$table-striped-color: #f2f2f2;
+
+
+// Flow Text
+//--------------------------------------------------
+$flow-range: $large-screen - $small-screen;
+$flow-intervals: 20;
+$flow-interval-size: $flow-range / $flow-intervals;
+
+// Progress
+//--------------------------------------------------
+$progress-height: 20px;
+$progress-bg-color: #f2f2f2;
+$progress-radius: 25px;
+$progress-shadow-color: rgba(0, 0, 0, 0.1);
+$progress-gradient-start: #ccc;
+$progress-gradient-end: #ddd;
+$progress-color: #79b;

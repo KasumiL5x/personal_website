@@ -1,4 +1,4 @@
-// ngreen.js
+// framework.js
 //
 // Table of Contents
 //	- Progress bars
@@ -93,7 +93,7 @@ var ng = {
 		// test for css animations
 		this.cssTransitionsTest();
 		// add class to style carousel
-		this.$el.addClass('ngreen-carousel');
+		this.$el.addClass('ng-carousel');
 		// build dom elements for carousel
 		this.build();
 		// handle events

@@ -1,0 +1,102 @@
+@mixin box_shadow($shadow) {
+	-webkit-box-shadow: $shadow;
+	   -moz-box-shadow: $shadow;
+	        box-shadow: $shadow;
+}
+
+@mixin transition($transition) {
+	-webkit-transition: $transition;
+	   -moz-transition: $transition;
+	     -o-transition: $transition;
+	        transition: $transition;
+}
+
+@mixin gradient_vertical($start_color, $end_color, $start_percent: 0%, $end_percent: 100%) {
+	background-image: -webkit-linear-gradient(top, $start_color  $start_percent, $end_color $end_percent);
+	background-image: linear-gradient(to bottom, $start_color $start_percent, $end_color $end_percent);
+}
+
+@mixin gradient_striped($color1, $color2, $angle: 45deg) {
+	background-image: -webkit-linear-gradient(
+		$angle,
+		$color1 30%,
+		$color2 30%,
+		$color2 33%,
+		transparent 33%,
+		transparent 46%,
+		$color2 46%,
+		$color2 50%,
+		$color1 50%,
+		$color1 80%,
+		$color2 80%,
+		$color2 83%,
+		transparent 83%,
+		transparent 97%,
+		$color2 97%,
+		$color2
+	);
+	background-image: linear-gradient(
+		$angle,
+		$color1 30%,
+		$color2 30%,
+		$color2 34%,
+		transparent 34%,
+		transparent 46%,
+		$color2 46%,
+		$color2 50%,
+		$color1 50%,
+		$color1 80%,
+		$color2 80%,
+		$color2 84%,
+		transparent 84%,
+		transparent 96%,
+		$color2 96%,
+		$color2
+	);
+}
+
+@-webkit-keyframes ng-progress-bar-animate {
+	from { background-position: 40px 0; }
+	to   { background-position: 0 0;}
+}
+
+@keyframes ng-progress-bar-animate {
+	from { background-position: 40px 0; }
+	to   { background-position: 0 0;}
+}
+
+.ng-progress-container {
+	background: $progress-bg-color;
+	border-radius: $progress-radius;
+	height: $progress-height;
+	overflow: hidden;
+
+	&.ng-shadowed {
+		@include box_shadow(inset 0 1px 2px $progress-shadow-color);
+	}
+
+	&.ng-gradient {
+		@include gradient_vertical($progress-gradient-start, $progress-gradient-end);
+	}
+
+	.ng-progress {
+		background-color: $progress-color;
+		background-size: 40px 40px;
+		border-radius: $progress-radius 0 0 $progress-radius;
+		box-sizing: border-box;
+		float: left;
+		height: 100%;
+		width: 0%;
+
+		&.ng-transition {
+			@include transition(width 4000ms linear);
+		}
+
+		&.ng-striped {
+			-webkit-animation: ng-progress-bar-animate 1s linear infinite;
+			        animation: ng-progress-bar-animate 1s linear infinite;
+			@include box_shadow(inset 0 -1px 0 $progress-shadow-color);
+			@include gradient_striped(rgba(255, 255, 255, 0.2), rgba(0,0,0,0.1));
+		}
+	}
+}

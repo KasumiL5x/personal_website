@@ -25,16 +25,6 @@ module.exports = function(grunt) {
 				dest: 'build/js',
 				expand: true
 			},
-			update_ngreen_css: {
-				cwd: '.',
-				src: ['../css/dist/ngreen.css'],
-				dest: 'source/css/ngreen.css'
-			},
-			update_ngreen_js: {
-				cwd: '.',
-				src: ['../css/js/ngreen.js'],
-				dest: 'source/js/ngreen.js'
-			},
 			build: {
 				cwd: 'source',
 				src: ['**', '!pug/**', '!css/**', '!scss/**', '!js/**'],
@@ -174,20 +164,20 @@ module.exports = function(grunt) {
 
 	grunt.registerTask(
 		'scripts-dev',
-		['clean:js', 'copy:update_ngreen_js', 'copy:js', 'uglify:dev', 'copy:js_nomin']
+		['clean:js', 'copy:js', 'uglify:dev', 'copy:js_nomin']
 	);
 	grunt.registerTask(
 		'scripts-rel',
-		['clean:js', 'copy:update_ngreen_js', 'copy:js', 'uglify:rel', 'copy:js_nomin', 'clean:js_compiled']
+		['clean:js', 'copy:js', 'uglify:rel', 'copy:js_nomin', 'clean:js_compiled']
 	);
 
 	grunt.registerTask(
 		'style-dev',
-		['clean:css', 'copy:update_ngreen_css', 'sass', 'copy:css', 'postcss', 'cssmin', 'copy:css_nomin']
+		['clean:css', 'sass', 'copy:css', 'postcss', 'cssmin', 'copy:css_nomin']
 	);
 	grunt.registerTask(
 		'style-rel',
-		['clean:css', 'copy:update_ngreen_css', 'sass', 'copy:css', 'postcss', 'cssmin', 'copy:css_nomin', 'clean:css_compiled']
+		['clean:css', 'sass', 'copy:css', 'postcss', 'cssmin', 'copy:css_nomin', 'clean:css_compiled']
 	);
 
 	grunt.registerTask(
