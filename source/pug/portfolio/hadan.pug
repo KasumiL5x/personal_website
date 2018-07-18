@@ -6,7 +6,7 @@ block append Variables
 block ArticleContent
 	h3.title Hadan
 
-	p #[span.ng-thin(style="color: #000;") Hadan] is a fracturing tool for Autodesk Maya. Many major 3D packages, such as Luxology Modo, have either native or well-known plug-ins for fracturing geometry. Unfortunately, Maya does not have such tools by default. Hadan aims to solve this by introducing multiple fracture types with customizable options. For more details on the inner workings of Hadan, please refer to my WIP #[a(href="./portfolio_dl/hadan/hadan-report-VIS4062-dgreen.pdf") accompanying report].
+	p #[span.ng-thin(style="color: #000;") Hadan] is a fracturing tool for Autodesk Maya. Many major 3D packages, such as Luxology Modo, have either native or well-known plug-ins for fracturing geometry. Unfortunately, Maya does not have such tools by default. Hadan aims to solve this by introducing multiple fracture types with customizable options. For more details on the inner workings of Hadan, please refer to my WIP #[a(href="../portfolio_dl/hadan/hadan-report-VIS4062-dgreen.pdf") accompanying report].
 
 	h3.heading Where can I get Hadan?
 	p Hadan's source can be downloaded from #[+ExternalLink("https://bitbucket.org/kasumil5x/hadan", "BitBucket")] or #[+ExternalLink("https://github.com/KasumiL5x/hadan", "GitHub")]. Binaries are not available. Please also note that this is but a prototype, and is <strong>NOT</strong> production ready.
@@ -49,5 +49,5 @@ block ArticleContent
 
 	h3.heading How does it work?
 	p Hadan is implemented as a Maya command. This can be run from both MEL and Python. Upon execution, Hadan goes through three major phases. The first stage, #[strong Generate Points], stage is responsible for generating source points used to feed stage 2. The second stage, #[strong Generate Cells], has to create slicing cells that will later be used to cut the geometry. The third stage, #[strong Cut Geometry], is where the source geometry is actually decimated based on the generated cells.
-	p For more information, please see my #[a(href="./portfolio_dl/hadan/hadan-report-VIS4062-dgreen.pdf") accompanying report].
+	p For more information, please see my #[a(href="../portfolio_dl/hadan/hadan-report-VIS4062-dgreen.pdf") accompanying report].
 
